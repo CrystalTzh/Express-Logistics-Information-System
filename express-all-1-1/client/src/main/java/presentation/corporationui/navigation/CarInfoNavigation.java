@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import presentation.corporationui.carInfoboard.CarInfoManageDriver;
 import presentation.mainui.MainFrame;
 import presentation.transitui.navigation.DeliveryFormNavigation;
 import presentation.transitui.navigation.OfficeArrivalFormNavigation;
@@ -24,7 +25,7 @@ import presentation.transitui.navigation.OfficeCarInputFormNavigation;
 import presentation.transitui.navigation.ReceiptFormNavigation;
 import vo.CarInfoVO;
 
-public class CarInfoNavigation extends JPanel{
+public class CarInfoNavigation extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jpanel1,//logo
@@ -61,86 +62,92 @@ public class CarInfoNavigation extends JPanel{
 		jbReceipt.setIcon(imageReceipt);
 		jbReceipt.setPreferredSize(new Dimension(imageReceipt.getIconWidth(),
 				imageReceipt.getIconHeight()));
-		jbReceipt.addActionListener(new ActionListener(){
-
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if(e.getSource() == jbReceipt){
-					new MainFrame().setContentPane(new ReceiptFormNavigation());
-				}
-			}
-			
-		});
+//		jbReceipt.setEnabled(false);
+//		jbReceipt.addActionListener(new ActionListener(){
+//
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//				if(e.getSource() == jbReceipt){
+//					new MainFrame().setContentPane(new ReceiptFormNavigation());
+//				}
+//			}
+//			
+//		});
 		
 		jbDelivery = new JButton();//派件单
 		imageDelivery = new ImageIcon("image/Delivery.jpg");
 		jbDelivery.setIcon(imageDelivery);
 		jbDelivery.setPreferredSize(new Dimension(imageDelivery.getIconWidth(),
 				imageDelivery.getIconHeight()));
-		jbDelivery.addActionListener(new ActionListener(){
-
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if(e.getSource() == jbDelivery){
-					new MainFrame().setContentPane(new DeliveryFormNavigation());
-				}
-			}
-			
-		});
+//		jbDelivery.setEnabled(false);
+//		jbDelivery.addActionListener(new ActionListener(){
+//
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//				if(e.getSource() == jbDelivery){
+//					new MainFrame().setContentPane(new DeliveryFormNavigation());
+//				}
+//			}
+//			
+//		});
 		
 		jbArrival = new JButton();//到达单
 		imageArrival = new ImageIcon("image/arrival.jpg");
 		jbArrival.setIcon(imageArrival);
 		jbArrival.setPreferredSize(new Dimension(imageArrival.getIconWidth(),
 				imageArrival.getIconHeight()));
-		jbArrival.addActionListener(new ActionListener(){
-
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if(e.getSource() == jbArrival){
-					new MainFrame().setContentPane(new OfficeArrivalFormNavigation());
-				}
-			}
-			
-		});
+//		jbArrival.setEnabled(false);
+//		jbArrival.addActionListener(new ActionListener(){
+//
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//				if(e.getSource() == jbArrival){
+//					new MainFrame().setContentPane(new OfficeArrivalFormNavigation());
+//				}
+//			}
+//			
+//		});
 		
 		jbCarInput = new JButton();//装车单
 		imageCarInput = new ImageIcon("image/carInput.jpg");
 		jbCarInput.setIcon(imageCarInput);
 		jbCarInput.setPreferredSize(new Dimension(imageCarInput.getIconWidth(),
 				imageCarInput.getIconHeight()));
-		jbCarInput.addActionListener(new ActionListener(){
-
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if(e.getSource() == jbCarInput){
-					new MainFrame().setContentPane(new OfficeCarInputFormNavigation());
-				}
-			}
-			
-		});
+//		jbCarInput.setEnabled(false);
+//		jbCarInput.addActionListener(new ActionListener(){
+//
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//				if(e.getSource() == jbCarInput){
+//					new MainFrame().setContentPane(new OfficeCarInputFormNavigation());
+//				}
+//			}
+//			
+//		});
 		
 		jbDriverInfo = new JButton();//维护司机信息
 		imageDriverInfo = new ImageIcon("image/driver.jpg");
 		jbDriverInfo.setIcon(imageDriverInfo);
 		jbDriverInfo.setPreferredSize(new Dimension(imageDriverInfo.getIconWidth(),
 				imageDriverInfo.getIconHeight()));
-		jbDriverInfo.addActionListener(new ActionListener(){
-
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if(e.getSource() == jbDriverInfo){
-					new MainFrame().setContentPane(new DriverInfoNavigation());
-				}
-			}
-			
-		});
+//		jbDriverInfo.setEnabled(false);
+//		jbDriverInfo.addActionListener(new ActionListener(){
+//
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//				if(e.getSource() == jbDriverInfo){
+//					new MainFrame().setContentPane(new DriverInfoNavigation());
+//				}
+//			}
+//			
+//		});
 		
 		jbCarInfo = new JButton();//维护车辆信息
 		imageCarInfo = new ImageIcon("image/carInfo.jpg");
 		jbCarInfo.setIcon(imageCarInfo);
 		jbCarInfo.setPreferredSize(new Dimension(imageCarInfo.getIconWidth(),
 				imageCarInfo.getIconHeight()));
+//		jbCarInfo.setEnabled(false);
 		jbCarInfo.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
@@ -169,10 +176,12 @@ public class CarInfoNavigation extends JPanel{
 		jbmodify = new JButton("修改密码");
 		jbmodify.setFont(new Font("修改密码",Font.PLAIN,12));
 		jbmodify.setContentAreaFilled(false);
+		jbmodify.addActionListener(this);
 		
 		jbexit = new JButton("退出登录");
 		jbexit.setFont(new Font("退出登录",Font.PLAIN,12));
 		jbexit.setContentAreaFilled(false);
+		jbexit.addActionListener(this);
 		
 		b = Box.createHorizontalBox();
 		b.add(jlcurrentID);
@@ -201,6 +210,7 @@ public class CarInfoNavigation extends JPanel{
 		jbstart.setIcon(imageStart);
 		jbstart.setPreferredSize(new Dimension(imageStart.getIconWidth(),
 				imageStart.getIconHeight()));
+		jbstart.addActionListener(this);
 		
 		jpanel4.add(Box.createHorizontalStrut(622));
 		jpanel4.add(jbstart);
@@ -209,6 +219,16 @@ public class CarInfoNavigation extends JPanel{
 		this.add(jpanel4,BorderLayout.SOUTH);
 		this.add(jpanel3,BorderLayout.CENTER);
 		this.add(jpanel2,BorderLayout.WEST);
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == jbstart){
+			new CarInfoManageDriver().setVisible(true);
+		}
+		if(e.getSource() == jbexit){
+			new MainFrame().remove(this);
+		}
 	}
 
 	

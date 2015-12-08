@@ -2,7 +2,7 @@
  * @author 谭琼
  * 2015年12月3日
  */
-package ServerHelper.UserServerHelper;
+package serverhelper.UserServerHelper;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;

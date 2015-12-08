@@ -19,7 +19,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import controller.corporationController.DriverInfoController;
+import controller.corporationcontroller.DriverInfoController;
 import state.SexList;
 import vo.DriverInfoVO;
 

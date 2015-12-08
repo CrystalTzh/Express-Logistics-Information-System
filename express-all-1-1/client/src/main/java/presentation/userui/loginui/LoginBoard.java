@@ -19,17 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import controller.userController.UserAccountController;
-import presentation.mainui.MainFrame;
-import presentation.position.AdfinanceManPanel;
-import presentation.position.AdministratorPanel;
-import presentation.position.BossPanel;
-import presentation.position.ExpressManPanel;
-import presentation.position.GefinanceManPanel;
-import presentation.position.InventoryManPanel;
-import presentation.position.OfficeManPanel;
-import presentation.position.TransitCenterManPanel;
-import state.UserRole;
+import controller.usercontroller.UserAccountController;
 import vo.UserAccountVO;
 
 /**
@@ -56,7 +46,7 @@ public class LoginBoard extends JFrame implements ActionListener {
 		passwordjl.setFont(font);
 		logojl = new JLabel("快递物流系统登录", JLabel.CENTER);
 		logojl.setFont(new Font("TimesRoman", Font.BOLD, 32));
-		logojl.setForeground(Color.DARK_GRAY);
+		logojl.setForeground(Color.GRAY);
 
 		Font font2 = new Font("Comic Sans MS", Font.PLAIN, 14);
 		loginbt = new JButton("Login");
@@ -97,7 +87,7 @@ public class LoginBoard extends JFrame implements ActionListener {
 		pCenter.add(boxH);
 		add(pCenter);
 
-//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		setBounds(560, 250, 420, 380);
 		validate();
@@ -130,25 +120,6 @@ public class LoginBoard extends JFrame implements ActionListener {
 					if (passwordStr.equals(passwordServer)) {// 1.1.2.1 输入的密码正确
 						String m = "Login successfully!";
 						JOptionPane.showMessageDialog(this, m, "提示", JOptionPane.INFORMATION_MESSAGE);
-					
-						UserRole userrole =  vo.getUserRole();
-						if(userrole.equals(UserRole.MANAGER)){
-							new MainFrame().setContentPane(new BossPanel());
-						}else if(userrole.equals(UserRole.ADFINANCEMAN)){
-							new MainFrame().setContentPane(new AdfinanceManPanel());
-						}else if(userrole.equals(UserRole.GEFINACEMAN)){
-							new MainFrame().setContentPane(new GefinanceManPanel());
-						}else if(userrole.equals(UserRole.OFFICEMAN)){
-							new MainFrame().setContentPane(new OfficeManPanel());
-						}else if(userrole.equals(UserRole.EXPRESSMAN)){
-							new MainFrame().setContentPane(new ExpressManPanel());
-						}else if(userrole.equals(UserRole.TRANSITCENTERMAN)){
-							new MainFrame().setContentPane(new TransitCenterManPanel());
-						}else if(userrole.equals(UserRole.INVENTORYMAN)){
-							new MainFrame().setContentPane(new InventoryManPanel());
-						}else if(userrole.equals(UserRole.ADMINISTRATOR)){
-							new MainFrame().setContentPane(new AdministratorPanel());
-						}
 					} else {// 1.1.2.2 输入的密码错误
 						String error = "密码错误!";
 						JOptionPane.showMessageDialog(this, error, "错误", JOptionPane.ERROR_MESSAGE);
@@ -180,7 +151,7 @@ public class LoginBoard extends JFrame implements ActionListener {
 		return pass;
 	}
 
-//	public static void main(String[] args) {
-//		new LoginBoard();
-//	}
+	public static void main(String[] args) {
+		new LoginBoard();
+	}
 }

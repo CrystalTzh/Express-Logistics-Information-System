@@ -24,7 +24,7 @@ import presentation.financeui.navigation.BossCheckProfitChartNavigation;
 import presentation.formapprovalui.navigation.JudgeNavigation;
 import presentation.mainui.MainFrame;
 
-public class SalaryNavigation extends JPanel{
+public class SalaryNavigation extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jpanel1,//logo
@@ -62,16 +62,16 @@ public class SalaryNavigation extends JPanel{
 		jbPrice.setIcon(imagePrice);
 		jbPrice.setPreferredSize(new Dimension(imagePrice.getIconWidth(),
 				imagePrice.getIconHeight()));
-		jbPrice.addActionListener(new ActionListener(){
-
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if(e.getSource() == jbPrice){
-					new MainFrame().setContentPane(new PriceNavigation());
-				}
-			}
-			
-		});
+//		jbPrice.addActionListener(new ActionListener(){
+//
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//				if(e.getSource() == jbPrice){
+//					new MainFrame().setContentPane(new PriceNavigation());
+//				}
+//			}
+//			
+//		});
 		
 		jbSalary = new JButton();//制定薪资标准
 		imageSalary = new ImageIcon("image/salary.jpg");
@@ -79,85 +79,86 @@ public class SalaryNavigation extends JPanel{
 		jbSalary.setPreferredSize(new Dimension(imageSalary.getIconWidth(),
 				imageSalary.getIconHeight()));
 		
+		
 		jbJudge = new JButton();//审批单据
 		imageJudge = new ImageIcon("image/judge.jpg");
 		jbJudge.setIcon(imageJudge);
 		jbJudge.setPreferredSize(new Dimension(imageJudge.getIconWidth(),
 				imageJudge.getIconHeight()));
-		jbJudge.addActionListener(new ActionListener(){
-
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if(e.getSource() == jbJudge){
-					new MainFrame().setContentPane(new JudgeNavigation());
-				}
-			}
-			
-		});
+//		jbJudge.addActionListener(new ActionListener(){
+//
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//				if(e.getSource() == jbJudge){
+//					new MainFrame().setContentPane(new JudgeNavigation());
+//				}
+//			}
+//			
+//		});
 		
 		jbAccountID = new JButton();//查看账户
 		imageAccount = new ImageIcon("image/checkaccount.jpg");
 		jbAccountID.setIcon(imageAccount);
 		jbAccountID.setPreferredSize(new Dimension(imageAccount.getIconWidth(),
 				imageAccount.getIconHeight()));
-		jbAccountID.addActionListener(new ActionListener(){
-
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if(e.getSource() == jbAccountID){
-					new MainFrame().setContentPane(new BossCheckAccountsNavigation());
-				}
-			}
-			
-		});
+//		jbAccountID.addActionListener(new ActionListener(){
+//
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//				if(e.getSource() == jbAccountID){
+//					new MainFrame().setContentPane(new BossCheckAccountsNavigation());
+//				}
+//			}
+//			
+//		});
 		
 		jbCheckCostPayChart = new JButton();//查看成本收益表
 		imageCheckCostPayChart = new ImageIcon("image/checkcostpaychart.jpg");
 		jbCheckCostPayChart.setIcon(imageCheckCostPayChart);
 		jbCheckCostPayChart.setPreferredSize(new Dimension(imageCheckCostPayChart.getIconWidth(),
 				imageCheckCostPayChart.getIconHeight()));
-		jbCheckCostPayChart.addActionListener(new ActionListener(){
-
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if(e.getSource() == jbCheckCostPayChart){
-					new MainFrame().setContentPane(new BossCheckCostPayChartNavigation());
-				}
-			}
-			
-		});
+//		jbCheckCostPayChart.addActionListener(new ActionListener(){
+//
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//				if(e.getSource() == jbCheckCostPayChart){
+//					new MainFrame().setContentPane(new BossCheckCostPayChartNavigation());
+//				}
+//			}
+//			
+//		});
 		
 		jbCheckProfitChart = new JButton();//查看经营情况表
 		imageCheckProfitChart = new ImageIcon("image/checkprofitchart.jpg");
 		jbCheckProfitChart.setIcon(imageCheckProfitChart);
 		jbCheckProfitChart.setPreferredSize(new Dimension(imageCheckProfitChart.getIconWidth(),
 				imageCheckProfitChart.getIconHeight()));
-		jbCheckProfitChart.addActionListener(new ActionListener(){
-
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if(e.getSource() == jbCheckProfitChart){
-					new MainFrame().setContentPane(new BossCheckProfitChartNavigation());
-				}
-			}
-			
-		});
+//		jbCheckProfitChart.addActionListener(new ActionListener(){
+//
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//				if(e.getSource() == jbCheckProfitChart){
+//					new MainFrame().setContentPane(new BossCheckProfitChartNavigation());
+//				}
+//			}
+//			
+//		});
 		
 		jbCheckDiary = new JButton();//查看日志
 		imageCheckDiary = new ImageIcon("image/checkdiary.jpg");
 		jbCheckDiary.setIcon(imageCheckDiary);
 		jbCheckDiary.setPreferredSize(new Dimension(imageCheckDiary.getIconWidth(),
 				imageCheckDiary.getIconHeight()));
-		jbCheckDiary.addActionListener(new ActionListener(){
-
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if(e.getSource() == jbCheckDiary){
-					new MainFrame().setContentPane(new BossCheckDiaryNavigation());
-				}
-			}
-			
-		});
+//		jbCheckDiary.addActionListener(new ActionListener(){
+//
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//				if(e.getSource() == jbCheckDiary){
+//					new MainFrame().setContentPane(new BossCheckDiaryNavigation());
+//				}
+//			}
+//			
+//		});
 		
 		jpanel2.add(jbPrice);
 		jpanel2.add(jbSalary);
@@ -178,10 +179,12 @@ public class SalaryNavigation extends JPanel{
 		jbmodify = new JButton("修改密码");
 		jbmodify.setFont(new Font("修改密码",Font.PLAIN,12));
 		jbmodify.setContentAreaFilled(false);
+		jbmodify.addActionListener(this);
 		
 		jbexit = new JButton("退出登录");
 		jbexit.setFont(new Font("退出登录",Font.PLAIN,12));
 		jbexit.setContentAreaFilled(false);
+		jbexit.addActionListener(this);
 		
 		b = Box.createHorizontalBox();
 		b.add(jlcurrentID);
@@ -221,6 +224,13 @@ public class SalaryNavigation extends JPanel{
 		this.add(jpanel4,BorderLayout.SOUTH);
 		this.add(jpanel3,BorderLayout.CENTER);
 		this.add(jpanel2,BorderLayout.WEST);
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == jbexit){
+			new MainFrame().remove(this);
+		}
 	}
 	
 }

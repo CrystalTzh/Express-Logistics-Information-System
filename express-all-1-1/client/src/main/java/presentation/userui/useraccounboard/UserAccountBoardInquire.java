@@ -25,7 +25,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import controller.userController.UserAccountController;
+import controller.usercontroller.UserAccountController;
 import state.UserRole;
 import vo.UserAccountVO;
 
@@ -41,7 +41,7 @@ public class UserAccountBoardInquire extends JDialog implements ActionListener {
 	// 职位:快递员、营业厅业务员、中转中心业务员
 	// 仓库管理人员、总经理、高级财务人员、普通财务人员
 	JRadioButton expressManrbt, officeManrbt, transitCenterManrbt, inventoryManrbt, managerrbt, adFinanceManrbt,
-			geFinanceManrbt,administratorbt;
+			geFinanceManrbt;
 	ButtonGroup group = null;
 	UserAccountController userAccountController;
 	JButton findButton;
@@ -70,8 +70,6 @@ public class UserAccountBoardInquire extends JDialog implements ActionListener {
 		managerrbt = new JRadioButton("总经理", false);
 		adFinanceManrbt = new JRadioButton("高级财务人员", false);
 		geFinanceManrbt = new JRadioButton("普通财务人员", false);
-		administratorbt = new JRadioButton("管理员",false);
-		
 		group.add(expressManrbt);
 		group.add(officeManrbt);
 		group.add(transitCenterManrbt);
@@ -79,16 +77,15 @@ public class UserAccountBoardInquire extends JDialog implements ActionListener {
 		group.add(managerrbt);
 		group.add(adFinanceManrbt);
 		group.add(geFinanceManrbt);
-		group.add(administratorbt);
 
 		// 水平显示组件
 		Box box = Box.createHorizontalBox();
 		JLabel logojl = new JLabel("用户账号信息查询", JLabel.CENTER);
 		logojl.setFont(new Font("TimesRoman", Font.BOLD, 24));
-		logojl.setForeground(Color.DARK_GRAY);
+		logojl.setForeground(Color.BLUE);
 		box.add(logojl);
 		Box box1 = Box.createHorizontalBox();
-		box1.add(new JLabel("输入要查询的账号:", JLabel.CENTER));
+		box1.add(new JLabel("输入要删除的账号:", JLabel.CENTER));
 		box1.add(accountIDjtf);
 		box1.add(findButton);
 		Box box2 = Box.createHorizontalBox();
@@ -115,9 +112,7 @@ public class UserAccountBoardInquire extends JDialog implements ActionListener {
 		// box43 放置总经理、高级财务人员
 		Box box43 = Box.createHorizontalBox();
 		box43.add(managerrbt);
-		box43.add(Box.createHorizontalStrut(1));
-		box43.add(administratorbt);
-		box43.add(Box.createHorizontalStrut(1));
+		box43.add(Box.createHorizontalStrut(66));
 		box43.add(adFinanceManrbt);
 		box4.add(box41);
 		box4.add(box42);

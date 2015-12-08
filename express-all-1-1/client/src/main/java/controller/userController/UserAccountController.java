@@ -3,7 +3,7 @@
  * @author 谭琼
  * 2015年12月3日
  */
-package controller.userController;
+package controller.usercontroller;
 
 import businesslogic.userbl.UserAccountbl;
 import vo.UserAccountVO;

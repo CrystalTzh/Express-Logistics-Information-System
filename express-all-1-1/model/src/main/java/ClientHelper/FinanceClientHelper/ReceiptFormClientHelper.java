@@ -1,4 +1,4 @@
-package ClientHelper.FinanceClientHelper;
+package clienthelper.financeclientHelper;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;

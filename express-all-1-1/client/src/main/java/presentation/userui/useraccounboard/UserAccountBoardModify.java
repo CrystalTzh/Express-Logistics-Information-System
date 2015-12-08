@@ -20,7 +20,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import controller.userController.UserAccountController;
+import controller.usercontroller.UserAccountController;
 import state.UserRole;
 import vo.UserAccountVO;
 
@@ -36,7 +36,7 @@ public class UserAccountBoardModify extends JPanel implements ActionListener {
 	// 职位:快递员、营业厅业务员、中转中心业务员
 	// 仓库管理人员、总经理、高级财务人员、普通财务人员
 	JRadioButton expressManrbt, officeManrbt, transitCenterManrbt, inventoryManrbt, managerrbt, adFinanceManrbt,
-			geFinanceManrbt,administratorbt;
+			geFinanceManrbt;
 	ButtonGroup group = null;
 
 	public UserAccountBoardModify() {
@@ -55,7 +55,6 @@ public class UserAccountBoardModify extends JPanel implements ActionListener {
 		managerrbt = new JRadioButton("总经理", false);
 		adFinanceManrbt = new JRadioButton("高级财务人员", false);
 		geFinanceManrbt = new JRadioButton("普通财务人员", false);
-		administratorbt = new JRadioButton("管理员",false);
 		group.add(expressManrbt);
 		group.add(officeManrbt);
 		group.add(transitCenterManrbt);
@@ -63,7 +62,6 @@ public class UserAccountBoardModify extends JPanel implements ActionListener {
 		group.add(managerrbt);
 		group.add(adFinanceManrbt);
 		group.add(geFinanceManrbt);
-		group.add(administratorbt);
 
 		beginModifybt = new JButton("开始修改");
 		confirmModifybt = new JButton("录入修改");
@@ -78,7 +76,7 @@ public class UserAccountBoardModify extends JPanel implements ActionListener {
 		Box box = Box.createHorizontalBox();
 		JLabel logojl = new JLabel("用户账号信息修改", JLabel.CENTER);
 		logojl.setFont(new Font("TimesRoman", Font.BOLD, 24));
-		logojl.setForeground(Color.DARK_GRAY);
+		logojl.setForeground(Color.BLUE);
 		box.add(logojl);
 		Box box1 = Box.createHorizontalBox();
 		box1.add(new JLabel("输入要修改信息的账号:", JLabel.CENTER));
@@ -108,9 +106,7 @@ public class UserAccountBoardModify extends JPanel implements ActionListener {
 		// box43 放置总经理、高级财务人员
 		Box box43 = Box.createHorizontalBox();
 		box43.add(managerrbt);
-		box43.add(Box.createHorizontalStrut(1));
-		box43.add(administratorbt);
-		box43.add(Box.createHorizontalStrut(1));
+		box43.add(Box.createHorizontalStrut(66));
 		box43.add(adFinanceManrbt);
 		box4.add(box41);
 		box4.add(box42);
@@ -165,7 +161,6 @@ public class UserAccountBoardModify extends JPanel implements ActionListener {
 					confirmModifybt.setEnabled(true);//可以修改
 					//显示基本信息
 					this.showText(vo);
-					this.setVisible(true);
 				} else {//1.1.2 输入的用户账号不存在
 					confirmModifybt.setEnabled(false);//不可修改
 					String warning = "该用户账号不存在!";
@@ -245,8 +240,6 @@ public class UserAccountBoardModify extends JPanel implements ActionListener {
 			adFinanceManrbt.setSelected(true);
 		case GEFINACEMAN:
 			geFinanceManrbt.setSelected(true);
-		case ADMINISTRATOR:
-			administratorbt.setSelected(true);
 		}
 	}
 	
@@ -275,8 +268,6 @@ public class UserAccountBoardModify extends JPanel implements ActionListener {
 			userRole = UserRole.ADFINANCEMAN;
 		} else if(geFinanceManrbt.isSelected()) {
 			userRole = UserRole.GEFINACEMAN;
-		} else if(administratorbt.isSelected()) {
-			userRole = UserRole.ADMINISTRATOR;
 		}
 		voToAdd.setAccountID(accountID);
 		voToAdd.setInitialPassword(initialPassword);

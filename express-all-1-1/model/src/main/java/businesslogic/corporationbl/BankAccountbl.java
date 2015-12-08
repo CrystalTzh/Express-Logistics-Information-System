@@ -6,8 +6,8 @@ package businesslogic.corporationbl;
 
 import java.util.ArrayList;
 
-import ClientHelper.CorporationClientHelper.BankAccountClientHelper;
 import businesslogicservice.corporationblservice.BankAccountcorporationblService;
+import clienthelper.corporatioclienthelper.BankAccountClientHelper;
 import po.BankAccountInfoPO;
 import vo.BankAccountInfoVO;
 

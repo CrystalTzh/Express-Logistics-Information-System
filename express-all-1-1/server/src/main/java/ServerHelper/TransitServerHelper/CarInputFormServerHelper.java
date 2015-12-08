@@ -1,4 +1,4 @@
-package ServerHelper.TransitServerHelper;
+package serverhelper.TransitServerHelper;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;

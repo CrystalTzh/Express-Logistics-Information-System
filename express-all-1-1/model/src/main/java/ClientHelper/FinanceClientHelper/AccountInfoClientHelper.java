@@ -1,4 +1,4 @@
-package ClientHelper.FinanceClientHelper;
+package clienthelper.financeclientHelper;
 
 public class AccountInfoClientHelper {
 

@@ -1,4 +1,4 @@
-package ClientHelper.InventoryInfoClientHelper;
+package clienthelper.inventoryInfoclienthelper;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;

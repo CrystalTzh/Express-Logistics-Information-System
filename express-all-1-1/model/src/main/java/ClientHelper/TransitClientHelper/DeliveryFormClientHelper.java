@@ -1,4 +1,4 @@
-package ClientHelper.TransitClientHelper;
+package clienthelper.transitclienthelper;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;

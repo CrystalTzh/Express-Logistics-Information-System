@@ -2,7 +2,7 @@
  * @author 谭琼
  * 2015年12月2日
  */
-package controller.corporationController;
+package controller.corporationcontroller;
 
 import businesslogic.corporationbl.CarInfobl;
 import vo.CarInfoVO;

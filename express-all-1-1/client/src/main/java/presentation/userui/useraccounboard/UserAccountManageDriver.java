@@ -54,7 +54,7 @@ public class UserAccountManageDriver extends JFrame implements ActionListener{
 			setJMenuBar(bar);
 			label = new JLabel("维护用户账户信息", JLabel.CENTER);
 			label.setFont(new Font("TimesRoman", Font.BOLD, 24));
-			label.setForeground(Color.DARK_GRAY);
+			label.setForeground(Color.BLUE);
 			//对菜单项进行监听
 			addmi.addActionListener(this);
 			modifymi.addActionListener(this);
@@ -76,7 +76,7 @@ public class UserAccountManageDriver extends JFrame implements ActionListener{
 			con.validate();
 			addWindowListener(new WindowAdapter() {
 				public void windowClosing(WindowEvent e) {
-//					System.exit(0);
+					System.exit(0);
 				}
 			});
 			setVisible(true);
@@ -101,7 +101,7 @@ public class UserAccountManageDriver extends JFrame implements ActionListener{
 		}
 	}
 	
-//	public static void main(String[] args) {
-//		new UserAccountManageDriver();
-//	}
+	public static void main(String[] args) {
+		new UserAccountManageDriver();
+	}
 }

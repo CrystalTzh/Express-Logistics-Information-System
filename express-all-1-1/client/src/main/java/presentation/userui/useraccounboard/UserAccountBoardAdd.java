@@ -20,7 +20,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import controller.userController.UserAccountController;
+import controller.usercontroller.UserAccountController;
 import state.UserRole;
 import vo.UserAccountVO;
 
@@ -35,7 +35,7 @@ public class UserAccountBoardAdd extends JPanel implements ActionListener {
 	// 职位:快递员、营业厅业务员、中转中心业务员
 	// 仓库管理人员、总经理、高级财务人员、普通财务人员
 	JRadioButton expressManrbt, officeManrbt, transitCenterManrbt, inventoryManrbt, managerrbt, adFinanceManrbt,
-			geFinanceManrbt,administratorbt;
+			geFinanceManrbt;
 	ButtonGroup group = null;
 	JButton addButton, resetButton;
 	UserAccountController userAccountController;
@@ -55,7 +55,6 @@ public class UserAccountBoardAdd extends JPanel implements ActionListener {
 		managerrbt = new JRadioButton("总经理", false);
 		adFinanceManrbt = new JRadioButton("高级财务人员", false);
 		geFinanceManrbt = new JRadioButton("普通财务人员", false);
-		administratorbt = new JRadioButton("管理员",false);
 		group.add(expressManrbt);
 		group.add(officeManrbt);
 		group.add(transitCenterManrbt);
@@ -63,7 +62,6 @@ public class UserAccountBoardAdd extends JPanel implements ActionListener {
 		group.add(managerrbt);
 		group.add(adFinanceManrbt);
 		group.add(geFinanceManrbt);
-		group.add(administratorbt);
 		addButton = new JButton("录入");
 		resetButton = new JButton("重置");
 		// 监听录入和重置按钮
@@ -74,7 +72,7 @@ public class UserAccountBoardAdd extends JPanel implements ActionListener {
 		Box box = Box.createHorizontalBox();
 		JLabel logojl = new JLabel("用户账号信息录入", JLabel.CENTER);
 		logojl.setFont(new Font("TimesRoman", Font.BOLD, 24));
-		logojl.setForeground(Color.DARK_GRAY);
+		logojl.setForeground(Color.BLUE);
 		box.add(logojl);
 		Box box1 = Box.createHorizontalBox();
 		box1.add(new JLabel("账号:", JLabel.CENTER));
@@ -101,13 +99,10 @@ public class UserAccountBoardAdd extends JPanel implements ActionListener {
 		box42.add(inventoryManrbt);
 		box42.add(Box.createHorizontalStrut(28));
 		box42.add(geFinanceManrbt);
-		
-		// box43 放置总经理、高级财务人员，管理员
+		// box43 放置总经理、高级财务人员
 		Box box43 = Box.createHorizontalBox();
 		box43.add(managerrbt);
-		box43.add(Box.createHorizontalStrut(1));
-		box43.add(administratorbt);
-		box43.add(Box.createHorizontalStrut(1));
+		box43.add(Box.createHorizontalStrut(66));
 		box43.add(adFinanceManrbt);
 		box4.add(box41);
 		box4.add(box42);

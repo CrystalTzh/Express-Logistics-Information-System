@@ -78,7 +78,7 @@ public class BankAccountManageDriver extends JFrame implements ActionListener {
 
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-//				System.exit(0);
+				System.exit(0);
 			}
 		});
 
@@ -107,8 +107,8 @@ public class BankAccountManageDriver extends JFrame implements ActionListener {
 
 	}
 	
-//	public static void main(String[] args) {
-//		new BankAccountManageDriver();
-//	}
+	public static void main(String[] args) {
+		new BankAccountManageDriver();
+	}
 
 }

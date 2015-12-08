@@ -3,7 +3,7 @@
  * @author 谭琼
  * 2015年12月5日
  */
-package ClientHelper.UserAccountClientHelper;
+package clienthelper.useraccountclienthelper;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;

@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import controller.corporationController.CarInfoController;
+import controller.corporationcontroller.CarInfoController;
 import vo.CarInfoVO;
 
 public class CarBoardInquire extends JDialog implements ActionListener {

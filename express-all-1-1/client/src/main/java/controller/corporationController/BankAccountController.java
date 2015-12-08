@@ -2,7 +2,7 @@
  * @author 谭琼
  * 2015年12月4日
  */
-package controller.corporationController;
+package controller.corporationcontroller;
 
 import java.util.ArrayList;
 

@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import controller.corporationController.BankAccountController;
+import controller.corporationcontroller.BankAccountController;
 import vo.BankAccountInfoVO;
 
 /**

@@ -1,6 +1,7 @@
 import java.rmi.RemoteException;
 
-import ServerHelper.UserServerHelper.UserAccountServerHelper;
+import serverhelper.constserverhelper.PriceInfoServerHelper;
+import serverhelper.constserverhelper.SalaryInfoServerHelper;
 
 public class Server {
 
@@ -80,7 +81,13 @@ public class Server {
 //		BankAccountServerHelper ankAccountServerHelper = new BankAccountServerHelper();
 //		ankAccountServerHelper.go();
 		
-		UserAccountServerHelper userAccountServerHelper = new UserAccountServerHelper();
-		userAccountServerHelper.go();
+//		UserAccountServerHelper userAccountServerHelper = new UserAccountServerHelper();
+//		userAccountServerHelper.go();
+		
+//		SalaryInfoServerHelper salaryInfoServerHelper = new SalaryInfoServerHelper();
+//		salaryInfoServerHelper.go();
+		
+		PriceInfoServerHelper priceInfoServerHelper = new PriceInfoServerHelper();
+		priceInfoServerHelper.go();
 	}
 }

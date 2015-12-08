@@ -22,7 +22,7 @@ import ClientHelper.UserAccountClientHelper.UserAccountClientHelper;
 import presentation.mainui.MainFrame;
 import presentation.userui.useraccounboard.UserAccountManageDriver;
 
-public class UserInfoNavigation extends JPanel {
+public class UserInfoNavigation extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jpanel1,//logo
@@ -92,10 +92,12 @@ public class UserInfoNavigation extends JPanel {
 		jbmodify = new JButton("修改密码");
 		jbmodify.setFont(new Font("修改密码",Font.PLAIN,12));
 		jbmodify.setContentAreaFilled(false);
+		jbmodify.addActionListener(this);
 		
 		jbexit = new JButton("退出登录");
 		jbexit.setFont(new Font("退出登录",Font.PLAIN,12));
 		jbexit.setContentAreaFilled(false);
+		jbexit.addActionListener(this);
 		
 		b = Box.createHorizontalBox();
 		b.add(jlcurrentID);
@@ -163,6 +165,13 @@ public class UserInfoNavigation extends JPanel {
 		this.add(jpanel2,BorderLayout.WEST);
 		
 		
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == jbexit){
+			new MainFrame().remove(this);
+		}
 	}
 	
 	

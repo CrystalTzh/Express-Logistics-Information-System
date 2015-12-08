@@ -2,7 +2,7 @@
  * @author 谭琼
  * 2015年11月26日
  */
-package controller.corporationController;
+package controller.corporationcontroller;
 
 import businesslogic.corporationbl.DriverInfobl;
 import vo.DriverInfoVO;
