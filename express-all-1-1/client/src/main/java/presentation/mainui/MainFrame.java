@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import ClientHelper.UserAccountClientHelper.UserAccountClientHelper;
+import clienthelper.useraccountclienthelper.UserAccountClientHelper;
 import presentation.constui.navigation.PriceNavigation;
 import presentation.constui.navigation.SalaryNavigation;
 import presentation.corporationui.navigation.CarInfoNavigation;

@@ -18,7 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import ClientHelper.UserAccountClientHelper.UserAccountClientHelper;
+import clienthelper.useraccountclienthelper.UserAccountClientHelper;
 import presentation.mainui.MainFrame;
 import presentation.userui.useraccounboard.UserAccountManageDriver;
 
