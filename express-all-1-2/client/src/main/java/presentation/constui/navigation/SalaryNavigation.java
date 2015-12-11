@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import presentation.constui.salaryboard.SalaryModifyBoard;
+import presentation.corporationui.navigation.InstitutionsManageNavigation;
 import presentation.financeui.navigation.BossCheckAccountsNavigation;
 import presentation.financeui.navigation.BossCheckCostPayChartNavigation;
 import presentation.financeui.navigation.BossCheckDiaryNavigation;
@@ -29,17 +30,19 @@ public class SalaryNavigation extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jpanel1,//logo
-				   jpanel2,//任务栏7个
+				   jpanel2,//任务栏8个
 				   jpanel3,//加在CENTER的表格
 				   jpanel4;//开始按钮
 	private JLabel jlabellogo;
 	private JLabel jlcurrentID;
 	private JButton jbPrice,jbSalary,jbAccountID,jbJudge,
-					jbCheckCostPayChart,jbCheckProfitChart,jbCheckDiary;
+					jbCheckCostPayChart,jbCheckProfitChart,
+					jbCheckDiary,jbInstitutionsManage;
 	
 	private ImageIcon imagelogo,imagePrice,imageSalary,
 					  imageAccount,imageJudge,
-					  imageCheckCostPayChart,imageCheckProfitChart,imageCheckDiary;
+					  imageCheckCostPayChart,imageCheckProfitChart,
+					  imageCheckDiary,imageInstitutionsManage;
 	private ImageIcon imageStart;
 	private JTable table;
 	private JButton jbstart,jbexit,jbmodify;
@@ -55,7 +58,7 @@ public class SalaryNavigation extends JPanel implements ActionListener{
 		jpanel1.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 		this.add(jpanel1,BorderLayout.NORTH);
 		
-		jpanel2 = new JPanel(new GridLayout(7, 1,5,10));
+		jpanel2 = new JPanel(new GridLayout(8, 1,5,10));
 		jpanel2.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 5));
 
 		jbPrice = new JButton();//制定价格常量
@@ -63,16 +66,16 @@ public class SalaryNavigation extends JPanel implements ActionListener{
 		jbPrice.setIcon(imagePrice);
 		jbPrice.setPreferredSize(new Dimension(imagePrice.getIconWidth(),
 				imagePrice.getIconHeight()));
-//		jbPrice.addActionListener(new ActionListener(){
-//
-//			public void actionPerformed(ActionEvent e) {
-//				// TODO Auto-generated method stub
-//				if(e.getSource() == jbPrice){
-//					new MainFrame().setContentPane(new PriceNavigation());
-//				}
-//			}
-//			
-//		});
+		jbPrice.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getSource() == jbPrice){
+					new MainFrame().setContentPane(new PriceNavigation());
+				}
+			}
+			
+		});
 		
 		jbSalary = new JButton();//制定薪资标准
 		imageSalary = new ImageIcon("image/salary.jpg");
@@ -86,80 +89,96 @@ public class SalaryNavigation extends JPanel implements ActionListener{
 		jbJudge.setIcon(imageJudge);
 		jbJudge.setPreferredSize(new Dimension(imageJudge.getIconWidth(),
 				imageJudge.getIconHeight()));
-//		jbJudge.addActionListener(new ActionListener(){
-//
-//			public void actionPerformed(ActionEvent e) {
-//				// TODO Auto-generated method stub
-//				if(e.getSource() == jbJudge){
-//					new MainFrame().setContentPane(new JudgeNavigation());
-//				}
-//			}
-//			
-//		});
+		jbJudge.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getSource() == jbJudge){
+					new MainFrame().setContentPane(new JudgeNavigation());
+				}
+			}
+			
+		});
 		
 		jbAccountID = new JButton();//查看账户
 		imageAccount = new ImageIcon("image/checkaccount.jpg");
 		jbAccountID.setIcon(imageAccount);
 		jbAccountID.setPreferredSize(new Dimension(imageAccount.getIconWidth(),
 				imageAccount.getIconHeight()));
-//		jbAccountID.addActionListener(new ActionListener(){
-//
-//			public void actionPerformed(ActionEvent e) {
-//				// TODO Auto-generated method stub
-//				if(e.getSource() == jbAccountID){
-//					new MainFrame().setContentPane(new BossCheckAccountsNavigation());
-//				}
-//			}
-//			
-//		});
+		jbAccountID.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getSource() == jbAccountID){
+					new MainFrame().setContentPane(new BossCheckAccountsNavigation());
+				}
+			}
+			
+		});
 		
 		jbCheckCostPayChart = new JButton();//查看成本收益表
 		imageCheckCostPayChart = new ImageIcon("image/checkcostpaychart.jpg");
 		jbCheckCostPayChart.setIcon(imageCheckCostPayChart);
 		jbCheckCostPayChart.setPreferredSize(new Dimension(imageCheckCostPayChart.getIconWidth(),
 				imageCheckCostPayChart.getIconHeight()));
-//		jbCheckCostPayChart.addActionListener(new ActionListener(){
-//
-//			public void actionPerformed(ActionEvent e) {
-//				// TODO Auto-generated method stub
-//				if(e.getSource() == jbCheckCostPayChart){
-//					new MainFrame().setContentPane(new BossCheckCostPayChartNavigation());
-//				}
-//			}
-//			
-//		});
+		jbCheckCostPayChart.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getSource() == jbCheckCostPayChart){
+					new MainFrame().setContentPane(new BossCheckCostPayChartNavigation());
+				}
+			}
+			
+		});
 		
 		jbCheckProfitChart = new JButton();//查看经营情况表
 		imageCheckProfitChart = new ImageIcon("image/checkprofitchart.jpg");
 		jbCheckProfitChart.setIcon(imageCheckProfitChart);
 		jbCheckProfitChart.setPreferredSize(new Dimension(imageCheckProfitChart.getIconWidth(),
 				imageCheckProfitChart.getIconHeight()));
-//		jbCheckProfitChart.addActionListener(new ActionListener(){
-//
-//			public void actionPerformed(ActionEvent e) {
-//				// TODO Auto-generated method stub
-//				if(e.getSource() == jbCheckProfitChart){
-//					new MainFrame().setContentPane(new BossCheckProfitChartNavigation());
-//				}
-//			}
-//			
-//		});
+		jbCheckProfitChart.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getSource() == jbCheckProfitChart){
+					new MainFrame().setContentPane(new BossCheckProfitChartNavigation());
+				}
+			}
+			
+		});
 		
 		jbCheckDiary = new JButton();//查看日志
 		imageCheckDiary = new ImageIcon("image/checkdiary.jpg");
 		jbCheckDiary.setIcon(imageCheckDiary);
 		jbCheckDiary.setPreferredSize(new Dimension(imageCheckDiary.getIconWidth(),
 				imageCheckDiary.getIconHeight()));
-//		jbCheckDiary.addActionListener(new ActionListener(){
-//
-//			public void actionPerformed(ActionEvent e) {
-//				// TODO Auto-generated method stub
-//				if(e.getSource() == jbCheckDiary){
-//					new MainFrame().setContentPane(new BossCheckDiaryNavigation());
-//				}
-//			}
-//			
-//		});
+		jbCheckDiary.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getSource() == jbCheckDiary){
+					new MainFrame().setContentPane(new BossCheckDiaryNavigation());
+				}
+			}
+			
+		});
+		
+		jbInstitutionsManage = new JButton();//机构管理
+		imageInstitutionsManage = new ImageIcon("image/institutionsmanage.jpg");
+		jbInstitutionsManage.setIcon(imageInstitutionsManage);
+		jbInstitutionsManage.setPreferredSize(new Dimension(imageInstitutionsManage.getIconWidth(),
+				imageInstitutionsManage.getIconHeight()));
+		jbInstitutionsManage.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getSource() == jbInstitutionsManage){
+					new MainFrame().setContentPane(new InstitutionsManageNavigation());
+				}
+			}
+			
+		});
 		
 		jpanel2.add(jbPrice);
 		jpanel2.add(jbSalary);
@@ -168,6 +187,7 @@ public class SalaryNavigation extends JPanel implements ActionListener{
 		jpanel2.add(jbCheckCostPayChart);
 		jpanel2.add(jbCheckProfitChart);
 		jpanel2.add(jbCheckDiary);
+		jpanel2.add(jbInstitutionsManage);
 		
 		
 		jpanel3 = new JPanel();

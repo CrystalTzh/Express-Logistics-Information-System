@@ -1,5 +1,7 @@
 package controller.inventorycontroller;
 
+import java.rmi.RemoteException;
+
 import businesslogic.inventorybl.StorageOutForm;
 import vo.StorageOutFormVO;
 
@@ -34,15 +36,15 @@ public class StorageOutFormController {
 		return false;
 	}
 
-//	public StorageOutFormVO findDriver(String number) throws RemoteException, IllegalArgumentException {
-//		// TODO Auto-generated method stub
-//		System.out.println("进入StorageOutFormController...findDriver...");
-//		StorageOutForm receiptForm = new StorageOutForm();
-//		StorageOutFormVO vo = receiptForm.StorageOutFormfind(number);
-//		if(vo != null){
-//			return vo;
-//		}else{
-//			return null;
-//		}
-//	}
+	public StorageOutFormVO findDriver(String number) throws RemoteException, IllegalArgumentException {
+		// TODO Auto-generated method stub
+		System.out.println("进入StorageOutFormController...findDriver...");
+		StorageOutForm receiptForm = new StorageOutForm();
+		StorageOutFormVO vo = receiptForm.StorageOutFormfind(number);
+		if(vo != null){
+			return vo;
+		}else{
+			return null;
+		}
+	}
 }

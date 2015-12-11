@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 
 import presentation.constui.navigation.PriceNavigation;
 import presentation.constui.navigation.SalaryNavigation;
+import presentation.corporationui.navigation.InstitutionsManageNavigation;
 import presentation.financeui.CheckProfitChartBoard.CheckProfitChartFrame;
 import presentation.formapprovalui.navigation.JudgeNavigation;
 import presentation.mainui.MainFrame;
@@ -28,17 +29,19 @@ public class BossCheckProfitChartNavigation extends JPanel implements ActionList
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jpanel1,//logo
-				   jpanel2,//任务栏7个
+				   jpanel2,//任务栏8个
 				   jpanel3,//加在CENTER的表格
 				   jpanel4;//开始按钮
 	private JLabel jlabellogo;
 	private JLabel jlcurrentID;
 	private JButton jbPrice,jbSalary,jbAccountID,jbJudge,
-					jbCheckCostPayChart,jbCheckProfitChart,jbCheckDiary;
+					jbCheckCostPayChart,jbCheckProfitChart,
+					jbCheckDiary,jbInstitutionsManage;
 	
 	private ImageIcon imagelogo,imagePrice,imageSalary,
 					  imageAccount,imageJudge,
-					  imageCheckCostPayChart,imageCheckProfitChart,imageCheckDiary;
+					  imageCheckCostPayChart,imageCheckProfitChart,
+					  imageCheckDiary,imageInstitutionsManage;
 	private ImageIcon imageStart;
 	private JTable table;
 	private JButton jbstart,jbexit,jbmodify;
@@ -56,7 +59,7 @@ public class BossCheckProfitChartNavigation extends JPanel implements ActionList
 		jpanel1.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 		this.add(jpanel1,BorderLayout.NORTH);
 		
-		jpanel2 = new JPanel(new GridLayout(7, 1,5,10));
+		jpanel2 = new JPanel(new GridLayout(8, 1,5,10));
 		jpanel2.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 5));
 
 		jbPrice = new JButton();//制定价格常量
@@ -171,6 +174,22 @@ public class BossCheckProfitChartNavigation extends JPanel implements ActionList
 			
 		});
 		
+		jbInstitutionsManage = new JButton();//机构管理
+		imageInstitutionsManage = new ImageIcon("image/institutionsmanage.jpg");
+		jbInstitutionsManage.setIcon(imageInstitutionsManage);
+		jbInstitutionsManage.setPreferredSize(new Dimension(imageInstitutionsManage.getIconWidth(),
+				imageInstitutionsManage.getIconHeight()));
+		jbInstitutionsManage.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getSource() == jbInstitutionsManage){
+					new MainFrame().setContentPane(new InstitutionsManageNavigation());
+				}
+			}
+			
+		});
+		
 		jpanel2.add(jbPrice);
 		jpanel2.add(jbSalary);
 		jpanel2.add(jbJudge);
@@ -178,6 +197,7 @@ public class BossCheckProfitChartNavigation extends JPanel implements ActionList
 		jpanel2.add(jbCheckCostPayChart);
 		jpanel2.add(jbCheckProfitChart);
 		jpanel2.add(jbCheckDiary);
+		jpanel2.add(jbInstitutionsManage);
 		
 		
 		jpanel3 = new JPanel();

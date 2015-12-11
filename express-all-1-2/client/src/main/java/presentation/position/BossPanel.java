@@ -19,6 +19,7 @@ import javax.swing.JTable;
 
 import presentation.constui.navigation.PriceNavigation;
 import presentation.constui.navigation.SalaryNavigation;
+import presentation.corporationui.navigation.InstitutionsManageNavigation;
 import presentation.financeui.navigation.BossCheckAccountsNavigation;
 import presentation.financeui.navigation.BossCheckCostPayChartNavigation;
 import presentation.financeui.navigation.BossCheckDiaryNavigation;
@@ -37,11 +38,13 @@ public class BossPanel extends JPanel implements ActionListener{
 	private JLabel jlabellogo;
 	private JLabel jlcurrentID,jlWelcome,jlHello;
 	private JButton jbPrice,jbSalary,jbAccountID,jbJudge,
-					jbCheckCostPayChart,jbCheckProfitChart,jbCheckDiary;
+					jbCheckCostPayChart,jbCheckProfitChart,
+					jbCheckDiary,jbInstitutionsManage;
 	
 	private ImageIcon imagelogo,imagePrice,imageSalary,
 					  imageAccount,imageJudge,
-					  imageCheckCostPayChart,imageCheckProfitChart,imageCheckDiary;
+					  imageCheckCostPayChart,imageCheckProfitChart,
+					  imageCheckDiary,imageInstitutionsManage;
 	private ImageIcon imageStart;
 	private JTable table;
 	private JButton jbstart,jbexit,jbmodify;
@@ -172,6 +175,22 @@ public class BossPanel extends JPanel implements ActionListener{
 			
 		});
 		
+		jbInstitutionsManage = new JButton();//机构管理
+		imageInstitutionsManage = new ImageIcon("image/institutionsmanage.jpg");
+		jbInstitutionsManage.setIcon(imageInstitutionsManage);
+		jbInstitutionsManage.setPreferredSize(new Dimension(imageInstitutionsManage.getIconWidth(),
+				imageInstitutionsManage.getIconHeight()));
+		jbInstitutionsManage.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getSource() == jbInstitutionsManage){
+					new MainFrame().setContentPane(new InstitutionsManageNavigation());
+				}
+			}
+			
+		});
+		
 		jpanel2.add(jbPrice);
 		jpanel2.add(jbSalary);
 		jpanel2.add(jbJudge);
@@ -179,6 +198,7 @@ public class BossPanel extends JPanel implements ActionListener{
 		jpanel2.add(jbCheckCostPayChart);
 		jpanel2.add(jbCheckProfitChart);
 		jpanel2.add(jbCheckDiary);
+		jpanel2.add(jbInstitutionsManage);
 		
 		
 		jpanel3 = new JPanel();

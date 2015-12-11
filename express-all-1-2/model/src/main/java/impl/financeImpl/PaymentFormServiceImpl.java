@@ -20,7 +20,7 @@ public class PaymentFormServiceImpl extends UnicastRemoteObject implements Payme
 	FileOutputStream outOne;
 	ObjectOutputStream outTwo;
 	Hashtable allPaymentForm;
-	File file = new File("收款单基本信息.txt");
+	File file = new File("付款单基本信息.txt");
 	IOHelper ioHelper;
 	public PaymentFormServiceImpl() throws RemoteException {
 		super();

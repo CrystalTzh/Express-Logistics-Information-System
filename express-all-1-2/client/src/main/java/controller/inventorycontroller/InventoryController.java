@@ -5,11 +5,11 @@
 package controller.inventorycontroller;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Iterator;
 
 import businesslogic.inventorybl.InventoryInfobl;
-import po.PositionPO;
+import po.Position;
 import state.NodeState;
 import state.Zone;
 import vo.InventoryInfoVO;
@@ -94,8 +94,8 @@ public class InventoryController {
 		InventoryInfoVO vo = inventoryInfobl.findInventoryInfo(inventoryID);
 		BigDecimal inventoryPercentage = this.getInventoryPercentage(inventoryID, zone);
 		BigDecimal limit = BigDecimal.valueOf(vo.getLimit());
-		if(inventoryPercentage.compareTo(limit) >= 0) {//zone区的库存占据率大于等于库存警戒值
-			return true;//报警
+		if (inventoryPercentage.compareTo(limit) >= 0) {// zone区的库存占据率大于等于库存警戒值
+			return true;// 报警
 		}
 		return false;
 	}
@@ -111,41 +111,67 @@ public class InventoryController {
 		BigDecimal persentage, takenNum;
 		InventoryInfobl inventoryInfobl = new InventoryInfobl();
 		InventoryInfoVO vo = inventoryInfobl.findInventoryInfo(inventoryID);
-		Hashtable<PositionPO, NodeState> planeZoneInfo = vo.getPlaneZoneInfo();
-		Hashtable<PositionPO, NodeState> carZoneInfo = vo.getCarZoneInfo();
-		Hashtable<PositionPO, NodeState> trainZoneInfo = vo.getTrainZoneInfo();
-		Hashtable<PositionPO, NodeState> emptyZoneInfo = vo.getEmptyZoneInfo();
-		switch(zone) {
-		case PLANE://飞机区
-			takenNum = BigDecimal.valueOf(this.takenPositionNum(planeZoneInfo));
+//		Hashtable<NodeState, ArrayList<Position>> planeZoneInfo = vo.getPlaneZoneInfo();
+//		Hashtable<NodeState, ArrayList<Position>> carZoneInfo = vo.getCarZoneInfo();
+//		Hashtable<NodeState, ArrayList<Position>> trainZoneInfo = vo.getTrainZoneInfo();
+//		Hashtable<NodeState, ArrayList<Position>> emptyZoneInfo = vo.getEmptyZoneInfo();
+		switch (zone) {
+		case PLANE:// 飞机区
+			takenNum = BigDecimal.valueOf(this.takenOrVacantPosition(inventoryID, Zone.PLANE, NodeState.TAKEN).size());
 			persentage = takenNum.divide(BigDecimal.valueOf(InventoryInfoVO.capacity));
-		case CAR://汽车区
-			takenNum= BigDecimal.valueOf(this.takenPositionNum(carZoneInfo));
+			break;
+		case CAR:// 汽车区
+			takenNum = BigDecimal.valueOf(this.takenOrVacantPosition(inventoryID, Zone.CAR, NodeState.TAKEN).size());
 			persentage = takenNum.divide(BigDecimal.valueOf(InventoryInfoVO.capacity));
-		case TRAIN://火车区
-			takenNum= BigDecimal.valueOf(this.takenPositionNum(trainZoneInfo));
+			break;
+		case TRAIN:// 火车区
+			takenNum = BigDecimal.valueOf(this.takenOrVacantPosition(inventoryID, Zone.TRAIN, NodeState.TAKEN).size());
 			persentage = takenNum.divide(BigDecimal.valueOf(InventoryInfoVO.capacity));
-		default://机动区
-			takenNum= BigDecimal.valueOf(this.takenPositionNum(emptyZoneInfo));
+			break;
+		default:// 机动区
+			takenNum = BigDecimal.valueOf(this.takenOrVacantPosition(inventoryID, Zone.EMPTY, NodeState.TAKEN).size());
 			persentage = takenNum.divide(BigDecimal.valueOf(InventoryInfoVO.capacity));
+			break;
 		}
 		return persentage;
 	}
 	
 	/**
-	 * 遍历zone区的位置信息，找出已经被占据的位置总数
-	 * @param planeZoneInfo
+	 * 找出zone区被占据或空闲的位置集合
+	 * @param inventoryID
+	 * @param zone
+	 * @param nodeState
 	 * @return
 	 */
-	public int takenPositionNum(Hashtable<PositionPO, NodeState> planeZoneInfo) {
-		int num = 0;
-		for(Iterator<PositionPO> itr = planeZoneInfo.keySet().iterator(); itr.hasNext();) {
-			if(planeZoneInfo.get(itr) == NodeState.TAKEN) {
-				++num;
-			}
+	public ArrayList<Position> takenOrVacantPosition(String inventoryID, Zone zone, NodeState nodeState) {
+		
+		InventoryInfobl inventoryInfobl = new InventoryInfobl();
+		InventoryInfoVO vo = inventoryInfobl.findInventoryInfo(inventoryID);
+		
+		ArrayList<Position> positions = new ArrayList<Position>();
+		
+		switch(zone) {
+		case PLANE://获取航空区被占据或空闲的位置集合
+			Hashtable<NodeState, ArrayList<Position>> planeZoneInfo = vo.getPlaneZoneInfo();
+			positions = planeZoneInfo.get(nodeState);
+			break;
+		case CAR://获取汽车区被占据或空闲的位置集合
+			Hashtable<NodeState, ArrayList<Position>> carZoneInfo = vo.getCarZoneInfo();
+			positions = carZoneInfo.get(nodeState);
+			break;
+		case TRAIN://获取火车区被占据或空闲的位置集合
+			Hashtable<NodeState, ArrayList<Position>> trainZoneInfo = vo.getTrainZoneInfo();
+			positions = trainZoneInfo.get(nodeState);
+			break;
+		case EMPTY://获取机动区被占据或空闲的位置集合
+			Hashtable<NodeState, ArrayList<Position>> emptyZoneInfo = vo.getEmptyZoneInfo();
+			positions = emptyZoneInfo.get(nodeState);
+			break;
 		}
-		return num;
+		
+		return positions;
 	}
+	
 
 	public static void main(String[] args) {
 		System.out.println("在controller测试");

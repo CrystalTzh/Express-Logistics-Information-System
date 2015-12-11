@@ -140,6 +140,7 @@ public class PaymentPanel extends JPanel implements ActionListener{
 		typebox.setBackground(Color.WHITE);
 		typebox.setBounds(41, 70, 89, 28);
 		panel_2.add(typebox);
+		typebox.addActionListener(this);
 		
 		typedetailbox = new JComboBox();
 		typedetailbox.setModel(new DefaultComboBoxModel(new String[] {" \u79DF\u91D1\u5E74\u4EFD", " \u8FD0\u5355\u53F7", " \u5DE5\u8D44\u6708\u4EFD"}));
@@ -147,6 +148,7 @@ public class PaymentPanel extends JPanel implements ActionListener{
 		typedetailbox.setBackground(Color.WHITE);
 		typedetailbox.setBounds(41, 120, 89, 28);
 		panel_2.add(typedetailbox);
+		typedetailbox.addActionListener(this);
 		
 		typedetail = new JTextField();
 		typedetail.setColumns(10);
@@ -156,10 +158,12 @@ public class PaymentPanel extends JPanel implements ActionListener{
 		save = new JButton("\u4FDD\u5B58");
 		save.setBounds(213, 555, 93, 36);
 		this.add(save);
+		save.addActionListener(this);
 		
 		cancel = new JButton("\u53D6\u6D88");
 		cancel.setBounds(338, 555, 93, 36);
 		this.add(cancel);
+		cancel.addActionListener(this);
 	}
 	
 	public String getCurrenTime() {
@@ -190,39 +194,63 @@ public class PaymentPanel extends JPanel implements ActionListener{
 				String names = name.getText();
 				String accounts = account.getText();
 				String types = (String)typebox.getSelectedItem();
+				System.out.println(types);
 				double rent=0;
 				double freight=0;
 				double salary=0;
 				int year=0;
 				String NO=null;
 				int month=0;
-				switch (types) {
-				case "     \u79DF\u91D1":
+				
+				if(types=="     \u79DF\u91D1"){
 					 rent = Double.parseDouble(type.getText());
-					break;
-				case "     \u8FD0\u8D39":
-					 freight = Double.parseDouble(type.getText());
-					break;
-				case "     \u5DE5\u8D44":
-					 salary = Double.parseDouble(type.getText());
-					break;
-				default:
-					break;
 				}
+				if(types=="     \u8FD0\u8D39"){
+					freight = Double.parseDouble(type.getText());
+				}
+				if(types=="     \u5DE5\u8D44"){
+					salary = Double.parseDouble(type.getText());
+				}
+				
+//				switch (types) {
+//				case "     \u79DF\u91D1":
+//					 rent = Double.parseDouble(type.getText());
+//					break;
+//				case "     \u8FD0\u8D39":
+//					 freight = Double.parseDouble(type.getText());
+//					break;
+//				case "     \u5DE5\u8D44":
+//					 salary = Double.parseDouble(type.getText());
+//					break;
+//				default:
+//					break;
+//				}
+				
 				String typedetails = (String)typedetailbox.getSelectedItem();
-				switch (typedetails) {
-				case " \u79DF\u91D1\u5E74\u4EFD":
-					 year = Integer.parseInt(type.getText());
-					break;
-				case " \u8FD0\u5355\u53F7":
-					 NO = type.getText();
-					break;
-				case " \u5DE5\u8D44\u6708\u4EFD":
-					 month = Integer.parseInt(type.getText());
-					break;
-				default:
-					break;
+				
+				if(typedetails==" \u79DF\u91D1\u5E74\u4EFD"){
+					year = Integer.parseInt(type.getText());
 				}
+				if(typedetails==" \u8FD0\u5355\u53F7"){
+					NO = type.getText();
+				}
+				if(typedetails==" \u5DE5\u8D44\u6708\u4EFD"){
+					month = Integer.parseInt(type.getText());
+				}
+				
+//				switch (typedetails) {
+//				case " \u79DF\u91D1\u5E74\u4EFD":
+//					 year = Integer.parseInt(type.getText());
+//					break;
+//				case " \u8FD0\u5355\u53F7":
+//					 NO = type.getText();
+//					break;
+//				case " \u5DE5\u8D44\u6708\u4EFD":
+//					 month = Integer.parseInt(type.getText());
+//					break;
+//				default:
+//					break;
+//				}
 				
 				
 				PaymentFormVO voToAdd = new PaymentFormVO();
@@ -233,8 +261,12 @@ public class PaymentPanel extends JPanel implements ActionListener{
 				voToAdd.setRent(rent);
 				voToAdd.setYear(year);
 				voToAdd.setFreight(freight);
+				voToAdd.setSalary(salary);
 				voToAdd.setFormNO(NO);
 				voToAdd.setMonth(month);
+				voToAdd.setNO("001");
+				
+				paymentFormController.submitDriver(voToAdd);
 			}
 			
 			if(save.getText()=="\u4FDD\u5B58"){//保存
@@ -258,33 +290,55 @@ public class PaymentPanel extends JPanel implements ActionListener{
 						int year=0;
 						String NO=null;
 						int month=0;
-						switch (types) {
-						case "     \u79DF\u91D1":
+						
+						if(types=="     \u79DF\u91D1"){
 							 rent = Double.parseDouble(type.getText());
-							break;
-						case "     \u8FD0\u8D39":
-							 freight = Double.parseDouble(type.getText());
-							break;
-						case "     \u5DE5\u8D44":
-							 salary = Double.parseDouble(type.getText());
-							break;
-						default:
-							break;
 						}
+						if(types=="     \u8FD0\u8D39"){
+							freight = Double.parseDouble(type.getText());
+						}
+						if(types=="     \u5DE5\u8D44"){
+							salary = Double.parseDouble(type.getText());
+						}
+						
+//						switch (types) {
+//						case "     \u79DF\u91D1":
+//							 rent = Double.parseDouble(type.getText());
+//							break;
+//						case "     \u8FD0\u8D39":
+//							 freight = Double.parseDouble(type.getText());
+//							break;
+//						case "     \u5DE5\u8D44":
+//							 salary = Double.parseDouble(type.getText());
+//							break;
+//						default:
+//							break;
+//						}
 						String typedetails = (String)typedetailbox.getSelectedItem();
-						switch (typedetails) {
-						case " \u79DF\u91D1\u5E74\u4EFD":
-							 year = Integer.parseInt(type.getText());
-							break;
-						case " \u8FD0\u5355\u53F7":
-							 NO = type.getText();
-							break;
-						case " \u5DE5\u8D44\u6708\u4EFD":
-							 month = Integer.parseInt(type.getText());
-							break;
-						default:
-							break;
+						
+						if(typedetails==" \u79DF\u91D1\u5E74\u4EFD"){
+							year = Integer.parseInt(type.getText());
 						}
+						if(typedetails==" \u8FD0\u5355\u53F7"){
+							NO = type.getText();
+						}
+						if(typedetails==" \u5DE5\u8D44\u6708\u4EFD"){
+							month = Integer.parseInt(type.getText());
+						}
+						
+//						switch (typedetails) {
+//						case " \u79DF\u91D1\u5E74\u4EFD":
+//							 year = Integer.parseInt(type.getText());
+//							break;
+//						case " \u8FD0\u5355\u53F7":
+//							 NO = type.getText();
+//							break;
+//						case " \u5DE5\u8D44\u6708\u4EFD":
+//							 month = Integer.parseInt(type.getText());
+//							break;
+//						default:
+//							break;
+//						}
 						
 						PaymentFormVO voToAdd = new PaymentFormVO();
 						voToAdd.setDate(dates);
@@ -293,9 +347,13 @@ public class PaymentPanel extends JPanel implements ActionListener{
 						voToAdd.setAccount(accounts);
 						voToAdd.setRent(rent);
 						voToAdd.setYear(year);
+						voToAdd.setSalary(salary);
 						voToAdd.setFreight(freight);
 						voToAdd.setFormNO(NO);
 						voToAdd.setMonth(month);
+						voToAdd.setNO("001");
+						
+						paymentFormController.saveDriver(voToAdd);
 					}//录入结束
 					save.setText("\u63D0\u4EA4");
 				}

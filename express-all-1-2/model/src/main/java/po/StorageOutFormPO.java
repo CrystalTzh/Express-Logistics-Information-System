@@ -11,8 +11,23 @@ public class StorageOutFormPO implements  Serializable{
 	String expressNumber;//快递订单号
 	String destination;//目的地
 	Transport transport;//转运形式
+	String transferNO;//中转单编号
+	String sportNO;//汽运编号
 	FormState formstate;//单据的状态
 	
+	
+	public String getTransferNO() {
+		return transferNO;
+	}
+	public void setTransferNO(String transferNO) {
+		this.transferNO = transferNO;
+	}
+	public String getSportNO() {
+		return sportNO;
+	}
+	public void setSportNO(String sportNO) {
+		this.sportNO = sportNO;
+	}
 	public String getNO() {
 		return NO;
 	}

@@ -12,7 +12,7 @@ public class StorageOutFormServerHelper {
 	public void go() {
 		try {
 			StorageOutFromInventorydataService storageOutFormInventorydataService = new StorageOutFormServiceImpl();
-			Registry registry = LocateRegistry.createRegistry(32003);
+			Registry registry = LocateRegistry.createRegistry(32005);
 			registry.rebind("storageOutFormInventorydataService", storageOutFormInventorydataService);
 			System.out.println("storageOutFormInventorydataService RMI服务绑定成功...等待远程调用请求...");
 		} catch (RemoteException e) {

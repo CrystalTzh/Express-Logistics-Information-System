@@ -11,9 +11,9 @@ public class StorageInFormPO implements  Serializable{
 		String expressNumber;//快递单编号
 		String destination;//目的地
 		Zone zone;//区号
-		int line;//排号
-		int shelf;//架号
-		int tag;//位号
+		String line;//排号
+		String shelf;//架号
+		String tag;//位号
 		FormState formstate;//单据状态
 		
 
@@ -58,27 +58,29 @@ public class StorageInFormPO implements  Serializable{
 			this.zone = zone;
 		}
 
-		public int getLine() {
+		
+
+		public String getLine() {
 			return line;
 		}
 
-		public void setLine(int line) {
+		public void setLine(String line) {
 			this.line = line;
 		}
 
-		public int getShelf() {
+		public String getShelf() {
 			return shelf;
 		}
 
-		public void setShelf(int shelf) {
+		public void setShelf(String shelf) {
 			this.shelf = shelf;
 		}
 
-		public int getTag() {
+		public String getTag() {
 			return tag;
 		}
 
-		public void setTag(int tag) {
+		public void setTag(String tag) {
 			this.tag = tag;
 		}
 

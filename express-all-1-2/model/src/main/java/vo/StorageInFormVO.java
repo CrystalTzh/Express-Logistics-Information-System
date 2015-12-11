@@ -11,11 +11,31 @@ public class StorageInFormVO implements  Serializable{
 		String expressNumber;
 		String destination;
 		Zone zone;//区号
-		int line;//排号
-		int shelf;//架号
-		int tag;//位号
+		String line;//排号
+		String shelf;//架号
+		String tag;//位号
 		FormState formstate;//单据的状态
 		
+		
+		
+		public String getLine() {
+			return line;
+		}
+		public void setLine(String line) {
+			this.line = line;
+		}
+		public String getShelf() {
+			return shelf;
+		}
+		public void setShelf(String shelf) {
+			this.shelf = shelf;
+		}
+		public String getTag() {
+			return tag;
+		}
+		public void setTag(String tag) {
+			this.tag = tag;
+		}
 		public String getNO() {
 			return NO;
 		}
@@ -45,24 +65,6 @@ public class StorageInFormVO implements  Serializable{
 		}
 		public void setZone(Zone zone){
 			this.zone=zone;
-		}
-		public int getShelf(){
-			return shelf;
-		}
-		public void setShelf(int shelf){
-			this.shelf=shelf;
-		}
-		public int getTag(){
-			return tag;
-		}
-		public void setTag(int tag){
-			this.tag=tag;
-		}
-		public int getLine(){
-			return line;
-		}
-		public void setLine(int line){
-			this.line=line;
 		}
 		public FormState getFormstate() {
 			return formstate;

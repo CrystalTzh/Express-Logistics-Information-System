@@ -1,31 +1,31 @@
 /**
  * @author 谭琼
- * 2015年12月9日
+ * 2015年12月8日
  */
-package vo;
+package po;
 
 import java.io.Serializable;
 
+import state.Line;
 import state.NodeState;
+import state.Shelf;
+import state.Tag;
 import state.Zone;
 
 /**
- * @author mac
- *
+ * 仓库位置信息的持久化对象
  */
-public class PositionVO implements Serializable{
+public class Position implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	Zone zone; //区号
-	String line; //排号
-	String shelf; //架号
-	String tag; //位号
+	Line line; //排号
+	Shelf shelf; //架号
+	Tag tag; //位号
 	String ID; //每个位置对应的订单号
 	NodeState state; //每个位置的状态（被占据、空闲）
-	//进仓库的时间
-	//出仓库的时间
 	
-	public PositionVO() {
+	public Position() {
 		state = NodeState.VACANT;
 		zone = Zone.CAR;
 		line = null;
@@ -34,17 +34,39 @@ public class PositionVO implements Serializable{
 		ID = null;
 	}
 	
-	public Zone getZone() {
-		return zone;
-	}
-	public String getLine() {
+	
+	public Line getLine() {
 		return line;
 	}
-	public String getShelf() {
+
+
+	public Shelf getShelf() {
 		return shelf;
 	}
-	public String getTag() {
+
+
+	public Tag getTag() {
 		return tag;
+	}
+
+
+	public void setLine(Line line) {
+		this.line = line;
+	}
+
+
+	public void setShelf(Shelf shelf) {
+		this.shelf = shelf;
+	}
+
+
+	public void setTag(Tag tag) {
+		this.tag = tag;
+	}
+
+
+	public Zone getZone() {
+		return zone;
 	}
 	public String getID() {
 		return ID;
@@ -55,19 +77,11 @@ public class PositionVO implements Serializable{
 	public void setZone(Zone zone) {
 		this.zone = zone;
 	}
-	public void setLine(String line) {
-		this.line = line;
-	}
-	public void setShelf(String shelf) {
-		this.shelf = shelf;
-	}
-	public void setTag(String tag) {
-		this.tag = tag;
-	}
 	public void setID(String iD) {
 		ID = iD;
 	}
 	public void setState(NodeState state) {
 		this.state = state;
 	}
+	
 }

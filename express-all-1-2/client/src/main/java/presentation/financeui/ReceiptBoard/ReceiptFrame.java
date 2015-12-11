@@ -1,11 +1,9 @@
 package presentation.financeui.ReceiptBoard;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
-public class ReceiptFrame extends JFrame implements ActionListener{
+public class ReceiptFrame extends JFrame{
 
 	/**
 	 * 
@@ -27,11 +25,6 @@ public class ReceiptFrame extends JFrame implements ActionListener{
 
 	public static void main(String args[]){
 		new ReceiptFrame();
-	}
-
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 }

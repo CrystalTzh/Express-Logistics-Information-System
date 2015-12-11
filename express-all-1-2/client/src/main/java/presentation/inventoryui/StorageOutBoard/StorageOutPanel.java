@@ -27,7 +27,7 @@ private static final long serialVersionUID = 1L;
 	private JTextField date;
 	private JTextField destination;
 	private JTextField expressNumber;
-	private JTextField NO;
+	private JTextField formNO;
 	private JPanel panel_1;
 	private JPanel panel_2;
 	private JLabel OutInfo;
@@ -128,18 +128,20 @@ private static final long serialVersionUID = 1L;
 		NObox.setBounds(34, 145, 106, 28);
 		panel_2.add(NObox);
 		
-		NO = new JTextField();
-		NO.setColumns(10);
-		NO.setBounds(155, 145, 166, 28);
-		panel_2.add(NO);
+		formNO = new JTextField();
+		formNO.setColumns(10);
+		formNO.setBounds(155, 145, 166, 28);
+		panel_2.add(formNO);
 		
-		save = new JButton("\u63D0\u4EA4");
+		save = new JButton("\u4FDD\u5B58");
 		save.setBounds(216, 452, 93, 36);
 		this.add(save);
+		save.addActionListener(this);
 		
-		cancel = new JButton("\u63D0\u4EA4");
+		cancel = new JButton("\u53D6\u6D88");
 		cancel.setBounds(337, 452, 93, 36);
 		this.add(cancel);
+		cancel.addActionListener(this);
 		
 	}
 	
@@ -160,31 +162,52 @@ private static final long serialVersionUID = 1L;
 				String expressNumbers = expressNumber.getText();
 				String transportboxs = (String)transportbox.getSelectedItem();
 				Transport transports = null;
-				switch (transportboxs) {
-				case "     \u6C7D\u8FD0":
+				
+				if(transportboxs=="     \u6C7D\u8FD0"){
 					transports = Transport.CAR;
-					break;
-				case "     \u94C1\u8DEF":
+				}
+				if(transportboxs=="     \u94C1\u8DEF"){
 					transports = Transport.TRAIN;
-					break;
-				case "     \u7A7A\u8FD0":
+				}
+				if(transportboxs=="     \u7A7A\u8FD0"){
 					transports = Transport.PLANE;
-					break;
-				default:
-					break;
 				}
+				
+//				switch (transportboxs) {
+//				case "     \u6C7D\u8FD0":
+//					transports = Transport.CAR;
+//					break;
+//				case "     \u94C1\u8DEF":
+//					transports = Transport.TRAIN;
+//					break;
+//				case "     \u7A7A\u8FD0":
+//					transports = Transport.PLANE;
+//					break;
+//				default:
+//					break;
+//				}
+				
 				String NOboxs = (String)NObox.getSelectedItem();
-				String NOs = null;
-				switch (NOboxs) {
-				case " \u4E2D\u8F6C\u5355\u7F16\u53F7":
-					NOs = NO.getText();
-					break;
-				case "  \u6C7D\u8FD0\u7F16\u53F7":
-					NOs = NO.getText();
-					break;
-				default:
-					break;
+				String transferNO = "";
+				String sportNO = "";
+				
+				if(NOboxs==" \u4E2D\u8F6C\u5355\u7F16\u53F7"){
+					transferNO = formNO.getText();
 				}
+				if(NOboxs=="  \u6C7D\u8FD0\u7F16\u53F7"){
+					sportNO = formNO.getText();
+				}
+				
+//				switch (NOboxs) {
+//				case " \u4E2D\u8F6C\u5355\u7F16\u53F7":
+//					NOs = NO.getText();
+//					break;
+//				case "  \u6C7D\u8FD0\u7F16\u53F7":
+//					NOs = NO.getText();
+//					break;
+//				default:
+//					break;
+//				}
 				
 				
 				StorageOutFormVO voToAdd = new StorageOutFormVO();
@@ -192,7 +215,9 @@ private static final long serialVersionUID = 1L;
 				voToAdd.setDestination(destinations);
 				voToAdd.setExpressNumber(expressNumbers);
 				voToAdd.setTransport(transports);
-				voToAdd.setNO(NOs);
+				voToAdd.setNO("001");
+				voToAdd.setSportNO(sportNO);
+				voToAdd.setTransferNO(transferNO);
 				
 	
 				
@@ -215,31 +240,52 @@ private static final long serialVersionUID = 1L;
 						String expressNumbers = expressNumber.getText();
 						String transportboxs = (String)transportbox.getSelectedItem();
 						Transport transports = null;
-						switch (transportboxs) {
-						case "     \u6C7D\u8FD0":
+						
+						if(transportboxs=="     \u6C7D\u8FD0"){
 							transports = Transport.CAR;
-							break;
-						case "     \u94C1\u8DEF":
+						}
+						if(transportboxs=="     \u94C1\u8DEF"){
 							transports = Transport.TRAIN;
-							break;
-						case "     \u7A7A\u8FD0":
+						}
+						if(transportboxs=="     \u7A7A\u8FD0"){
 							transports = Transport.PLANE;
-							break;
-						default:
-							break;
 						}
+						
+//						switch (transportboxs) {
+//						case "     \u6C7D\u8FD0":
+//							transports = Transport.CAR;
+//							break;
+//						case "     \u94C1\u8DEF":
+//							transports = Transport.TRAIN;
+//							break;
+//						case "     \u7A7A\u8FD0":
+//							transports = Transport.PLANE;
+//							break;
+//						default:
+//							break;
+//						}
+						
 						String NOboxs = (String)NObox.getSelectedItem();
-						String NOs = null;
-						switch (NOboxs) {
-						case " \u4E2D\u8F6C\u5355\u7F16\u53F7":
-							NOs = NO.getText();
-							break;
-						case "  \u6C7D\u8FD0\u7F16\u53F7":
-							NOs = NO.getText();
-							break;
-						default:
-							break;
+						String transferNO = "";
+						String sportNO = "";
+						
+						if(NOboxs==" \u4E2D\u8F6C\u5355\u7F16\u53F7"){
+							transferNO = formNO.getText();
 						}
+						if(NOboxs=="  \u6C7D\u8FD0\u7F16\u53F7"){
+							sportNO = formNO.getText();
+						}
+						
+//						switch (NOboxs) {
+//						case " \u4E2D\u8F6C\u5355\u7F16\u53F7":
+//							NOs = NO.getText();
+//							break;
+//						case "  \u6C7D\u8FD0\u7F16\u53F7":
+//							NOs = NO.getText();
+//							break;
+//						default:
+//							break;
+//						}
 						
 						
 						StorageOutFormVO voToAdd = new StorageOutFormVO();
@@ -247,11 +293,13 @@ private static final long serialVersionUID = 1L;
 						voToAdd.setDestination(destinations);
 						voToAdd.setExpressNumber(expressNumbers);
 						voToAdd.setTransport(transports);
-						voToAdd.setNO(NOs);
+						voToAdd.setNO("001");
+						voToAdd.setSportNO(sportNO);
+						voToAdd.setTransferNO(transferNO);
 						
 			
 						
-						storageOutFormController.submitDriver(voToAdd);
+						storageOutFormController.saveDriver(voToAdd);
 					}//录入结束
 					save.setText("\u63D0\u4EA4");
 				}
@@ -289,7 +337,7 @@ private static final long serialVersionUID = 1L;
 		if(expressNumber.getText().length()==0){
 			flag = false;
 		}
-		if(NO.getText().length()==0){
+		if(formNO.getText().length()==0){
 			flag = false;
 		}
 		return flag;
@@ -298,7 +346,7 @@ private static final long serialVersionUID = 1L;
 	private void textClear() {
 		destination.setText(null);
 		expressNumber.setText(null);
-		NO.setText(null);
+		formNO.setText(null);
 	}
 
 }

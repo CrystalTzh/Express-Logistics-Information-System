@@ -45,6 +45,8 @@ public class PaymentForm implements PaymentFormFinanceblService{
 		po.setFreight(vo.getFreight());
 		po.setFormNO(vo.getFormNO());
 		po.setSalary(vo.getSalary());
+		po.setMonth(vo.getMonth());
+		po.setNO(vo.getNO());
 		
 		return po;
 	}

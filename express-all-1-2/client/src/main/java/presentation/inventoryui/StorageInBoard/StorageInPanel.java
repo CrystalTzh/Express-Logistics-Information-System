@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Hashtable;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -17,6 +19,10 @@ import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 
 import controller.inventorycontroller.StorageInFormController;
+import po.InventoryInfoPO;
+import po.Position;
+import state.NodeState;
+import state.Zone;
 import vo.StorageInFormVO;
 
 public class StorageInPanel extends JPanel implements ActionListener{
@@ -46,6 +52,8 @@ public class StorageInPanel extends JPanel implements ActionListener{
 	private JComboBox tagbox;
 	private JButton save;
 	private JButton cancel;
+	private InventoryInfoPO po;
+	private String InventoryID = "01";
 	
 	public StorageInPanel(){
 		
@@ -143,10 +151,11 @@ public class StorageInPanel extends JPanel implements ActionListener{
 		panel_2.add(Ltag);
 		
 		zonebox = new JComboBox();
-		zonebox.setModel(new DefaultComboBoxModel(new String[] {"  \u98DE\u673A\u533A", "  \u706B\u8F66\u533A", "  \u6C7D\u8F66\u533A"}));
+		zonebox.setModel(new DefaultComboBoxModel(new String[] {"  \u98DE\u673A\u533A", "  \u706B\u8F66\u533A", "  \u6C7D\u8F66\u533A"}));//飞机，火车，汽车
 		zonebox.setFont(new Font("微软雅黑", Font.PLAIN, 15));
 		zonebox.setBounds(103, 95, 85, 28);
 		panel_2.add(zonebox);
+		zonebox.addActionListener(this);
 		
 		linebox = new JComboBox();
 		linebox.setFont(new Font("微软雅黑", Font.PLAIN, 15));
@@ -163,37 +172,111 @@ public class StorageInPanel extends JPanel implements ActionListener{
 		tagbox.setBounds(292, 145, 85, 28);
 		panel_2.add(tagbox);
 		
-		save = new JButton("\u63D0\u4EA4");
+		save = new JButton("\u4FDD\u5B58");
 		save.setBounds(216, 451, 93, 36);
 		this.add(save);
+		save.addActionListener(this);
 		
-		cancel = new JButton("\u63D0\u4EA4");
+		cancel = new JButton("\u53D6\u6D88");
 		cancel.setBounds(337, 451, 93, 36);
 		this.add(cancel);
+		cancel.addActionListener(this);
 		
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		
+		StorageInFormController storageInFormController = new StorageInFormController();
+		
+		po = storageInFormController.findInventoryInfo(InventoryID);
+		
+		if((String)zonebox.getSelectedItem()=="  \u98DE\u673A\u533A"){
+			Hashtable<NodeState,ArrayList<Position>> planeZoneInfo;
+			planeZoneInfo = po.getPlaneZoneInfo();
+			ArrayList<Position> pos = planeZoneInfo.get(NodeState.VACANT);
+			Position position;
+			int i = 0;
+			while(i<pos.size()){
+				position = pos.get(i);
+				linebox.setSelectedItem(position.getLine());
+				shelfbox.setSelectedItem(position.getShelf());
+				tagbox.setSelectedItem(position.getTag());
+				i++;
+			}
+		}
+		
+		if((String)zonebox.getSelectedItem()=="  \u706B\u8F66\u533A"){
+			Hashtable<NodeState,ArrayList<Position>> trainZoneInfo;
+			trainZoneInfo = po.getPlaneZoneInfo();
+			ArrayList<Position> pos = trainZoneInfo.get(NodeState.VACANT);
+			Position position;
+			int i = 0;
+			while(i<pos.size()){
+				position = pos.get(i);
+				linebox.setSelectedItem(position.getLine());
+				shelfbox.setSelectedItem(position.getShelf());
+				tagbox.setSelectedItem(position.getTag());
+				i++;
+			}
+		}
+		
+		if((String)zonebox.getSelectedItem()=="  \u6C7D\u8F66\u533A"){
+			Hashtable<NodeState,ArrayList<Position>> carZoneInfo;
+			carZoneInfo = po.getPlaneZoneInfo();
+			ArrayList<Position> pos = carZoneInfo.get(NodeState.VACANT);
+			Position position;
+			int i = 0;
+			while(i<pos.size()){
+				position = pos.get(i);
+				linebox.setSelectedItem(position.getLine());
+				shelfbox.setSelectedItem(position.getShelf());
+				tagbox.setSelectedItem(position.getTag());
+				i++;
+			}
+		}
+		
+		
 		if(e.getSource()==cancel){
 			textClear();
 			save.setText("\u4FDD\u5B58");
 		}
 		if(e.getSource()==save){
 			
-			StorageInFormController storageInFormController = new StorageInFormController();
+			
 			
 			if(save.getText()=="\u63D0\u4EA4"){//提交
 				
-				String dates = date.getText(); //装车单编号
+				String dates = date.getText(); 
 				String destinations= destination.getText();
-				String expressNumbers=expressNumber.getText() ;
+				String expressNumbers=expressNumber.getText();
+				String zones = (String)zonebox.getSelectedItem();
+				Zone zonez = null;
+				if(zones=="  \u98DE\u673A\u533A"){
+					zonez = Zone.PLANE;
+				}
+				if(zones=="  \u706B\u8F66\u533A"){
+					zonez = Zone.TRAIN;
+				}
+				if(zones=="  \u6C7D\u8F66\u533A"){
+					zonez = Zone.CAR;
+				}
+				String lines = (String)linebox.getSelectedItem();
+				String shelfs = (String)shelfbox.getSelectedItem();
+				String tags = (String)tagbox.getSelectedItem();
+				
 				
 				StorageInFormVO voToAdd= new StorageInFormVO();
 				voToAdd.setDate(dates);
 				voToAdd.setDestination(destinations);
 				voToAdd.setExpressNumber(expressNumbers);
-				storageInFormController.saveDriver(voToAdd);//添加车辆
+				voToAdd.setLine(lines);
+				voToAdd.setShelf(shelfs);
+				voToAdd.setTag(tags);
+				voToAdd.setZone(zonez);
+				voToAdd.setNO("001");
+				
+				storageInFormController.submitDriver(voToAdd);//添加车辆
 
 			}
 			
@@ -207,14 +290,35 @@ public class StorageInPanel extends JPanel implements ActionListener{
 					if (ok == JOptionPane.YES_OPTION) {//确认录入
 							//包装CarInputFormVO
 							
-						String dates = date.getText(); //装车单编号
+						String dates = date.getText(); 
 						String destinations= destination.getText();
-						String expressNumbers=expressNumber.getText() ;
+						String expressNumbers=expressNumber.getText();
+						String zones = (String)zonebox.getSelectedItem();
+						Zone zonez = null;
+						if(zones=="  \u98DE\u673A\u533A"){
+							zonez = Zone.PLANE;
+						}
+						if(zones=="  \u706B\u8F66\u533A"){
+							zonez = Zone.TRAIN;
+						}
+						if(zones=="  \u6C7D\u8F66\u533A"){
+							zonez = Zone.CAR;
+						}
+						String lines = (String)linebox.getSelectedItem();
+						String shelfs = (String)shelfbox.getSelectedItem();
+						String tags = (String)tagbox.getSelectedItem();
+						
 						
 						StorageInFormVO voToAdd= new StorageInFormVO();
 						voToAdd.setDate(dates);
 						voToAdd.setDestination(destinations);
 						voToAdd.setExpressNumber(expressNumbers);
+						voToAdd.setLine(lines);
+						voToAdd.setShelf(shelfs);
+						voToAdd.setTag(tags);
+						voToAdd.setZone(zonez);
+						voToAdd.setNO("001");
+						
 						storageInFormController.saveDriver(voToAdd);//添加车辆
 					}//录入结束
 					save.setText("\u63D0\u4EA4");
@@ -250,6 +354,15 @@ public class StorageInPanel extends JPanel implements ActionListener{
 			flag = false;
 		}
 		if(expressNumber.getText().length()==0){
+			flag = false;
+		}
+		if(linebox.getSelectedItem()==null){
+			flag = false;
+		}
+		if(shelfbox.getSelectedItem()==null){
+			flag = false;
+		}
+		if(tagbox.getSelectedItem()==null){
 			flag = false;
 		}
 		return flag;

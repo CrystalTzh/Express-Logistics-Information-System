@@ -13,6 +13,11 @@ public enum Zone {
 		return zone;
 	}
 	
+	/**
+	 * 通过字符串获取zone
+	 * @param str
+	 * @return
+	 */
 	public static Zone getbyStr(String str) {
 		if(str.equals(PLANE.toString())) {
 			return PLANE;
@@ -23,6 +28,24 @@ public enum Zone {
 		} else {
 			return EMPTY;
 		}
+	}
+	
+	/**
+	 * 通过数字获取zone
+	 * @param index
+	 * @return
+	 */
+	public static Zone getbyIndex(int index) {
+		if(index == 0) {
+			return PLANE;
+		} else if(index == 1) {
+			return CAR;
+		} else if(index == 2) {
+			return TRAIN;
+		} else if(index == 3) {
+			return EMPTY;
+		}
+		return null;
 	}
 	
 }
