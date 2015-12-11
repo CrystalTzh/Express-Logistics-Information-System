@@ -11,7 +11,7 @@ public class InventoryInfoTest extends TestCase {
 		MockInventoryInfo inventoryInfo = new MockInventoryInfo();
 		assertEquals(NodeState.VACANT, inventoryInfo.getNodeState(Zone.CAR, 1, 1, 1));
 		assertEquals(Zone.EMPTY, inventoryInfo.getEmptyZone());
-		assertEquals(0.8, inventoryInfo.getLimit());
+		assertEquals(0.9, inventoryInfo.getLimit());
 	}
 
 }
