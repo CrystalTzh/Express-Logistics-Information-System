@@ -118,7 +118,7 @@ public class BossPanel extends JPanel implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				if(e.getSource() == jbAccountID){
-					new MainFrame().setContentPane(new BossCheckAccountsNavigation(null));
+					new MainFrame().setContentPane(new BossCheckAccountsNavigation());
 				}
 			}
 			
