@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import dataservice.transitdataservice.StoreArrivalFormTransitdataService;
@@ -19,6 +20,7 @@ public class StoreArrivalFormImpl extends UnicastRemoteObject implements StoreAr
 	ObjectInputStream inTwo;
 	FileOutputStream outOne;
 	ObjectOutputStream outTwo;
+	@SuppressWarnings("rawtypes")
 	Hashtable allStoreArrivalForm;
 	File file = new File("中转中心到达单基本信息.txt");
 	IOHelper ioHelper;
@@ -49,6 +51,7 @@ public class StoreArrivalFormImpl extends UnicastRemoteObject implements StoreAr
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void insert(StoreArrivalFormPO po) throws RemoteException, IllegalArgumentException {
 		// TODO Auto-generated method stub
 		System.out.println("Insert OrderFormPO Start!!");
@@ -83,6 +86,12 @@ public class StoreArrivalFormImpl extends UnicastRemoteObject implements StoreAr
 			insert(po);
 		}
 		System.out.println("update over!");
+	}
+
+	@Override
+	public ArrayList<StoreArrivalFormPO> findAll() throws RemoteException, IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

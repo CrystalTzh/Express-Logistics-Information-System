@@ -4,10 +4,11 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
-import dataservice.transitdataservice.OrderFormTransitdataService;
+import RMIHelper.ServiceName;
+import RMIHelper.URL;
 import dataservice.transitdataservice.TransferFormTransitdataService;
-import po.OrderFormPO;
 import po.TransferFormPO;
 
 public class TransferFormClientHelper {
@@ -71,8 +72,10 @@ public class TransferFormClientHelper {
 		System.out.println("进入TransferFormClientHelper...go...");
 		if(transferFormTransitdataService == null) {
 			try {
+//				transferFormTransitdataService = (TransferFormTransitdataService)Naming
+//						.lookup("rmi://127.0.0.1:32004/transferFormTransitdataService");
 				transferFormTransitdataService = (TransferFormTransitdataService)Naming
-						.lookup("rmi://127.0.0.1:32010/transferFormTransitdataService");
+						.lookup(URL.getURL(ServiceName.TRANSFERFORM.toString()));
 				System.out.println("transferFormTransitdataService RMI服务查找成功...");
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
@@ -90,4 +93,16 @@ public class TransferFormClientHelper {
 		}
 		return transferFormTransitdataService;
 	}
+	
+	public ArrayList<TransferFormPO> goFindAll() {
+		// TODO Auto-generated method stub
+		System.out.println("进入PaymentFormClientHelper...client wants to find allform...");
+		transferFormTransitdataService= go();
+		try {
+			return transferFormTransitdataService.findAll();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;	}
 }

@@ -1,6 +1,7 @@
 package businesslogic.transitbl;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import clienthelper.transitclienthelper.CarOfficeFormClientHelper;
 import businesslogicservice.transitblservice.CarOfficeFormTransitblService;
@@ -117,6 +118,11 @@ public class CarOfficeForm implements CarOfficeFormTransitblService{
 	public boolean CarOfficeFormwithdraw(CarOfficeFormVO vo) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public ArrayList<CarOfficeFormPO> findAll() {
+		// TODO Auto-generated method stub
+		return carOfficeFormClientHelper.goFindAll();
 	}
 
 }

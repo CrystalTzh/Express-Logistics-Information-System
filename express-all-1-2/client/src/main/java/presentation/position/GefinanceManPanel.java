@@ -14,23 +14,27 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
+import controller.UserID;
+import presentation.corporationui.navigation.CheckDiaryNavigation;
 import presentation.financeui.navigation.AccountsNavigation;
 import presentation.financeui.navigation.BeginningAccountNavigation;
 import presentation.financeui.navigation.CheckCostPayChartNavigation;
-import presentation.financeui.navigation.CheckDiaryNavigation;
 import presentation.financeui.navigation.CheckProfitChartNavigation;
 import presentation.financeui.navigation.CreateCostPayChartNavigation;
 import presentation.financeui.navigation.CreateProfitChartNavigation;
 import presentation.financeui.navigation.ReceiptGatherNavigation;
 import presentation.mainui.MainFrame;
 import presentation.transitui.navigation.PaymentFormNavigation;
+import presentation.userui.modifypasswordui.ModifyPasswordBoard;
 
 public class GefinanceManPanel extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("unused")
 	private JPanel jpanel1,//logo
 				   jpanel2,//任务栏6个
 				   jpanel3,//加在CENTER的表格
@@ -44,8 +48,11 @@ public class GefinanceManPanel extends JPanel implements ActionListener{
 	private ImageIcon imagelogo,imageReceiptGather,imageCreatePaymentForm,imageCreateCostPayChart,
 					  imageCreateProfitChart,imageAccount,imageBeginningAccount,
 					  imageCheckCostPayChart,imageCheckProfitChart,imageCheckDiary;
+	@SuppressWarnings("unused")
 	private ImageIcon imageStart;
+	@SuppressWarnings("unused")
 	private JTable table;
+	@SuppressWarnings("unused")
 	private JButton jbstart,jbexit,jbmodify;
 	private Box b,b1;
 	
@@ -223,8 +230,8 @@ public class GefinanceManPanel extends JPanel implements ActionListener{
 		jpanel3.setLayout(new BoxLayout(jpanel3,BoxLayout.Y_AXIS));
 		jpanel3.setBorder(BorderFactory.createEmptyBorder(2, 5, 10, 10));
 		
-		jlcurrentID = new JLabel("当前身份：普通财务人员      ");
-		jlcurrentID.setFont(new Font("当前身份：普通财务人员       ",Font.PLAIN,15));
+		jlcurrentID = new JLabel("当前身份：普通财务人员      "+UserID.userid);
+		jlcurrentID.setFont(new Font("微软雅黑",Font.PLAIN,15));
 
 		jbmodify = new JButton("修改密码");
 		jbmodify.setFont(new Font("修改密码",Font.PLAIN,12));
@@ -266,11 +273,11 @@ public class GefinanceManPanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == jbmodify){
-			
+			new ModifyPasswordBoard(this, UserID.userid).setVisible(true);
 		}
 		if(e.getSource() == jbexit){
-//			new MainFrame().setVisible(true);
-			new MainFrame().remove(this);
+			JOptionPane.getFrameForComponent(this).dispose();
+			new MainFrame().setVisible(true);
 		}
 	}
 	

@@ -1,11 +1,19 @@
 package controller.transitController;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import businesslogic.transitbl.StoreArrivalForm;
+import po.StoreArrivalFormPO;
 import vo.StoreArrivalFormVO;
 
 public class StoreArrivalFormController {
+	
+	public ArrayList<StoreArrivalFormPO> findAll(){
+		System.out.println("进入PaymentFormController...findAll...");
+		StoreArrivalForm storeArrivalForm = new StoreArrivalForm();
+		return 	storeArrivalForm.findAll();
+	}
 	
 	public boolean saveDriver(StoreArrivalFormVO vo){
 		System.out.println("进入StoreArrivalFormController...saveDriver...");

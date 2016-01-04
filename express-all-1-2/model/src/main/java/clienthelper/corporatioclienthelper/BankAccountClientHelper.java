@@ -11,6 +11,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import RMIHelper.ServiceName;
+import RMIHelper.URL;
 import dataservice.corporationdataservice.BankAccountCorporationdataService;
 import po.BankAccountInfoPO;
 
@@ -20,6 +22,22 @@ import po.BankAccountInfoPO;
 public class BankAccountClientHelper {
 	
 	BankAccountCorporationdataService bankAccountCorporationdataService = null;
+	
+	/**
+	 * 找到所有银行账户
+	 * @return
+	 */
+	public ArrayList<BankAccountInfoPO> findAllBankAccouts() {
+		System.out.println("进入BankAccountClientHelper...goFindAllBankAccouts...");
+		bankAccountCorporationdataService = go();
+		 try {
+			return bankAccountCorporationdataService.findAllBankAccouts();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	/**
 	 * 通过RMI远程更新银行账户信息
@@ -93,24 +111,24 @@ public class BankAccountClientHelper {
 		return null;
 	}
 	
-	/**
-	 * 通过关键字keyID远程查找银行账户信息
-	 * @param keyID
-	 * @return
-	 */
-	public ArrayList<BankAccountInfoPO> gokeyFind(String keyID) {
-		System.out.println("进入BankAccountClientHelper...gokeyFind...");
-		bankAccountCorporationdataService = go();
-		ArrayList<BankAccountInfoPO> list;
-		try {
-			list = bankAccountCorporationdataService.keyFind(keyID);
-			return list;
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
+//	/**
+//	 * 通过关键字keyID远程查找银行账户信息
+//	 * @param keyID
+//	 * @return
+//	 */
+//	public ArrayList<BankAccountInfoPO> gokeyFind(String keyID) {
+//		System.out.println("进入BankAccountClientHelper...gokeyFind...");
+//		bankAccountCorporationdataService = go();
+//		ArrayList<BankAccountInfoPO> list;
+//		try {
+//			list = bankAccountCorporationdataService.keyFind(keyID);
+//			return list;
+//		} catch (RemoteException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return null;
+//	}
 	
 	/**
 	 * 客户端建立bankAccountCorporationdataService服务的RMI连接
@@ -120,8 +138,10 @@ public class BankAccountClientHelper {
 		System.out.println("进入BankAccountClientHelper...go...");
 		if(bankAccountCorporationdataService == null) {
 			try {
+//				bankAccountCorporationdataService = (BankAccountCorporationdataService)Naming
+//						.lookup("rmi://127.0.0.1:32004/bankAccountCorporationdataService");
 				bankAccountCorporationdataService = (BankAccountCorporationdataService)Naming
-						.lookup("rmi://127.0.0.1:32003/bankAccountCorporationdataService");
+						.lookup(URL.getURL(ServiceName.BANKACCOUNT.toString()));
 				System.out.println("bankAccountCorporationdataService RMI服务查找成功...");
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block

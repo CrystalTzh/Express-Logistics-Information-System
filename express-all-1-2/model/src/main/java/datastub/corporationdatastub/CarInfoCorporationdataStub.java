@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import dataservice.corporationdataservice.CarInfoCorporationdataService;
 import po.CarInfoPO;
-import po.OrderFormPO;
 
 public class CarInfoCorporationdataStub implements CarInfoCorporationdataService{
 	public ArrayList<CarInfoPO> find() throws RemoteException {
@@ -26,6 +25,11 @@ public class CarInfoCorporationdataStub implements CarInfoCorporationdataService
 	 * @see dataservice.corporationdataservice.CarInfoCorporationdataService#find(java.lang.String)
 	 */
 	public CarInfoPO find(String carNumber) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public ArrayList<CarInfoPO> findAll() throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}

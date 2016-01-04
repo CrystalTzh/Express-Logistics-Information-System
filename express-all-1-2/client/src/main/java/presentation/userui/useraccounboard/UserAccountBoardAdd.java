@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.GregorianCalendar;
 
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
@@ -20,8 +21,13 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import controller.UserID;
+import controller.corporationcontroller.LogController;
 import controller.usercontroller.UserAccountController;
+import state.Operation;
+import state.OperationObject;
 import state.UserRole;
+import vo.LogVO;
 import vo.UserAccountVO;
 
 public class UserAccountBoardAdd extends JPanel implements ActionListener {
@@ -39,6 +45,7 @@ public class UserAccountBoardAdd extends JPanel implements ActionListener {
 	ButtonGroup group = null;
 	JButton addButton, resetButton;
 	UserAccountController userAccountController;
+	LogController logController;
 
 	public UserAccountBoardAdd() {
 		userAccountController = new UserAccountController();
@@ -69,6 +76,9 @@ public class UserAccountBoardAdd extends JPanel implements ActionListener {
 		// 监听录入和重置按钮
 		addButton.addActionListener(this);
 		resetButton.addActionListener(this);
+		addButton.setContentAreaFilled(false);
+		resetButton.setContentAreaFilled(false);
+		
 		// 水平显示组件
 		// 将对应的标签和文本框水平排列
 		Box box = Box.createHorizontalBox();
@@ -166,6 +176,17 @@ public class UserAccountBoardAdd extends JPanel implements ActionListener {
 					if(ok == JOptionPane.YES_OPTION) {//确认录入
 						UserAccountVO voToAdd = this.wrappVO();
 						userAccountController.addUserAccount(voToAdd);//添加用户账户信息
+						
+						logController = new LogController();
+						LogVO logToAdd = new LogVO();
+						logToAdd.setOperation(Operation.ADD);
+						logToAdd.setOperationObject(OperationObject.UserAccount);
+						logToAdd.setOperationTime(new GregorianCalendar());
+						logToAdd.setOperatorID(UserID.userid);
+						logToAdd.setOperatorRole(UserRole.ADMINISTRATOR);
+						logController.addLog(logToAdd);//添加一条日志
+						clearText();
+						this.setVisible(false);
 					}
 				}
 			} else {//1.2 未输入用户账号

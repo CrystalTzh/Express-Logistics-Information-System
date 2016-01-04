@@ -18,9 +18,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 public class DriverInfoManageDriver extends JFrame implements ActionListener {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	ChauffeurBoardAdd chauffeurBoardAdd = null;
 	ChauffeurBoardModify chauffeurBoardModify = null;
@@ -48,9 +46,9 @@ public class DriverInfoManageDriver extends JFrame implements ActionListener {
 		fileMenu.add(deletemi);
 		bar.add(fileMenu);
 		setJMenuBar(bar);
-		label = new JLabel("维护司机信息", JLabel.CENTER);
-		label.setFont(new Font("TimesRoman", Font.BOLD, 24));
-		label.setForeground(Color.red);
+		label = new JLabel("维护司机基本信息", JLabel.CENTER);
+		label.setFont(new Font("微软雅黑", Font.PLAIN, 24));
+		label.setForeground(Color.DARK_GRAY);
 		//对菜单项进行监听
 		addmi.addActionListener(this);
 		modifymi.addActionListener(this);
@@ -93,7 +91,7 @@ public class DriverInfoManageDriver extends JFrame implements ActionListener {
 		}
 	}
 
-//	public static void main(String args[]) {
-//		new DriverInfoManageDriver();
-//	}
+	public static void main(String args[]) {
+		new DriverInfoManageDriver();
+	}
 }

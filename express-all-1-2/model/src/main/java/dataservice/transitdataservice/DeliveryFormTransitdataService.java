@@ -2,6 +2,7 @@ package dataservice.transitdataservice;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import po.DeliveryFormPO;
 
@@ -10,4 +11,5 @@ public interface DeliveryFormTransitdataService extends Remote{
 	public void insert(DeliveryFormPO po) throws RemoteException, IllegalArgumentException;
 	public void delete(DeliveryFormPO po) throws RemoteException, IllegalArgumentException;
 	public void update(DeliveryFormPO po) throws RemoteException, IllegalArgumentException;
+	public ArrayList<DeliveryFormPO> findAll()throws RemoteException, IllegalArgumentException;
 }

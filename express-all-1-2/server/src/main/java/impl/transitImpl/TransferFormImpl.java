@@ -7,6 +7,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 import dataservice.transitdataservice.TransferFormTransitdataService;
@@ -23,6 +25,7 @@ public class TransferFormImpl extends UnicastRemoteObject implements TransferFor
 	ObjectInputStream inTwo;
 	FileOutputStream outOne;
 	ObjectOutputStream outTwo;
+	@SuppressWarnings("rawtypes")
 	Hashtable allTransferForm;
 	File file = new File("中转单基本信息.txt");
 	IOHelper ioHelper;
@@ -50,6 +53,7 @@ public class TransferFormImpl extends UnicastRemoteObject implements TransferFor
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void insert(TransferFormPO po) throws RemoteException, IllegalArgumentException {
 		// TODO Auto-generated method stub
 		System.out.println("Insert TransferFormPO Start!!");
@@ -83,6 +87,21 @@ public class TransferFormImpl extends UnicastRemoteObject implements TransferFor
 			insert(po);
 		}
 		System.out.println("update over!");
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<TransferFormPO> findAll() throws RemoteException, IllegalArgumentException {
+		// TODO Auto-generated method stub
+		System.out.println("Find AllPaymentFormPO Start!!");
+		ioHelper = new IOHelper();
+		allTransferForm= ioHelper.readFromFile(file);
+		Enumeration<TransferFormPO> e = allTransferForm.elements();
+		ArrayList<TransferFormPO> polist = new ArrayList<TransferFormPO>();
+		while(e.hasMoreElements()){
+			polist.add(e.nextElement());
+		}
+		return polist;
 	}
 	
 }

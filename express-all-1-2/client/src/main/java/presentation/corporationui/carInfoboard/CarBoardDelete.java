@@ -7,6 +7,7 @@ package presentation.corporationui.carInfoboard;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.GregorianCalendar;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -16,8 +17,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import controller.UserID;
 import controller.corporationcontroller.CarInfoController;
+import controller.corporationcontroller.LogController;
+import presentation.handleexception.numberexceptionhandle.CarNumberHandle;
+import state.Operation;
+import state.OperationObject;
+import state.UserRole;
 import vo.CarInfoVO;
+import vo.LogVO;
 
 public class CarBoardDelete extends JPanel implements ActionListener {
 	/**
@@ -28,7 +36,8 @@ public class CarBoardDelete extends JPanel implements ActionListener {
 	buyTimejtf, activeTimejtf;
 	JButton deletebt;
 	CarInfoController carInfoController;
-
+	LogController logController;
+	
 	public CarBoardDelete() {
 		//初始化文本框、按钮等组件
 		carNumberjtf = new JTextField(10);
@@ -36,6 +45,7 @@ public class CarBoardDelete extends JPanel implements ActionListener {
 		//监听carNumber文本框和删除按钮
 		carNumberjtf.addActionListener(this);
 		deletebt.addActionListener(this);
+		deletebt.setContentAreaFilled(false);
 		plateNumberjtf = new JTextField(10);
 		plateNumberjtf.setEditable(false);
 		engineNumberjtf = new JTextField(10);
@@ -87,39 +97,6 @@ public class CarBoardDelete extends JPanel implements ActionListener {
 		boxH.add(Box.createVerticalStrut(10));
 		boxH.add(box6);
 		
-//		Box box8 = Box.createHorizontalBox();
-//		box8.add(new JLabel("行驶证期限2:", JLabel.CENTER));
-//		box8.add(new JTextField(10));
-//		Box box9 = Box.createHorizontalBox();
-//		box9.add(new JLabel("行驶证期限3:", JLabel.CENTER));
-//		box9.add(new JTextField(10));
-//		Box box10 = Box.createHorizontalBox();
-//		box10.add(new JLabel("行驶证期限4:", JLabel.CENTER));
-//		box10.add(new JTextField(10));
-//		Box box11 = Box.createHorizontalBox();
-//		box11.add(new JLabel("行驶证期限5:", JLabel.CENTER));
-//		box11.add(new JTextField(10));
-//		Box box12 = Box.createHorizontalBox();
-//		box12.add(new JLabel("行驶证期限6:", JLabel.CENTER));
-//		box12.add(new JTextField(10));
-//		Box box13 = Box.createHorizontalBox();
-//		box13.add(new JLabel("行驶证期限7:", JLabel.CENTER));
-//		box13.add(new JTextField(10));
-//		Box box14 = Box.createHorizontalBox();
-//		box14.add(new JLabel("行驶证期限8:", JLabel.CENTER));
-//		box14.add(new JTextField(10));
-//		Box box15 = Box.createHorizontalBox();
-//		box15.add(new JLabel("行驶证期限9:", JLabel.CENTER));
-//		box15.add(new JTextField(10));
-//		boxH.add(box8);
-//		boxH.add(box9);
-//		boxH.add(box10);
-//		boxH.add(box11);
-//		boxH.add(box12);
-//		boxH.add(box13);
-//		boxH.add(box14);
-//		boxH.add(box15);
-		
 		JPanel pCenter;
 		//JScrollPane处理滚动
 		JScrollPane scrollPane = new JScrollPane(pCenter = new JPanel());
@@ -136,8 +113,12 @@ public class CarBoardDelete extends JPanel implements ActionListener {
 				|| e.getSource() == carNumberjtf) {//1 点击课删除按钮或输入车辆代号后按了enter
 			String number = "";
 			number = carNumberjtf.getText();
-
+			
 			if (number.length() > 0) {//1.1 输入了车辆代号
+				CarNumberHandle carNumberHandle = new CarNumberHandle();
+				if(!carNumberHandle.handle(this, carNumberjtf)){//判断输入的车辆代号是否有效，若无效进行相应处理
+					return;
+				}
 				CarInfoVO vo = null;
 				carInfoController = new CarInfoController();
 				vo = carInfoController.findCar(number);
@@ -156,6 +137,16 @@ public class CarBoardDelete extends JPanel implements ActionListener {
 						carInfoController.deleteCar(vo);//删除车辆
 						//清空面板
 						clearText();
+						
+						logController = new LogController();
+						LogVO logToAdd = new LogVO();
+						logToAdd.setOperation(Operation.ADD);
+						logToAdd.setOperationObject(OperationObject.CarInfo);
+						logToAdd.setOperationTime(new GregorianCalendar());
+						logToAdd.setOperatorID(UserID.userid);
+						logToAdd.setOperatorRole(UserRole.OFFICEMAN);
+						logController.addLog(logToAdd);//添加一条日志
+						
 					}
 				} else {//1.1.2 输入的车辆代号不存在
 					String warning = "该车辆代号不存在!";
@@ -168,6 +159,7 @@ public class CarBoardDelete extends JPanel implements ActionListener {
 		}
 		System.out.println();
 	}
+	
 	public void clearText() {
 		carNumberjtf.setText(null);
 		plateNumberjtf.setText(null);

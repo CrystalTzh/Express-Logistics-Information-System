@@ -7,11 +7,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 import dataservice.inventorydataservice.StorageOutFromInventorydataService;
 import iohelper.IOHelper;
-import po.OrderFormPO;
 import po.StorageOutFormPO;
 
 public class StorageOutFormServiceImpl extends UnicastRemoteObject implements StorageOutFromInventorydataService {
@@ -20,6 +21,7 @@ public class StorageOutFormServiceImpl extends UnicastRemoteObject implements St
 	ObjectInputStream inTwo;
 	FileOutputStream outOne;
 	ObjectOutputStream outTwo;
+	@SuppressWarnings("rawtypes")
 	Hashtable allStorageOutForm;
 	File file = new File("出库单基本信息.txt");
 	IOHelper ioHelper;
@@ -50,6 +52,7 @@ public class StorageOutFormServiceImpl extends UnicastRemoteObject implements St
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void insert(StorageOutFormPO po) throws RemoteException {
 		// TODO Auto-generated method stub
 		System.out.println("Insert StorageOutFormPO Start!!");
@@ -85,4 +88,18 @@ public class StorageOutFormServiceImpl extends UnicastRemoteObject implements St
 		System.out.println("update over!");
 	}
 
+	@SuppressWarnings("unchecked")
+	public ArrayList<StorageOutFormPO> findAll() throws RemoteException {
+		// TODO Auto-generated method stub
+		System.out.println("Find AllStorageOutFormPO Start!!");
+		ioHelper = new IOHelper();
+		allStorageOutForm= ioHelper.readFromFile(file);
+		Enumeration<StorageOutFormPO> e = allStorageOutForm.elements();
+		ArrayList<StorageOutFormPO> polist = new ArrayList<StorageOutFormPO>();
+		while(e.hasMoreElements()){
+			polist.add(e.nextElement());
+		}
+		return polist;
+	}
+	
 }

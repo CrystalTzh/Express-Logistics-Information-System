@@ -1,8 +1,10 @@
 package controller.financeController;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import businesslogic.financebl.ReceiptForm;
+import po.ReceiptFormPO;
 import vo.ReceiptFormVO;
 
 public class ReceiptFormController {
@@ -44,6 +46,12 @@ public class ReceiptFormController {
 		}else{
 			return null;
 		}
+	}
+
+	public ArrayList<ReceiptFormPO> findAll() {
+		// TODO Auto-generated method stub
+		ReceiptForm receiptForm = new ReceiptForm();
+		return receiptForm.findAll();
 	}
 	
 }

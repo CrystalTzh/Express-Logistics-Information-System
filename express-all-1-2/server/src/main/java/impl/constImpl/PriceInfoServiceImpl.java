@@ -23,12 +23,13 @@ import state.ConstType;
  * 常量信息数据层实现 
  */
 public class PriceInfoServiceImpl extends UnicastRemoteObject implements PriceInfoConstdataService{
-
+	
 	private static final long serialVersionUID = 1L;
 	FileInputStream inOne;
 	ObjectInputStream inTwo;
 	FileOutputStream outOne;
 	ObjectOutputStream outTwo;
+	@SuppressWarnings("rawtypes")
 	Hashtable allConstInfo = new Hashtable();
 	File file = new File("公司常量基本信息.txt");
 	IOHelper ioHelper;
@@ -44,6 +45,7 @@ public class PriceInfoServiceImpl extends UnicastRemoteObject implements PriceIn
 	/* (non-Javadoc)
 	 * @see dataservice.constdataservice.PriceInfoConstdataService#init()
 	 */
+	@SuppressWarnings("unchecked")
 	public void init() throws RemoteException {
 		// TODO Auto-generated method stub
 		System.out.println("进入PriceInfoServiceImpl...server initing...");
@@ -63,6 +65,7 @@ public class PriceInfoServiceImpl extends UnicastRemoteObject implements PriceIn
 	/* (non-Javadoc)
 	 * @see dataservice.constdataservice.PriceInfoConstdataService#update(po.PricePO)
 	 */
+	@SuppressWarnings("unchecked")
 	public void update(PricePO po) throws RemoteException {
 		// TODO Auto-generated method stub
 		System.out.println("进入PriceInfoServiceImpl...server updating...");
@@ -97,7 +100,7 @@ public class PriceInfoServiceImpl extends UnicastRemoteObject implements PriceIn
 	public static void main(String[] args) {
 		try {
 			PriceInfoServiceImpl priceInfoServiceImpl = new PriceInfoServiceImpl();
-//			priceInfoServiceImpl.init();
+			priceInfoServiceImpl.init();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

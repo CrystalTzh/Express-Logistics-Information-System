@@ -1,6 +1,7 @@
 package datastub.transitdatastub;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import dataservice.transitdataservice.CarInputFormTransitdataService;
 import po.CarInputFormPO;
@@ -24,6 +25,11 @@ public class CarInputTransitFormdataStub implements CarInputFormTransitdataServi
 	 * @see dataservice.transitdataservice.CarInputFormTransitdataService#print(java.lang.String)
 	 */
 	public String print(String str) throws RemoteException, IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public ArrayList<CarInputFormPO> findAll() throws RemoteException, IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}

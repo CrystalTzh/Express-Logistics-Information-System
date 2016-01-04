@@ -19,32 +19,47 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import controller.UserID;
+import controller.corporationcontroller.LogController;
 import controller.transitController.OfficeArrivalFormController;
+import controller.transitController.OrderFormController;
+import state.Operation;
+import state.OperationObject;
 import state.State;
+import state.Transportation;
+import state.UserRole;
+import vo.LogVO;
 import vo.OfficeArrivalFormVO;
+import vo.OrderFormVO;
 
 
 
 public class OfficeArrivalPanel extends JPanel implements ActionListener{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JPanel storeArrivalPanel;
-	JLabel dateLabel,destinationLabel, formIDLabel,packageStateLabel,NOLabel;
-	JTextField dateText,destinationText,formIDText,NOText;
+	JLabel dateLabel,destinationLabel, formIDLabel,packageStateLabel,NOLabel,IDLabel;
+	JTextField dateText,destinationText,formIDText,NOText,IDText;
+			/*                       中转单编号                 营业厅到达单编号        订单号       */
 	JButton cancelbutton,savebutton,submitbutton;
 	JRadioButton nice,broken,miss;
 	ButtonGroup group1;
 	public OfficeArrivalPanel(){
-		this.setBorder(new TitledBorder("中转中心到达单01"));
+		this.setBorder(new TitledBorder("营业厅到达单"));
 		storeArrivalPanel=new JPanel();
 		dateLabel=new JLabel("日期");
 		NOLabel=new JLabel("营业厅到达单编号");
-		destinationLabel=new JLabel("目的地");
+		destinationLabel=new JLabel("出发地");
 		formIDLabel=new JLabel("中转单编号");
+		IDLabel = new JLabel("订单号");
 		packageStateLabel=new JLabel("货物到达状态");
 		dateText=new JTextField(20);
 		NOText=new JTextField(20);
 		destinationText=new JTextField(20);
 		formIDText=new JTextField(20);
-		
+		IDText=new JTextField(20);
 		dateText.setText(getCurrenTime());
 		
 		cancelbutton=new JButton("取消");
@@ -54,6 +69,9 @@ public class OfficeArrivalPanel extends JPanel implements ActionListener{
 		savebutton.addActionListener(this);
 		submitbutton.addActionListener(this);
 		submitbutton.setEnabled(false);
+		cancelbutton.setContentAreaFilled(false);
+		savebutton.setContentAreaFilled(false);
+		submitbutton.setContentAreaFilled(false);
 		
 		nice=new JRadioButton("完好", true);
 		broken=new JRadioButton("破损", false);
@@ -72,22 +90,26 @@ public class OfficeArrivalPanel extends JPanel implements ActionListener{
 		box2.add(destinationLabel);
 		box2.add(Box.createHorizontalStrut(12));
 		box2.add(destinationText);
+		box1.add(Box.createHorizontalStrut(25));
+		box2.add(IDLabel);
+		box2.add(Box.createHorizontalStrut(12));
+		box2.add(IDText);
 		Box box3 = Box.createHorizontalBox();
 		box3.add(formIDLabel);
 		box3.add(Box.createHorizontalStrut(12));
 		box3.add(formIDText);
 		box3.add(Box.createHorizontalStrut(25));
-		box3.add(NOLabel);
-		box3.add(Box.createHorizontalStrut(12));
-		box3.add(NOText);
+		box1.add(NOLabel);
+		box1.add(Box.createHorizontalStrut(12));
+		box1.add(NOText);
 		Box box4 = Box.createHorizontalBox();
-		box4.add(packageStateLabel);
-		box4.add(Box.createHorizontalStrut(12));
-		box4.add(nice);
-		box4.add(Box.createHorizontalStrut(5));
-		box4.add(broken);
-		box4.add(Box.createHorizontalStrut(5));
-		box4.add(miss);
+		box3.add(packageStateLabel);
+		box3.add(Box.createHorizontalStrut(12));
+		box3.add(nice);
+		box3.add(Box.createHorizontalStrut(5));
+		box3.add(broken);
+		box3.add(Box.createHorizontalStrut(5));
+		box3.add(miss);
 	
 		Box boxH = Box.createVerticalBox();
 		boxH.add(Box.createVerticalStrut(10));
@@ -115,9 +137,11 @@ public class OfficeArrivalPanel extends JPanel implements ActionListener{
 		//两个按钮显示在南边
 		add(pSouth, BorderLayout.SOUTH);
 	}
+	@SuppressWarnings("static-access")
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==cancelbutton){
 			textClear();
+			JOptionPane.getFrameForComponent(this).dispose();
 		}
 		if(e.getSource()==savebutton){
 			
@@ -166,7 +190,38 @@ public class OfficeArrivalPanel extends JPanel implements ActionListener{
 						voToAdd.setRelayformnumber(relayformnumber);
 						voToAdd.setState(state);
 						officeArrivalFormController.saveDriver(voToAdd);//添加车辆
+						
+						OrderFormController oo=new OrderFormController();
+						OrderFormVO ovo;
+						try {
+							ovo = oo.findDriver(IDText.getText());
+							ArrayList<Transportation> a=ovo.getTransportation();
+							a.add(Transportation.RECEIVEROFFICEARRIVED);
+							ovo.setTransportation(a);
+							ArrayList<String> b=ovo.getAlldates();
+							b.add(getCurrenTime());
+							ovo.setAlldates(b);
+							oo.submitDriver(ovo);
+							
+						} catch (RemoteException | IllegalArgumentException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+						JOptionPane.getFrameForComponent(this).dispose();
+						
+						LogController logController;
+						logController = new LogController();
+						LogVO logToAdd = new LogVO();
+						logToAdd.setOperation(Operation.ADD);
+						logToAdd.setOperationObject(OperationObject.OfficeArrivalForm);
+						logToAdd.setOperationTime(new GregorianCalendar());
+						logToAdd.setOperatorID(UserID.userid);
+						logToAdd.setOperatorRole(UserRole.OFFICEMAN);
+						logController.addLog(logToAdd);//添加一条日志
+						
 					}//录入结束
+					
 				}
 				submitbutton.setEnabled(true);
 			}else {//1.2 未输入司机编号
@@ -198,12 +253,31 @@ public class OfficeArrivalPanel extends JPanel implements ActionListener{
 			voToAdd.setRelayformnumber(relayformnumber);
 			voToAdd.setState(state);
 			officeArrivalFormController.submitDriver(voToAdd);
+			
+			OrderFormController oo=new OrderFormController();
+			OrderFormVO ovo;
+			try {
+				ovo = oo.findDriver(IDText.getText());
+				ArrayList<Transportation> a=ovo.getTransportation();
+				a.add(Transportation.RECEIVEROFFICEARRIVED);
+				ovo.setTransportation(a);
+				
+				ArrayList<String> b=ovo.getAlldates();
+				b.add(getCurrenTime());
+				ovo.setAlldates(b);
+			//	oo.submitDriver(ovo);
+				
+			} catch (RemoteException | IllegalArgumentException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			JOptionPane.getFrameForComponent(this).dispose();
 		}
 		
 	}
 	private void textClear() {
 		// TODO Auto-generated method stub
-		dateText.setText(null);
+		
 		NOText.setText(null);
 		destinationText.setText(null);
 		formIDText.setText(null);

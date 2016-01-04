@@ -19,10 +19,11 @@ public class AdjustZoneBoard extends JFrame implements ActionListener {
 
 	private JLabel jlMessage;
 
-	private JComboBox jcbZone;
+	private JComboBox<String> jcbZone;
 	private JButton jbSure,jbCancel;//确认修改按钮、取消修改按钮
 	InventoryController inventoryController;
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public AdjustZoneBoard(){
 		
 		 inventoryController = new InventoryController();

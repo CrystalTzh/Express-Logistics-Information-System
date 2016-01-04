@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.GregorianCalendar;
 
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
@@ -20,8 +21,13 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import controller.UserID;
+import controller.corporationcontroller.LogController;
 import controller.usercontroller.UserAccountController;
+import state.Operation;
+import state.OperationObject;
 import state.UserRole;
+import vo.LogVO;
 import vo.UserAccountVO;
 
 public class UserAccountBoardModify extends JPanel implements ActionListener {
@@ -32,12 +38,14 @@ public class UserAccountBoardModify extends JPanel implements ActionListener {
 	// 账号、用户名、初始密码
 	JTextField accountIDjtf, userNamejtf, initialPasswordjtf;
 	UserAccountController userAccountController;
+	LogController logController;
 	JButton beginModifybt, confirmModifybt, resetbt;
 	// 职位:快递员、营业厅业务员、中转中心业务员
 	// 仓库管理人员、总经理、高级财务人员、普通财务人员
 	JRadioButton expressManrbt, officeManrbt, transitCenterManrbt, inventoryManrbt, managerrbt, adFinanceManrbt,
 			geFinanceManrbt,administratorbt;
 	ButtonGroup group = null;
+	
 
 	public UserAccountBoardModify() {
 		
@@ -74,6 +82,9 @@ public class UserAccountBoardModify extends JPanel implements ActionListener {
 		beginModifybt.addActionListener(this);
 		confirmModifybt.addActionListener(this);
 		resetbt.addActionListener(this);
+		beginModifybt.setContentAreaFilled(false);
+		confirmModifybt.setContentAreaFilled(false);
+		resetbt.setContentAreaFilled(false);
 		// 水平显示组件
 		Box box = Box.createHorizontalBox();
 		JLabel logojl = new JLabel("用户账号信息修改", JLabel.CENTER);
@@ -192,6 +203,14 @@ public class UserAccountBoardModify extends JPanel implements ActionListener {
 					if (ok == JOptionPane.YES_OPTION) {//2.1.1.1 确认修改
 						UserAccountVO voToModify = this.wrappVO();
 						userAccountController.mofifyUserAccount(voToModify);//修改用户账号信息
+						logController = new LogController();
+						LogVO logToAdd = new LogVO();
+						logToAdd.setOperation(Operation.MODIFY);
+						logToAdd.setOperationObject(OperationObject.UserAccount);
+						logToAdd.setOperationTime(new GregorianCalendar());
+						logToAdd.setOperatorID(UserID.userid);
+						logToAdd.setOperatorRole(UserRole.ADMINISTRATOR);
+						logController.addLog(logToAdd);//添加一条日志
 						confirmModifybt.setEnabled(false);
 					}
 				} else {//2.1.2 输入的用户账号不存在

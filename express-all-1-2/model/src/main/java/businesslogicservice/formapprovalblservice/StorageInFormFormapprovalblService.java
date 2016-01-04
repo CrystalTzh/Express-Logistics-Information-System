@@ -1,7 +1,5 @@
 package businesslogicservice.formapprovalblservice;
 
-import java.io.Serializable;
-
 import vo.StorageInFormVO;
 
 public interface StorageInFormFormapprovalblService{

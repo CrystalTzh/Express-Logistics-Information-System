@@ -1,6 +1,7 @@
 package po;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import state.ExpressType;
 import state.FormState;
@@ -33,10 +34,10 @@ public class OrderFormPO implements Serializable {
 	String date; //寄件日期
 	String realReceiver; //实际收件人
 	String realReceiveDate;//实际收件日期
-	Transportation transportation;//货运状态
+	 //货运状态
 	FormState formstate;//单据的状态
-	
-	
+	ArrayList<Transportation> allTransportations;
+	ArrayList<String> alldates;
 	
 	
 	public FormState getFormstate() {
@@ -111,9 +112,15 @@ public class OrderFormPO implements Serializable {
 	public String getRealReceiveDate() {
 		return realReceiveDate;
 	}
-	public Transportation getTransportation() {
-		return transportation;
+	public ArrayList<Transportation> getTransportation() {
+		return  allTransportations;
 	}
+	
+	public ArrayList<String> getAlldates() {
+		return  alldates;
+	}
+	
+	
 	public void setSendername(String sendername) {
 		this.sendername = sendername;
 	}
@@ -180,8 +187,12 @@ public class OrderFormPO implements Serializable {
 	public void setRealReceiveDate(String realReceiveDate) {
 		this.realReceiveDate = realReceiveDate;
 	}
-	public void setTransportation(Transportation transportation) {
-		this.transportation = transportation;
+	public void setTransportation(ArrayList<Transportation> allTransportations) {
+		this.allTransportations = allTransportations;
+	}
+	
+	public void setAlldates(ArrayList<String> alldates) {
+		this.alldates = alldates;
 	}
 
 }

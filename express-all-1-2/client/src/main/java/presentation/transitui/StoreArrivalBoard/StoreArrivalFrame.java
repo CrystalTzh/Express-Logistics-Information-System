@@ -19,7 +19,7 @@ public class StoreArrivalFrame extends JFrame implements ActionListener{
 		StoreArrivalPanel board=new StoreArrivalPanel();
 		frame.add(board);
 		frame.setSize(731, 319);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.setResizable(false);

@@ -2,6 +2,7 @@ package businesslogic.financebl;
 
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import businesslogicservice.financeblservice.ReceiptFormFinanceblService;
 import clienthelper.financeclienthelper.ReceiptFormClientHelper;
@@ -118,6 +119,11 @@ public class ReceiptForm implements ReceiptFormFinanceblService{
 			System.out.println("po not found!");
 		
 		return false;
+	}
+
+	public ArrayList<ReceiptFormPO> findAll() {
+		// TODO Auto-generated method stub
+		return receiptFormClientHelper.goFindAll();
 	}
 
 }

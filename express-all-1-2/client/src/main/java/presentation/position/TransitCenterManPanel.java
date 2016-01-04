@@ -14,17 +14,21 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
+import controller.UserID;
 import presentation.mainui.MainFrame;
 import presentation.transitui.navigation.RelayArrivalFormNavigation;
 import presentation.transitui.navigation.RelayCarInputFormNavigation;
 import presentation.transitui.navigation.RelayFormNavigation;
+import presentation.userui.modifypasswordui.ModifyPasswordBoard;
 
 public class TransitCenterManPanel extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("unused")
 	private JPanel jpanel1,//logo
 				   jpanel2,//任务栏6个
 				   jpanel3,//加在CENTER的表格
@@ -35,8 +39,11 @@ public class TransitCenterManPanel extends JPanel implements ActionListener{
 					jbArrival;
 	private ImageIcon imagelogo,imageTransfer,imageArrival,
 					  imageCarInput;
+	@SuppressWarnings("unused")
 	private ImageIcon imageStart,imageRecall;
+	@SuppressWarnings("unused")
 	private JTable table;
+	@SuppressWarnings("unused")
 	private JButton jbstart,jbrecall,jbexit,jbmodify;
 	private Box b,b1;
 	
@@ -112,8 +119,8 @@ public class TransitCenterManPanel extends JPanel implements ActionListener{
 		jpanel3.setLayout(new BoxLayout(jpanel3,BoxLayout.Y_AXIS));
 		jpanel3.setBorder(BorderFactory.createEmptyBorder(2, 5, 10, 10));
 		
-		jlcurrentID = new JLabel("当前身份：中转中心业务员      ");
-		jlcurrentID.setFont(new Font("当前身份：中转中心业务员       ",Font.PLAIN,15));
+		jlcurrentID = new JLabel("当前身份：中转中心业务员      "+UserID.userid);
+		jlcurrentID.setFont(new Font("微软雅黑",Font.PLAIN,15));
 
 		jbmodify = new JButton("修改密码");
 		jbmodify.setFont(new Font("修改密码",Font.PLAIN,12));
@@ -156,11 +163,11 @@ public class TransitCenterManPanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == jbmodify){
-			
+			new ModifyPasswordBoard(this, UserID.userid).setVisible(true);
 		}
 		if(e.getSource() == jbexit){
-//			new MainFrame().setVisible(true);
-			new MainFrame().remove(this);
+			JOptionPane.getFrameForComponent(this).dispose();
+			new MainFrame().setVisible(true);
 		}
 	}
 	

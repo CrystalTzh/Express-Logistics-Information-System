@@ -7,6 +7,10 @@ import state.NodeState;
 import state.Zone;
 
 public class LocationNode implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Zone zone; //区号
 	int line; //排号
 	int shelf; //架号

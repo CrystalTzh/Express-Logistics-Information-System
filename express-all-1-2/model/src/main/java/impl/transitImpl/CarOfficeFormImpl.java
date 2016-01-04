@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import dataservice.transitdataservice.CarOfficeTransitdataService;
@@ -22,6 +23,7 @@ public class CarOfficeFormImpl extends UnicastRemoteObject implements CarOfficeT
 	ObjectInputStream inTwo;
 	FileOutputStream outOne;
 	ObjectOutputStream outTwo;
+	@SuppressWarnings("rawtypes")
 	Hashtable allCarOfficeForm;
 	File file = new File("营业厅装车单基本信息.txt");
 	IOHelper ioHelper;
@@ -49,6 +51,7 @@ public class CarOfficeFormImpl extends UnicastRemoteObject implements CarOfficeT
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void insert(CarOfficeFormPO po) throws RemoteException, IllegalArgumentException {
 		// TODO Auto-generated method stub
 		System.out.println("Insert CarOfficeFormPO Start!!");
@@ -82,6 +85,12 @@ public class CarOfficeFormImpl extends UnicastRemoteObject implements CarOfficeT
 			insert(po);
 		}
 		System.out.println("update over!");
+	}
+
+	@Override
+	public ArrayList<CarOfficeFormPO> findAll() throws RemoteException, IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

@@ -54,8 +54,8 @@ public class BankAccountManageDriver extends JFrame implements ActionListener {
 		setJMenuBar(bar);
 
 		label = new JLabel("维护银行账户基本信息", JLabel.CENTER);
-		label.setFont(new Font("TimesRoman", Font.BOLD, 24));
-		label.setForeground(Color.BLUE);
+		label.setFont(new Font("微软雅黑", Font.PLAIN, 24));
+		label.setForeground(Color.DARK_GRAY);
 
 		addmi.addActionListener(this);
 		modifymi.addActionListener(this);
@@ -64,7 +64,7 @@ public class BankAccountManageDriver extends JFrame implements ActionListener {
 		
 		bankAccountBoardAdd = new BankAccountBoardAdd();
 		bankAccountBoardModify = new BankAccountBoardModify();
-		bankAccountBoardInquire = new BankAccountBoardInquire(this);
+//		bankAccountBoardInquire = new BankAccountBoardInquire(this);
 		bankAccountBoardDelete = new BankAccountBoardDelete();
 
 		pCenter = new JPanel();
@@ -100,6 +100,7 @@ public class BankAccountManageDriver extends JFrame implements ActionListener {
 		} else if(e.getSource() == modifymi) {
 			card.show(pCenter, "修改界面");
 		} else if(e.getSource() == inquiremi) {
+			bankAccountBoardInquire = new BankAccountBoardInquire(this);
 			bankAccountBoardInquire.setVisible(true);
 		} else if(e.getSource() == deletemi) {
 			card.show(pCenter, "删除界面");
@@ -107,8 +108,8 @@ public class BankAccountManageDriver extends JFrame implements ActionListener {
 
 	}
 	
-//	public static void main(String[] args) {
-//		new BankAccountManageDriver();
-//	}
+	public static void main(String[] args) {
+		new BankAccountManageDriver();
+	}
 
 }

@@ -13,11 +13,11 @@ public class OrderFrame extends JFrame implements ActionListener{
 	
 	public OrderFrame(){
 
-		JFrame frame = new JFrame("派件单01");
+		JFrame frame = new JFrame("寄件单01");
 		OrderPanel board=new OrderPanel();
 		frame.add(board);
 		frame.setSize(731, 519);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.setResizable(false);

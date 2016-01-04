@@ -5,8 +5,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
-import presentation.transitui.DeliveryBoard.DeliveryFrame;
-
 
 
 public class TransferFrame extends JFrame implements ActionListener{
@@ -16,8 +14,8 @@ public class TransferFrame extends JFrame implements ActionListener{
 		JFrame frame = new JFrame("中转单");
 		TransferPanel board = new TransferPanel();
 		frame.add(board);
-		frame.setSize(700, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(700, 400);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}

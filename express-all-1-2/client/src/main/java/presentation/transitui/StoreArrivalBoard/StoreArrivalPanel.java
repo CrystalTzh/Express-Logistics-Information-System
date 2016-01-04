@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -18,17 +19,28 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-import controller.transitController.OfficeArrivalFormController;
+import controller.UserID;
+import controller.corporationcontroller.LogController;
+import controller.transitController.OrderFormController;
 import controller.transitController.StoreArrivalFormController;
+import state.Operation;
+import state.OperationObject;
 import state.State;
-import vo.OfficeArrivalFormVO;
+import state.Transportation;
+import state.UserRole;
+import vo.LogVO;
 import vo.OrderFormVO;
 import vo.StoreArrivalFormVO;
 
 public class StoreArrivalPanel extends JPanel implements ActionListener{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JPanel storeArrivalPanel;
-	JLabel dateLabel,storeIDLabel,fromLabel, formIDLabel,packageStateLabel,NOLabel;
-	JTextField dateText,storeIDText,fromText,formIDText,NOText;
+	JLabel dateLabel,storeIDLabel,fromLabel, formIDLabel,packageStateLabel,NOLabel,IDLabel;
+	JTextField dateText,storeIDText,fromText,formIDText,NOText,IDText;
+		/*               中转中心编号           出发地                    中转单编号         中转中心到达单编号    订单编号                   */
 	JButton cancelbutton,savebutton,submitbutton;
 	JRadioButton nice,broken,miss;
 	ButtonGroup group1;
@@ -42,12 +54,13 @@ public class StoreArrivalPanel extends JPanel implements ActionListener{
 		formIDLabel=new JLabel("中转单编号");
 		packageStateLabel=new JLabel("货物到达状态");
 		NOLabel=new JLabel("中转中心到达单编号");
+		IDLabel=new JLabel("订单编号");
 		dateText=new JTextField(20);
 		storeIDText=new JTextField(20);
 		fromText=new JTextField(20);
 		formIDText=new JTextField(20);
 		NOText=new JTextField(20);
-		
+		IDText=new JTextField(20);
 		dateText.setText(getCurrenTime());
 		
 		cancelbutton=new JButton("取消");
@@ -57,6 +70,9 @@ public class StoreArrivalPanel extends JPanel implements ActionListener{
 		savebutton.addActionListener(this);
 		submitbutton.addActionListener(this);
 		submitbutton.setEnabled(false);
+		cancelbutton.setContentAreaFilled(false);
+		savebutton.setContentAreaFilled(false);
+		submitbutton.setContentAreaFilled(false);
 		
 		nice=new JRadioButton("完好", true);
 		broken=new JRadioButton("破损", false);
@@ -78,6 +94,10 @@ public class StoreArrivalPanel extends JPanel implements ActionListener{
 		box2.add(fromLabel);
 		box2.add(Box.createHorizontalStrut(12));
 		box2.add(fromText);
+		box2.add(Box.createHorizontalStrut(25));
+		box2.add(IDLabel);
+		box2.add(Box.createHorizontalStrut(12));
+		box2.add(IDText);
 		Box box3 = Box.createHorizontalBox();
 		box3.add(formIDLabel);
 		box3.add(Box.createHorizontalStrut(12));
@@ -123,6 +143,7 @@ public class StoreArrivalPanel extends JPanel implements ActionListener{
 	}
 	
 	
+	@SuppressWarnings("static-access")
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==cancelbutton){
 			textClear();
@@ -174,13 +195,44 @@ public class StoreArrivalPanel extends JPanel implements ActionListener{
 						voToAdd.setState(state);
 						storeArrivalFormController.saveDriver(voToAdd);
 						
+						OrderFormController oo=new OrderFormController();
+						OrderFormVO ovo;
+						try {
+							ovo = oo.findDriver(IDText.getText());
+							
+							ArrayList<Transportation> a=ovo.getTransportation();
+							a.add(Transportation.RECEIVERRELAYARRIVED);
+							ovo.setTransportation(a);
+							ArrayList<String> b=ovo.getAlldates();
+							b.add(getCurrenTime());
+							ovo.setAlldates(b);
+				//			oo.submitDriver(ovo);
+							
+						} catch (RemoteException | IllegalArgumentException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
 					}//录入结束
+					
 				}
-				submitbutton.setVisible(true);
+				
+				LogController logController;
+				logController = new LogController();
+				LogVO logToAdd = new LogVO();
+				logToAdd.setOperation(Operation.ADD);
+				logToAdd.setOperationObject(OperationObject.StoreArrivalForm);
+				logToAdd.setOperationTime(new GregorianCalendar());
+				logToAdd.setOperatorID(UserID.userid);
+				logToAdd.setOperatorRole(UserRole.TRANSITCENTERMAN);
+				logController.addLog(logToAdd);//添加一条日志
+				
+				submitbutton.setEnabled(true);
 			}else {//1.2 未输入司机编号
 				String warning = "必须要输入信息!";
 				JOptionPane.showMessageDialog(this, warning, "警告", JOptionPane.WARNING_MESSAGE);
 			}	
+			
 		}
 		if(e.getSource()==submitbutton){
 			StoreArrivalFormController storeArrivalFormController = new StoreArrivalFormController();
@@ -207,6 +259,24 @@ public class StoreArrivalPanel extends JPanel implements ActionListener{
 			voToAdd.setStartingPoint(startingPoint);
 			voToAdd.setState(state);
 			storeArrivalFormController.submitDriver(voToAdd);
+			
+			OrderFormController oo=new OrderFormController();
+			OrderFormVO ovo;
+			try {
+				ovo = oo.findDriver(IDText.getText());
+				ArrayList<Transportation> a=ovo.getTransportation();
+				a.add(Transportation.RECEIVERRELAYARRIVED);
+				ovo.setTransportation(a);
+				ArrayList<String> b=ovo.getAlldates();
+				b.add(getCurrenTime());
+				ovo.setAlldates(b);
+				oo.submitDriver(ovo);
+				
+			} catch (RemoteException | IllegalArgumentException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 		}
 	
 	}

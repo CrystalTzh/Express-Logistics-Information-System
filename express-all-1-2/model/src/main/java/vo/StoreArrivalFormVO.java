@@ -4,9 +4,15 @@ import java.io.Serializable;
 
 import state.FormState;
 import state.State;
-
+/**
+ * 中转中心到达单持久化对象
+ */
 public class StoreArrivalFormVO implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String NO; //营业厅到达单编号
 	String relaynumber; //中转中心编号
 	String arriveDate; // 到达日期

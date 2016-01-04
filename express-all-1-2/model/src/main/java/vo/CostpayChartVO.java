@@ -3,8 +3,15 @@ package vo;
 import java.io.Serializable;
 
 import state.FormState;
-
+/**
+ * 成本收益表持久化对象
+ */
 public class CostpayChartVO implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	double income;//总收入
 	double cost;//总支出
 	double profit;//总利润

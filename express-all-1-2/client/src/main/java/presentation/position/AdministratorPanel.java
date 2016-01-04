@@ -14,29 +14,38 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
+import controller.UserID;
 import presentation.mainui.MainFrame;
+import presentation.userui.modifypasswordui.ModifyPasswordBoard;
 import presentation.userui.navigation.UserInfoNavigation;
 
 public class AdministratorPanel extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("unused")
 	private JPanel jpanel1,//logo
 				   jpanel2,//任务栏7个
 				   jpanel3,//加在CENTER的表格
 				   jpanel4;//开始按钮
 	private JLabel jlabellogo;
 	private JLabel jlcurrentID,jlWelcome;
+	@SuppressWarnings("unused")
 	private JButton jbID,jbSalary,jbAccountID,jbJudge,
 					jbCheckCostPayChart,jbCheckProfitChart,jbCheckDiary;
 	
+	@SuppressWarnings("unused")
 	private ImageIcon imagelogo,imageID,imageSalary,
 					  imageAccount,imageJudge,
 					  imageCheckCostPayChart,imageCheckProfitChart,imageCheckDiary;
+	@SuppressWarnings("unused")
 	private ImageIcon imageStart;
+	@SuppressWarnings("unused")
 	private JTable table;
+	@SuppressWarnings("unused")
 	private JButton jbstart,jbexit,jbmodify;
 	private Box b,b1;
 //	private ScrollPane sp;
@@ -84,8 +93,8 @@ public class AdministratorPanel extends JPanel implements ActionListener{
 		jpanel3.setLayout(new BoxLayout(jpanel3,BoxLayout.Y_AXIS));
 		jpanel3.setBorder(BorderFactory.createEmptyBorder(2, 5, 10, 10));
 		
-		jlcurrentID = new JLabel("当前身份：管理员     ");
-		jlcurrentID.setFont(new Font("当前身份：管理员       ",Font.PLAIN,15));
+		jlcurrentID = new JLabel("当前身份：管理员     "+UserID.userid);
+		jlcurrentID.setFont(new Font("微软雅黑",Font.PLAIN,15));
 
 		jbmodify = new JButton("修改密码");
 		jbmodify.setFont(new Font("修改密码",Font.PLAIN,12));
@@ -122,18 +131,18 @@ public class AdministratorPanel extends JPanel implements ActionListener{
         
 		this.add(jpanel3,BorderLayout.CENTER);
 		this.add(jpanel2,BorderLayout.WEST);
-		
+		this.setVisible(true);
 		
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == jbmodify){
-			
+			new ModifyPasswordBoard(this,UserID.userid).setVisible(true);;
 		}
 		if(e.getSource() == jbexit){
-//			new MainFrame().setVisible(true);
-			new MainFrame().remove(this);
+			JOptionPane.getFrameForComponent(this).dispose();
+			new MainFrame().setVisible(true);
 		}
 	}
 	

@@ -1,6 +1,7 @@
 package datastub.userdatastub;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import dataservice.userdataservice.UserAccountUserdataService;
 import po.UserAccountPO;
@@ -31,6 +32,12 @@ public class UserdataStub implements UserAccountUserdataService {
 		// TODO Auto-generated method stub
 		System.out.println("Update Succeed!\n");
 		
+	}
+
+	@Override
+	public ArrayList<UserAccountPO> findAll(UserRole userRole) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -20,7 +20,7 @@ public enum BeiJingDistrict {
 		return district;
 	}
 	
-	public BeiJingDistrict districtByStr(String str) {
+	public static BeiJingDistrict districtByStr(String str) {
 		if(str.equals(DongCheng.toString())) {
 			return DongCheng;
 		} else if(str.equals(XiCheng.toString())) {

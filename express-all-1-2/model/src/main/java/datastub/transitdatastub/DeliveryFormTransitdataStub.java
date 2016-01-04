@@ -1,6 +1,7 @@
 package datastub.transitdatastub;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import dataservice.transitdataservice.DeliveryFormTransitdataService;
 import po.DeliveryFormPO;
@@ -19,5 +20,10 @@ public class DeliveryFormTransitdataStub implements DeliveryFormTransitdataServi
 	}
 	public void update(DeliveryFormPO po) throws RemoteException {
 		System.out.println("Update Succeed!\n");
+	}
+	@Override
+	public ArrayList<DeliveryFormPO> findAll() throws RemoteException, IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -14,15 +14,17 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
+import controller.UserID;
 import presentation.constui.navigation.PriceNavigation;
 import presentation.constui.navigation.SalaryNavigation;
+import presentation.corporationui.navigation.BossCheckDiaryNavigation;
 import presentation.corporationui.navigation.InstitutionsManageNavigation;
 import presentation.financeui.navigation.BossCheckAccountsNavigation;
 import presentation.financeui.navigation.BossCheckCostPayChartNavigation;
-import presentation.financeui.navigation.BossCheckDiaryNavigation;
 import presentation.financeui.navigation.BossCheckProfitChartNavigation;
 import presentation.formapprovalui.navigation.JudgeNavigation;
 import presentation.mainui.MainFrame;
@@ -31,11 +33,13 @@ import presentation.userui.modifypasswordui.ModifyPasswordBoard;
 public class BossPanel extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("unused")
 	private JPanel jpanel1,//logo
 				   jpanel2,//任务栏7个
 				   jpanel3,//加在CENTER的表格
 				   jpanel4;//开始按钮
 	private JLabel jlabellogo;
+	@SuppressWarnings("unused")
 	private JLabel jlcurrentID,jlWelcome,jlHello;
 	private JButton jbPrice,jbSalary,jbAccountID,jbJudge,
 					jbCheckCostPayChart,jbCheckProfitChart,
@@ -45,8 +49,11 @@ public class BossPanel extends JPanel implements ActionListener{
 					  imageAccount,imageJudge,
 					  imageCheckCostPayChart,imageCheckProfitChart,
 					  imageCheckDiary,imageInstitutionsManage;
+	@SuppressWarnings("unused")
 	private ImageIcon imageStart;
+	@SuppressWarnings("unused")
 	private JTable table;
+	@SuppressWarnings("unused")
 	private JButton jbstart,jbexit,jbmodify;
 	private Box b,b1;
 	
@@ -205,8 +212,8 @@ public class BossPanel extends JPanel implements ActionListener{
 		jpanel3.setLayout(new BoxLayout(jpanel3,BoxLayout.Y_AXIS));
 		jpanel3.setBorder(BorderFactory.createEmptyBorder(2, 5, 10, 10));
 		
-		jlcurrentID = new JLabel("当前身份：总经理      ");
-		jlcurrentID.setFont(new Font("当前身份：总经理       ",Font.PLAIN,15));
+		jlcurrentID = new JLabel("当前身份：总经理      "+UserID.userid);
+		jlcurrentID.setFont(new Font("微软雅黑",Font.PLAIN,15));
 
 		jbmodify = new JButton("修改密码");
 		jbmodify.setFont(new Font("修改密码",Font.PLAIN,12));
@@ -250,12 +257,12 @@ public class BossPanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == jbmodify){
-//			new ModifyPasswordBoard(new MainFrame(), ).setVisible(true);
+			new ModifyPasswordBoard(this,UserID.userid).setVisible(true);
 		}
 		
 		if(e.getSource() == jbexit){
-//			new MainFrame().setVisible(true);
-			new MainFrame().remove(this);
+			JOptionPane.getFrameForComponent(this).dispose();
+			new MainFrame().setVisible(true);
 		}
 	}
 	

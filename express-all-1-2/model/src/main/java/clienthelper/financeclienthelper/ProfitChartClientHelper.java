@@ -5,10 +5,9 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+import RMIHelper.ServiceName;
 import RMIHelper.URL;
-import dataservice.financedataservice.PaymentFormdataService;
 import dataservice.financedataservice.ProfitChartdataService;
-import po.PaymentFormPO;
 import po.ProfitChartPO;
 
 public class ProfitChartClientHelper {
@@ -27,9 +26,11 @@ public class ProfitChartClientHelper {
 		System.out.println("进入profitchartClientHelper...go...");
 		if(profitChartdataService == null) {
 			try {
-				profitChartdataService = (ProfitChartdataService)Naming
-						.lookup("rmi://127.0.0.1:32010/profitChartdataService");
-				System.out.println("profitChartdataService RMI服务查找成功...");
+//				profitChartdataService = (ProfitChartdataService)Naming
+//				.lookup("rmi://127.0.0.1:32444/profitChartdataService");
+		profitChartdataService = (ProfitChartdataService)Naming
+				.lookup(URL.getURL(ServiceName.PROFITCHART.toString()));
+
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
 				System.out.println("URL格式错误！！");

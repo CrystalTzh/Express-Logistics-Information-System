@@ -1,11 +1,20 @@
 package controller.transitController;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import businesslogic.transitbl.CarInputForm;
+import po.CarInputFormPO;
 import vo.CarInputFormVO;
 
 public class CarInputFormController {
+	
+	
+	public ArrayList<CarInputFormPO> findAll(){
+		System.out.println("进入CarInputFormController...findAll...");
+		CarInputForm carInputForm = new CarInputForm();
+		return 	carInputForm.findAll();
+	}
 	
 	public boolean saveDriver(CarInputFormVO vo){
 		System.out.println("进入CarInputFormController...saveDriver...");

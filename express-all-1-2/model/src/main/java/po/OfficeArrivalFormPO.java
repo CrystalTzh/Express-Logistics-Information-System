@@ -4,11 +4,11 @@ import java.io.Serializable;
 
 import state.FormState;
 import state.State;
-
+/**
+ * 营业厅到达单持久化对象
+ */
 public class OfficeArrivalFormPO implements Serializable{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	String NO;//编号
 	String arriveDate;//到达日期

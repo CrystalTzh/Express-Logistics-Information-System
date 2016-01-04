@@ -1,17 +1,15 @@
 package businesslogic.inventorybl;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import businesslogicservice.inventoryblservice.StorageInFormInventoryblService;
 import clienthelper.inventoryinfoclienthelper.StorageInFormClientHelper;
 import dataservice.inventorydataservice.StorageInFormInventorydataService;
 import impl.inventoryImpl.StorageInFormServiceImpl;
-import impl.inventoryImpl.StorageOutFormServiceImpl;
 import po.InventoryInfoPO;
 import po.StorageInFormPO;
-import po.StorageOutFormPO;
 import state.FormState;
-import state.Zone;
 import vo.StorageInFormVO;
 
 public class StorageInForm implements StorageInFormInventoryblService {
@@ -136,11 +134,10 @@ public class StorageInForm implements StorageInFormInventoryblService {
 		return false;
 	}
 
-	@Override
-	public boolean StorageInFormAddInfo(String date, String destination, Zone zone, int line, int shelf, int tag,
-			long ID) {
+	public ArrayList<StorageInFormPO> findAll() {
 		// TODO Auto-generated method stub
-		return false;
+		System.out.println("进入PaymentFormbl...findAll...");
+		return storageInFormClientHelper.goFindAll();
 	}
 
 

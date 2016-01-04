@@ -3,6 +3,7 @@ package presentation.corporationui.chauffeurboard;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.GregorianCalendar;
 
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
@@ -14,9 +15,16 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import controller.UserID;
 import controller.corporationcontroller.DriverInfoController;
+import controller.corporationcontroller.LogController;
+import presentation.handleexception.numberexceptionhandle.DriverNumberHandle;
+import state.Operation;
+import state.OperationObject;
 import state.SexList;
+import state.UserRole;
 import vo.DriverInfoVO;
+import vo.LogVO;
 
 public class ChauffeurBoardModify extends JPanel implements ActionListener {
 	/**
@@ -28,6 +36,7 @@ public class ChauffeurBoardModify extends JPanel implements ActionListener {
 	ButtonGroup group = null;
 	JButton beginModifybt, confirmModifybt, resetbt;
 	DriverInfoController driverInfoController;
+	LogController logController;
 
 	public ChauffeurBoardModify() {
 		// 初始化文本框、按钮等组件
@@ -43,9 +52,12 @@ public class ChauffeurBoardModify extends JPanel implements ActionListener {
 		group.add(manrbt);
 		group.add(womanrbt);
 		beginModifybt = new JButton("开始修改");
+		beginModifybt.setContentAreaFilled(false);
 		confirmModifybt = new JButton("录入修改");
+		confirmModifybt.setContentAreaFilled(false);
 		confirmModifybt.setEnabled(false);
 		resetbt = new JButton("重置");
+		resetbt.setContentAreaFilled(false);
 		// 监听司机编号文本框、开始修改按钮、确认修改按钮和重置按钮
 		driverNumberjtf.addActionListener(this);
 		beginModifybt.addActionListener(this);
@@ -97,27 +109,6 @@ public class ChauffeurBoardModify extends JPanel implements ActionListener {
 		boxH.add(Box.createVerticalStrut(10));
 		boxH.add(box7);
 
-		// Box box8 = Box.createHorizontalBox();
-		// box8.add(new JLabel("行驶证期限2:", JLabel.CENTER));
-		// box8.add(new JTextField(10));
-		// Box box9 = Box.createHorizontalBox();
-		// box9.add(new JLabel("行驶证期限3:", JLabel.CENTER));
-		// box9.add(new JTextField(10));
-		// Box box10 = Box.createHorizontalBox();
-		// box10.add(new JLabel("行驶证期限4:", JLabel.CENTER));
-		// box10.add(new JTextField(10));
-		// Box box11 = Box.createHorizontalBox();
-		// box11.add(new JLabel("行驶证期限5:", JLabel.CENTER));
-		// box11.add(new JTextField(10));
-		// Box box12 = Box.createHorizontalBox();
-		// box12.add(new JLabel("行驶证期限6:", JLabel.CENTER));
-		// box12.add(new JTextField(10));
-		// boxH.add(box8);
-		// boxH.add(box9);
-		// boxH.add(box10);
-		// boxH.add(box11);
-		// boxH.add(box12);
-
 		JPanel pCenter;
 		// JScrollPane处理滚动
 		JScrollPane scrollPane = new JScrollPane(pCenter = new JPanel());
@@ -143,6 +134,11 @@ public class ChauffeurBoardModify extends JPanel implements ActionListener {
 			number = driverNumberjtf.getText();
 
 			if (number.length() > 0) {// 1.1 输入了司机编号，判断是否可以修改
+				//判断是否输入了合法的司机编号，若不合法处理异常
+				DriverNumberHandle driverNumberHandle = new DriverNumberHandle();
+				if(!driverNumberHandle.handle(this, driverNumberjtf)) {
+					return;
+				}
 				DriverInfoVO vo = null;
 				driverInfoController = new DriverInfoController();
 				vo = driverInfoController.findDriver(number);
@@ -159,6 +155,8 @@ public class ChauffeurBoardModify extends JPanel implements ActionListener {
 					} else {
 						womanrbt.setSelected(true);
 					}
+					
+					
 				} else {// 1.1.2 输入的司机编号不存在
 					confirmModifybt.setEnabled(false);// 不可修改
 					String warning = "该司机编号不存在!";
@@ -208,6 +206,16 @@ public class ChauffeurBoardModify extends JPanel implements ActionListener {
 						voToModify.setLicensedate(licensedateText);
 						driverInfoController.modifyDriver(voToModify);
 						confirmModifybt.setEnabled(false);
+						
+						logController = new LogController();
+						LogVO logToAdd = new LogVO();
+						logToAdd.setOperation(Operation.MODIFY);
+						logToAdd.setOperationObject(OperationObject.DriverInfo);
+						logToAdd.setOperationTime(new GregorianCalendar());
+						logToAdd.setOperatorID(UserID.userid);
+						logToAdd.setOperatorRole(UserRole.OFFICEMAN);
+						logController.addLog(logToAdd);//添加一条日志
+						
 					} else if (ok == JOptionPane.NO_OPTION) {// 2.1.2.2 取消修改
 						confirmModifybt.setEnabled(true);
 					}

@@ -1,6 +1,7 @@
 package businesslogic.financebl;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import businesslogicservice.financeblservice.PaymentFormFinanceblService;
 import clienthelper.financeclienthelper.PaymentFormClientHelper;
@@ -132,6 +133,15 @@ public class PaymentForm implements PaymentFormFinanceblService{
 			System.out.println("po not found!");
 		
 		return false;
+	}
+
+
+
+	public ArrayList<PaymentFormPO> findAll() {
+		// TODO Auto-generated method stub
+		System.out.println("进入PaymentFormbl...findAll...");
+		return paymentFormClientHelper.goFindAll();
+
 	}
 
 

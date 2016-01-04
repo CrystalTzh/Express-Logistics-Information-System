@@ -19,6 +19,7 @@ import java.util.Iterator;
 import dataservice.corporationdataservice.BankAccountCorporationdataService;
 import iohelper.IOHelper;
 import po.BankAccountInfoPO;
+import state.InitRelatedFiles;
 
 /**
  * 银行账户数据层实现 
@@ -30,8 +31,10 @@ public class BankAccountImpl extends UnicastRemoteObject implements BankAccountC
 	ObjectInputStream inTwo;
 	FileOutputStream outOne;
 	ObjectOutputStream outTwo;
+	@SuppressWarnings("rawtypes")
 	Hashtable allBankAccountInfo;
-	File file = new File("银行账户基本信息.txt");
+//	File file = new File("银行账户基本信息.txt");
+	File file = new File(InitRelatedFiles.BANKACCOUNTINFO.toString());
 	IOHelper ioHelper;
 	
 	/**
@@ -45,6 +48,7 @@ public class BankAccountImpl extends UnicastRemoteObject implements BankAccountC
 	/* (non-Javadoc)
 	 * @see dataservice.corporationdataservice.BankAccountCorporationdataService#add(po.BankAccountInfoPO)
 	 */
+	@SuppressWarnings("unchecked")
 	public void add(BankAccountInfoPO po) throws RemoteException {
 		// TODO Auto-generated method stub
 		System.out.println("进入BankAccountImpl...server adding...");
@@ -98,23 +102,48 @@ public class BankAccountImpl extends UnicastRemoteObject implements BankAccountC
 		return null;
 	}
 
+//	/* (non-Javadoc)
+//	 * @see dataservice.corporationdataservice.BankAccountCorporationdataService#keyFind(java.lang.String)
+//	 */
+//	public ArrayList<BankAccountInfoPO> keyFind(String keyID) throws RemoteException {
+//		// TODO Auto-generated method stub
+//		System.out.println("进入BankAccountImpl...server keyFinding...");
+//		ioHelper = new IOHelper();
+//		allBankAccountInfo = ioHelper.readFromFile(file);
+//		ArrayList<BankAccountInfoPO> list = new ArrayList<BankAccountInfoPO>();
+//		//遍历key寻找包含串keyID的value
+//		for(Iterator itr = allBankAccountInfo.keySet().iterator(); itr.hasNext();) {
+//			String key = (String) itr.next();
+//			if(key.contains(keyID)) {
+//				list.add((BankAccountInfoPO)allBankAccountInfo.get(key));
+//			}
+//		}
+//		return list;
+//	}
+
 	/* (non-Javadoc)
-	 * @see dataservice.corporationdataservice.BankAccountCorporationdataService#keyFind(java.lang.String)
+	 * @see dataservice.corporationdataservice.BankAccountCorporationdataService#findAllBankAccouts()
 	 */
-	public ArrayList<BankAccountInfoPO> keyFind(String keyID) throws RemoteException {
-		// TODO Auto-generated method stub
-		System.out.println("进入BankAccountImpl...server keyFinding...");
+	@SuppressWarnings("rawtypes")
+	public ArrayList<BankAccountInfoPO> findAllBankAccouts() throws RemoteException {
+		System.out.println("进入BankAccountImpl...server findAllBankAccouts...");
 		ioHelper = new IOHelper();
 		allBankAccountInfo = ioHelper.readFromFile(file);
-		ArrayList<BankAccountInfoPO> list = new ArrayList<BankAccountInfoPO>();
-		//遍历key寻找包含串keyID的value
+		ArrayList<BankAccountInfoPO> allBankAccounts = new ArrayList<BankAccountInfoPO>();
 		for(Iterator itr = allBankAccountInfo.keySet().iterator(); itr.hasNext();) {
 			String key = (String) itr.next();
-			if(key.contains(keyID)) {
-				list.add((BankAccountInfoPO)allBankAccountInfo.get(key));
-			}
+			allBankAccounts.add((BankAccountInfoPO)allBankAccountInfo.get(key));
 		}
-		return list;
+		if(allBankAccounts.size() == 0) {
+			System.out.println("服务器中暂时没有银行账户..");
+			return allBankAccounts;
+		} 
+		System.out.println("服务器中的所有银行账号：");
+		for(int i = 0; i < allBankAccounts.size(); i++) {
+			BankAccountInfoPO po = allBankAccounts.get(i);
+			System.out.println(po.getAccountId() + " " + po.getAccountName() + " " + po.getBalance());
+		}
+		return allBankAccounts;
 	}
 	
 //	public static void main(String[] args) {

@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import dataservice.transitdataservice.OfficeArrivalFormTransitdataService;
@@ -22,6 +23,7 @@ public class OfficeArrivalFormImpl extends UnicastRemoteObject implements Office
 	ObjectInputStream inTwo;
 	FileOutputStream outOne;
 	ObjectOutputStream outTwo;
+	@SuppressWarnings("rawtypes")
 	Hashtable allOfficeArrivalForm;
 	File file = new File("营业厅到达单单基本信息.txt");
 	IOHelper ioHelper;
@@ -49,6 +51,7 @@ public class OfficeArrivalFormImpl extends UnicastRemoteObject implements Office
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void insert(OfficeArrivalFormPO po) throws RemoteException, IllegalArgumentException {
 		// TODO Auto-generated method stub
 		System.out.println("Insert OfficeArrivalFormPO Start!!");
@@ -83,6 +86,12 @@ public class OfficeArrivalFormImpl extends UnicastRemoteObject implements Office
 		}
 		System.out.println("update over!");
 
+	}
+
+	@Override
+	public ArrayList<OfficeArrivalFormPO> findAll() throws RemoteException, IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

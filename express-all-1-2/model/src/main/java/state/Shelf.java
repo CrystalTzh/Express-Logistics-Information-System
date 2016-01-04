@@ -1,3 +1,4 @@
+
 /**
  * @author 谭琼
  * 2015年12月11日
@@ -5,7 +6,7 @@
 package state;
 
 public enum Shelf {
-	AShelf("A排"), BShelf("B排"), CShelf("C排"), DShelf("D排");
+	AShelf("A架"), BShelf("B架"), CShelf("C架"), DShelf("D架");
 
 	private String shelf;
 

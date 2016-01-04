@@ -4,10 +4,12 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+
+import RMIHelper.ServiceName;
+import RMIHelper.URL;
 import dataservice.transitdataservice.CarInputFormTransitdataService;
-import dataservice.transitdataservice.DeliveryFormTransitdataService;
 import po.CarInputFormPO;
-import po.DeliveryFormPO;
 
 public class CarInputFormClientHelper {
 	
@@ -70,8 +72,10 @@ public class CarInputFormClientHelper {
 		System.out.println("进入CarInputFormClientHelper...go...");
 		if(carInputFormTransitdataService == null) {
 			try {
+//				carInputFormTransitdataService = (CarInputFormTransitdataService)Naming
+//						.lookup("rmi://127.0.0.1:32004/carInputFormTransitdataService");
 				carInputFormTransitdataService = (CarInputFormTransitdataService)Naming
-						.lookup("rmi://127.0.0.1:32010/carInputFormTransitdataService");
+						.lookup(URL.getURL(ServiceName.CARINPURFORM.toString()));
 				System.out.println("carInputFormTransitdataService RMI服务查找成功...");
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
@@ -89,6 +93,20 @@ public class CarInputFormClientHelper {
 		}
 		return carInputFormTransitdataService;
 	}
+
+	public ArrayList<CarInputFormPO> goFindAll() {
+		// TODO Auto-generated method stub
+		System.out.println("进入CarInputFormClientHelper...client wants to find allform...");
+		carInputFormTransitdataService= go();
+		try {
+			return carInputFormTransitdataService.findAll();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 
 	
 }

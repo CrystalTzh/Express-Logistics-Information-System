@@ -1,7 +1,6 @@
 package businesslogic.driver.userblDriver;
 
 import businesslogicservice.userblservice.UserAccountuserblService;
-import po.UserAccountPO;
 
 public class UserInfoUserblDriver {
 	public void driver(UserAccountuserblService userInfoUserblStub){

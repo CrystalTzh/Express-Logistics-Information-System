@@ -49,8 +49,8 @@ public class CarInfoManageDriver extends JFrame implements ActionListener{
 		bar.add(fileMenu);
 		setJMenuBar(bar);
 		label = new JLabel("维护车辆基本信息", JLabel.CENTER);
-		label.setFont(new Font("TimesRoman", Font.BOLD, 24));
-		label.setForeground(Color.red);
+		label.setFont(new Font("微软雅黑", Font.PLAIN, 24));
+		label.setForeground(Color.DARK_GRAY);
 		//对菜单项进行监听
 		addmi.addActionListener(this);
 		modifymi.addActionListener(this);

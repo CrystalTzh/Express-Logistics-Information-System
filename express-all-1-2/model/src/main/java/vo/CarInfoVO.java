@@ -2,9 +2,11 @@ package vo;
 
 import java.io.Serializable;
 
-import state.FormState;
-
 public class CarInfoVO implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String carNumber;//车辆代号
 	String plateNumber;//车牌号
 	String engineNumber;//发动机编号

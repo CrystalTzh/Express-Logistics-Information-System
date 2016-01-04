@@ -15,7 +15,7 @@ public class CarInputFrame extends JFrame implements ActionListener{
 		CarInputPanel board = new CarInputPanel();
 		frame.add(board);
 		frame.setSize(700, 500);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.setResizable(false);

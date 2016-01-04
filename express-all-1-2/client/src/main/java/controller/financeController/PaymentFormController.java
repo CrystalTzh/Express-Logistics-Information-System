@@ -1,13 +1,22 @@
 package controller.financeController;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import businesslogic.financebl.PaymentForm;
+import po.PaymentFormPO;
 import vo.PaymentFormVO;
 
 
 
 public class PaymentFormController {
+	
+	public ArrayList<PaymentFormPO> findAll(){
+		System.out.println("进入PaymentFormController...findAll...");
+		PaymentForm paymentForm = new PaymentForm();
+		return 	paymentForm.findAll();
+	}
+	
 	public boolean saveDriver(PaymentFormVO vo){
 		System.out.println("进入PaymentFormController...saveDriver...");
 		PaymentForm paymentForm = new PaymentForm();

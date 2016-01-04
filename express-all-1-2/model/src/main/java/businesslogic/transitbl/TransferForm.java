@@ -1,6 +1,7 @@
 package businesslogic.transitbl;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import businesslogicservice.transitblservice.TransferFormTransitblService;
 import clienthelper.transitclienthelper.TransferFormClientHelper;
@@ -135,4 +136,10 @@ public class TransferForm implements TransferFormTransitblService{
 		return false;
 	}
 
+	public ArrayList<TransferFormPO> findAll() {
+		// TODO Auto-generated method stub
+		System.out.println("进入PaymentFormbl...findAll...");
+		return transferFormClientHelper.goFindAll();
+	}
+	
 }

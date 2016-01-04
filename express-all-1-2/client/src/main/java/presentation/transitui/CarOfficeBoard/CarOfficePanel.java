@@ -19,16 +19,32 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.TitledBorder;
 
+import controller.UserID;
+import controller.corporationcontroller.LogController;
 import controller.transitController.CarOfficeFormController;
+import controller.transitController.OrderFormController;
+import state.Operation;
+import state.OperationObject;
+import state.Transportation;
+import state.UserRole;
 import vo.CarOfficeFormVO;
+import vo.LogVO;
+import vo.OrderFormVO;
 
 public class CarOfficePanel extends JPanel implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JPanel carOfficePanel;
 	JLabel inputDateLabel,qiyunIDLabel,destinationLabel,carIDLabel,carStateLabel,loadingMemberLabel,superCargoLabel,IDLabel,costLabel,NOLabel;
+	
+	
+	
+	/*           装车日期                            汽运编号                                                                                  车辆代号                                                                                                                                                                       装车单编号    */
 	JTextField inputDateText,qiyunIDText,destinationText,carIDText,loadingMemberText,superCargoText,costText,NOText;
-	JTextArea IDText;
+	JTextArea IDText;  				//订单号
 	JButton cancelbutton,savebutton,submitbutton;
 	public CarOfficePanel(){
 //		this.setBorder(new TitledBorder("中转中心装车单01"));
@@ -41,6 +57,9 @@ public class CarOfficePanel extends JPanel implements ActionListener {
 		savebutton.addActionListener(this);
 		submitbutton.addActionListener(this);
 		submitbutton.setEnabled(false);
+		cancelbutton.setContentAreaFilled(false);
+		savebutton.setContentAreaFilled(false);
+		submitbutton.setContentAreaFilled(false);
 		
 		inputDateLabel=new JLabel("装车日期");
 		qiyunIDLabel=new JLabel("汽运编号");
@@ -62,7 +81,7 @@ public class CarOfficePanel extends JPanel implements ActionListener {
 		IDText=new JTextArea(3,15);
 		costText=new JTextField(20);
 		NOText=new JTextField(20);
-		
+		costText.setText("自动生成不必填写");
 		JScrollPane scroll = new JScrollPane(IDText); 
 		//把定义的JTextArea放到JScrollPane里面去 
 
@@ -150,7 +169,7 @@ public class CarOfficePanel extends JPanel implements ActionListener {
 		year = calendar.get(Calendar.YEAR);
 		month = calendar.get(Calendar.MONTH)+1;
 		day = calendar.get(Calendar.DATE);
-		
+		System.out.println(year+"-"+month+"-"+day);
 		return year+"-"+month+"-"+day;
 	}
 
@@ -159,7 +178,7 @@ public class CarOfficePanel extends JPanel implements ActionListener {
 			textClear();
 		}
 		if(e.getSource()==savebutton){
-			
+			costText.setText(4+"");
 			String number = "";
 			number = IDText.getText();
 			
@@ -198,12 +217,26 @@ public class CarOfficePanel extends JPanel implements ActionListener {
 						try{
 							while((line = br.readLine()) != null){
 								allIDs.add(line);
+								OrderFormController oo=new OrderFormController();
+								OrderFormVO ovo=oo.findDriver(line);
+								ArrayList<Transportation> a=ovo.getTransportation();
+								a.add(Transportation.SENDEROFFICEARRIVED);
+								ovo.setTransportation(a);
+								ArrayList<String> b=ovo.getAlldates();
+								for(int i = 0;i<b.size();i++){
+									
+									System.out.println(b.get(i));
+								}
+								b.add(getCurrenTime());
+								ovo.setAlldates(b);
+						//		oo.submitDriver(ovo);
 							}
 						} 
 						catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
+						@SuppressWarnings("unused")
 						double transCharge = Double.parseDouble(costText.getText()); //运费
 						double transitCharge=Double.parseDouble(costText.getText()); //运费
 						
@@ -219,6 +252,20 @@ public class CarOfficePanel extends JPanel implements ActionListener {
 						voToAdd.setTransitCharge(transitCharge);
 						voToAdd.setAllIDs(allIDs);
 						carOfficeFormController.saveDriver(voToAdd);//添加车辆
+						
+						
+						LogController logController;
+						logController = new LogController();
+						LogVO logToAdd = new LogVO();
+						logToAdd.setOperation(Operation.ADD);
+						logToAdd.setOperationObject(OperationObject.CarOfficeForm);
+						logToAdd.setOperationTime(new GregorianCalendar());
+						logToAdd.setOperatorID(UserID.userid);
+						logToAdd.setOperatorRole(UserRole.OFFICEMAN);
+						logController.addLog(logToAdd);//添加一条日志
+						
+						
+						
 					}//录入结束
 				}
 				submitbutton.setEnabled(true);
@@ -226,56 +273,68 @@ public class CarOfficePanel extends JPanel implements ActionListener {
 				String warning = "必须要输入信息!";
 				JOptionPane.showMessageDialog(this, warning, "警告", JOptionPane.WARNING_MESSAGE);
 			}
-			if(e.getSource()==submitbutton){
-				CarOfficeFormController carOfficeFormController = new CarOfficeFormController();
-				
-				String NO=NOText.getText(); //装车单编号
-				String destination=destinationText.getText(); //目的地
-				String motorNumber=qiyunIDText.getText(); //汽运编号
-				String carNumber=carIDText.getText(); //车辆代号
-				String loadingMember=loadingMemberText.getText(); //监装员
-				String supercargo=superCargoText.getText(); //押运员
-				String putOnCarDate=inputDateText.getText(); //装车日期
-				ArrayList<String> allIDs = new ArrayList<String>();
-				BufferedReader br = new BufferedReader(new StringReader(IDText.getText()));
-				String line = ""; 
-				try{
-					while((line = br.readLine()) != null){
-						allIDs.add(line);
-					}
-				} 
-				catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				double transitCharge=Double.parseDouble(costText.getText()); //运费
-				
-				
-				CarOfficeFormVO voToAdd = new CarOfficeFormVO();
-				voToAdd.setCarNumber(carNumber);
-				voToAdd.setDestination(destination);
-				voToAdd.setLoadingMember(loadingMember);
-				voToAdd.setMotorNumber(motorNumber);
-				voToAdd.setNO(NO);
-				voToAdd.setPutOnCarDate(putOnCarDate);
-				voToAdd.setSupercargo(supercargo);
-				voToAdd.setTransitCharge(transitCharge);
-				voToAdd.setAllIDs(allIDs);
-				carOfficeFormController.submitDriver(voToAdd);
+		
 			}
+		if(e.getSource()==submitbutton){
+			CarOfficeFormController carOfficeFormController = new CarOfficeFormController();
+			
+			String NO=NOText.getText(); //装车单编号
+			String destination=destinationText.getText(); //目的地
+			String motorNumber=qiyunIDText.getText(); //汽运编号
+			String carNumber=carIDText.getText(); //车辆代号
+			String loadingMember=loadingMemberText.getText(); //监装员
+			String supercargo=superCargoText.getText(); //押运员
+			String putOnCarDate=inputDateText.getText(); //装车日期
+			ArrayList<String> allIDs = new ArrayList<String>();
+			BufferedReader br = new BufferedReader(new StringReader(IDText.getText()));
+			String line = ""; 
+			try{
+				while((line = br.readLine()) != null){
+					allIDs.add(line);
+					OrderFormController oo=new OrderFormController();
+					OrderFormVO ovo=oo.findDriver(line);
+					ArrayList<Transportation> a=ovo.getTransportation();
+					a.add(Transportation.SENDEROFFICEARRIVED);
+					ovo.setTransportation(a);
+					ArrayList<String> b=ovo.getAlldates();
+					b.add(getCurrenTime());
+					ovo.setAlldates(b);
+					oo.submitDriver(ovo);
+				}
+			} 
+			catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			double transitCharge=Double.parseDouble(costText.getText()); //运费
+			
+			
+			CarOfficeFormVO voToAdd = new CarOfficeFormVO();
+			voToAdd.setCarNumber(carNumber);
+			voToAdd.setDestination(destination);
+			voToAdd.setLoadingMember(loadingMember);
+			voToAdd.setMotorNumber(motorNumber);
+			voToAdd.setNO(NO);
+			voToAdd.setPutOnCarDate(putOnCarDate);
+			voToAdd.setSupercargo(supercargo);
+			voToAdd.setTransitCharge(transitCharge);
+			voToAdd.setAllIDs(allIDs);
+			carOfficeFormController.submitDriver(voToAdd);
+			
+			
 		}
 	}
 
 	private void textClear() {
 		// TODO Auto-generated method stub
-		inputDateText.setText(null);
+	
 		qiyunIDText.setText(null);
 		destinationText.setText(null);
 		carIDText.setText(null);
 		loadingMemberText.setText(null);
 		superCargoText.setText(null);
 		IDText.setText(null);
-		costText.setText(null);
+		costText.setText("自动生成不必填写");
 		NOText.setText(null);
 	}
 }

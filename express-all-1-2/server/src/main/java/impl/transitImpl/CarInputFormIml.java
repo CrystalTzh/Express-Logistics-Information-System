@@ -8,6 +8,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 import dataservice.transitdataservice.CarInputFormTransitdataService;
@@ -23,6 +25,7 @@ public class CarInputFormIml extends UnicastRemoteObject implements CarInputForm
 	ObjectInputStream inTwo;
 	FileOutputStream outOne;
 	ObjectOutputStream outTwo;
+	@SuppressWarnings("rawtypes")
 	Hashtable allCarInputForm;
 	File file = new File("中转中心装车单基本信息.txt");
 	IOHelper ioHelper;
@@ -51,6 +54,7 @@ public class CarInputFormIml extends UnicastRemoteObject implements CarInputForm
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void insert(CarInputFormPO po) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		System.out.println("Insert CarInputFormPO Start!!");
@@ -86,6 +90,22 @@ public class CarInputFormIml extends UnicastRemoteObject implements CarInputForm
 			insert(po);
 		}
 		System.out.println("update over!");
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<CarInputFormPO> findAll() throws RemoteException, IllegalArgumentException {
+		// TODO Auto-generated method stub
+		System.out.println("Find AllPaymentFormPO Start!!");
+		ioHelper = new IOHelper();
+		allCarInputForm= ioHelper.readFromFile(file);
+		Enumeration<CarInputFormPO> e = allCarInputForm.elements();
+		ArrayList<CarInputFormPO> polist = new ArrayList<CarInputFormPO>();
+		while(e.hasMoreElements()){
+			polist.add(e.nextElement());
+		}
+		return polist;
 	}
 
 	

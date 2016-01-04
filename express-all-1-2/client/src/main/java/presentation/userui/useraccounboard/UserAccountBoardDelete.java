@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.GregorianCalendar;
 
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
@@ -20,8 +21,13 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import controller.UserID;
+import controller.corporationcontroller.LogController;
 import controller.usercontroller.UserAccountController;
+import state.Operation;
+import state.OperationObject;
 import state.UserRole;
+import vo.LogVO;
 import vo.UserAccountVO;
 
 public class UserAccountBoardDelete extends JPanel implements ActionListener {
@@ -32,6 +38,7 @@ public class UserAccountBoardDelete extends JPanel implements ActionListener {
 	// 账号、用户名、初始密码
 	JTextField accountIDjtf, userNamejtf, initialPasswordjtf;
 	UserAccountController userAccountController;
+	LogController logController;
 	JButton deletebt;
 	// 职位:快递员、营业厅业务员、中转中心业务员
 	// 仓库管理人员、总经理、高级财务人员、普通财务人员
@@ -48,6 +55,7 @@ public class UserAccountBoardDelete extends JPanel implements ActionListener {
 		// 监听carNumber文本框和删除按钮
 		accountIDjtf.addActionListener(this);
 		deletebt.addActionListener(this);
+		deletebt.setContentAreaFilled(false);
 		userNamejtf = new JTextField(10);
 		userNamejtf.setEditable(false);
 		initialPasswordjtf = new JTextField(10);
@@ -159,6 +167,14 @@ public class UserAccountBoardDelete extends JPanel implements ActionListener {
 					int ok = JOptionPane.showConfirmDialog(this, m, "确认", JOptionPane.YES_NO_OPTION);
 					if(ok == JOptionPane.YES_OPTION) {//1.1.1.1 确认删除
 						userAccountController.deleteUserAccount(vo);//删除用户账号信息
+						logController = new LogController();
+						LogVO logToAdd = new LogVO();
+						logToAdd.setOperation(Operation.DELETE);
+						logToAdd.setOperationObject(OperationObject.UserAccount);
+						logToAdd.setOperationTime(new GregorianCalendar());
+						logToAdd.setOperatorID(UserID.userid);
+						logToAdd.setOperatorRole(UserRole.ADMINISTRATOR);
+						logController.addLog(logToAdd);//添加一条日志
 						clearText();
 					}
 				} else {//1.1.2 输入的用户账号不存在

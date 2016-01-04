@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import state.FormState;
-
+/**
+ * 中转中心装车单持久化对象
+ */
 public class CarInputFormPO implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
-	String NO; //装车单编号
+	String NO; //中转中心装车单编号
 	String destination; //目的地
 	String motorNumber; //汽运编号
 	String carNumber; //车辆代号

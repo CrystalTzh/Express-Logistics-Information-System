@@ -13,11 +13,15 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import controller.UserID;
 import presentation.mainui.MainFrame;
+import presentation.outfindui.OutfindFrame;
+import presentation.userui.modifypasswordui.ModifyPasswordBoard;
 
 public class OrderInfoCheckNavigation extends JPanel implements ActionListener{
 
@@ -28,13 +32,15 @@ public class OrderInfoCheckNavigation extends JPanel implements ActionListener{
 				   jpanel4;//开始按钮
 	private JLabel jlabellogo;
 	private JLabel jlcurrentID,jlexpressnumber;
-	private JButton jbOrderForm,jbCheck,jbReceiveInfo,jbCheckDetail;
+	static private JButton jbOrderForm,jbCheck,jbReceiveInfo,jbCheckDetail;
 	
 	private ImageIcon imagelogo,imageOrderForm,imageCheck,
 					  imageReceiveInfo,imageCheckDetail;
 	private ImageIcon imageStart;
+	@SuppressWarnings("unused")
 	private JTable table;
 	private JButton jbstart,jbexit,jbmodify;
+	@SuppressWarnings("unused")
 	private Box b,b1,b2,b3;
 	private JTextField jtExpressNumber;
 	
@@ -54,57 +60,60 @@ public class OrderInfoCheckNavigation extends JPanel implements ActionListener{
 		jpanel2 = new JPanel(new GridLayout(7, 1,5,10));
 		jpanel2.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 5));
 
-		jbOrderForm = new JButton();//寄件单
+		setJbOrderForm(new JButton());//寄件单
 		imageOrderForm = new ImageIcon("image/orderform.jpg");
-		jbOrderForm.setIcon(imageOrderForm);
-		jbOrderForm.setPreferredSize(new Dimension(imageOrderForm.getIconWidth(),
+		getJbOrderForm().setIcon(imageOrderForm);
+		getJbOrderForm().setPreferredSize(new Dimension(imageOrderForm.getIconWidth(),
 				imageOrderForm.getIconHeight()));
-		jbOrderForm.addActionListener(new ActionListener(){
+		getJbOrderForm().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbOrderForm){
-					new MainFrame().setContentPane(new OrderFormNavigation());
-				}
+//				if(e.getSource() == getJbOrderForm()){
+//					new MainFrame().setContentPane(new OrderFormNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
 		
-		jbCheck = new JButton();//订单信息查询
+		setJbCheck(new JButton());//订单信息查询
 		imageCheck = new ImageIcon("image/orderformcheck.jpg");
-		jbCheck.setIcon(imageCheck);
-		jbCheck.setPreferredSize(new Dimension(imageCheck.getIconWidth(),
+		getJbCheck().setIcon(imageCheck);
+		getJbCheck().setPreferredSize(new Dimension(imageCheck.getIconWidth(),
 				imageCheck.getIconHeight()));
-		jbCheck.addActionListener(new ActionListener(){
+		getJbCheck().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbCheck){
-					new MainFrame().setContentPane(new OrderInfoCheckNavigation());
-				}
+//				if(e.getSource() == getJbCheck()){
+//					new MainFrame().setContentPane(new OrderInfoCheckNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
 		
-		jbReceiveInfo = new JButton();//收件信息输入
+		setJbReceiveInfo(new JButton());//收件信息输入
 		imageReceiveInfo = new ImageIcon("image/receiveinfoinput.jpg");
-		jbReceiveInfo.setIcon(imageReceiveInfo);
-		jbReceiveInfo.setPreferredSize(new Dimension(imageReceiveInfo.getIconWidth(),
+		getJbReceiveInfo().setIcon(imageReceiveInfo);
+		getJbReceiveInfo().setPreferredSize(new Dimension(imageReceiveInfo.getIconWidth(),
 				imageReceiveInfo.getIconHeight()));
-		jbReceiveInfo.addActionListener(new ActionListener(){
+		getJbReceiveInfo().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbReceiveInfo){
-					new MainFrame().setContentPane(new ReceiveMessageInputNavigation());
-				}
+//				if(e.getSource() == getJbReceiveInfo()){
+//					new MainFrame().setContentPane(new ReceiveMessageInputNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
 		
-		jpanel2.add(jbOrderForm);
-		jpanel2.add(jbCheck);
-		jpanel2.add(jbReceiveInfo);
+		jpanel2.add(getJbOrderForm());
+		jpanel2.add(getJbCheck());
+		jpanel2.add(getJbReceiveInfo());
 		
 		
 		jpanel3 = new JPanel();
@@ -112,8 +121,8 @@ public class OrderInfoCheckNavigation extends JPanel implements ActionListener{
 		jpanel3.setLayout(new BoxLayout(jpanel3,BoxLayout.Y_AXIS));
 		jpanel3.setBorder(BorderFactory.createEmptyBorder(2, 5, 10, 10));
 		
-		jlcurrentID = new JLabel("当前身份：快递员     当前任务：订单信息查询");
-		jlcurrentID.setFont(new Font("当前身份：快递员       当前任务：订单信息查询",Font.PLAIN,15));
+		jlcurrentID = new JLabel("当前身份：快递员 "+UserID.userid+" 当前任务：订单信息查询");
+		jlcurrentID.setFont(new Font("微软雅黑",Font.PLAIN,15));
 
 		jbmodify = new JButton("修改密码");
 		jbmodify.setFont(new Font("修改密码",Font.PLAIN,12));
@@ -154,9 +163,9 @@ public class OrderInfoCheckNavigation extends JPanel implements ActionListener{
 		
         jpanel3.add(b);
         jpanel3.add(Box.createVerticalStrut(90));
-        jpanel3.add(b2);
+//        jpanel3.add(b2);
         jpanel3.add(Box.createVerticalStrut(10));
-        jpanel3.add(b3);
+//        jpanel3.add(b3);
         jpanel3.add(Box.createVerticalStrut(180));
         
         
@@ -171,6 +180,7 @@ public class OrderInfoCheckNavigation extends JPanel implements ActionListener{
 		jbstart.setIcon(imageStart);
 		jbstart.setPreferredSize(new Dimension(imageStart.getIconWidth(),
 				imageStart.getIconHeight()));
+		jbstart.addActionListener(this);
 		
 		jpanel4.add(Box.createHorizontalStrut(622));
 		jpanel4.add(jbstart);
@@ -186,8 +196,39 @@ public class OrderInfoCheckNavigation extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == jbexit){
-			new MainFrame().remove(this);
+			JOptionPane.getFrameForComponent(this).dispose();
+			new MainFrame().setVisible(true);
 		}
+		if(e.getSource() == jbmodify){
+			new ModifyPasswordBoard(this, UserID.userid);
+		}
+		if(e.getSource() == jbstart){
+			new OutfindFrame().setVisible(true);
+		}
+	}
+
+	public static JButton getJbOrderForm() {
+		return jbOrderForm;
+	}
+
+	public static void setJbOrderForm(JButton jbOrderForm) {
+		OrderInfoCheckNavigation.jbOrderForm = jbOrderForm;
+	}
+
+	public static JButton getJbCheck() {
+		return jbCheck;
+	}
+
+	public static void setJbCheck(JButton jbCheck) {
+		OrderInfoCheckNavigation.jbCheck = jbCheck;
+	}
+
+	public static JButton getJbReceiveInfo() {
+		return jbReceiveInfo;
+	}
+
+	public static void setJbReceiveInfo(JButton jbReceiveInfo) {
+		OrderInfoCheckNavigation.jbReceiveInfo = jbReceiveInfo;
 	}
 	
 }

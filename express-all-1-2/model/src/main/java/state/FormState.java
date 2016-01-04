@@ -1,5 +1,5 @@
 package state;
 
 public enum FormState {
-	EDITABLE,DRAFT,SUBMITTED;
+	EDITABLE,DRAFT,SUBMITTED,APPROVED;
 }

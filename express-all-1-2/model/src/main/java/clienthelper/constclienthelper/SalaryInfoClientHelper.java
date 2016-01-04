@@ -10,6 +10,8 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+import RMIHelper.ServiceName;
+import RMIHelper.URL;
 import dataservice.constdataservice.SalaryInfoConstdataService;
 import po.SalaryPO;
 
@@ -62,8 +64,10 @@ public class SalaryInfoClientHelper {
 		System.out.println("进入SalaryInfoClientHelper...go...");
 		if(salaryInfoConstdataService == null) {
 			try {
+//				salaryInfoConstdataService = (SalaryInfoConstdataService)Naming
+//						.lookup("rmi://127.0.0.1:32004/salaryInfoConstdataService");
 				salaryInfoConstdataService = (SalaryInfoConstdataService)Naming
-						.lookup("rmi://127.0.0.1:32003/salaryInfoConstdataService");
+						.lookup(URL.getURL(ServiceName.SALARYINFO.toString()));
 				System.out.println("salaryInfoConstdataService RMI服务查找成功...");
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block

@@ -1,6 +1,9 @@
 package businesslogic.stub.userblStub;
 
+import java.util.ArrayList;
+
 import businesslogicservice.userblservice.UserAccountuserblService;
+import state.UserRole;
 import vo.UserAccountVO;
 
 public class UserInfoUserblStub implements UserAccountuserblService {
@@ -43,6 +46,12 @@ public class UserInfoUserblStub implements UserAccountuserblService {
 	public boolean update(UserAccountVO vo) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public ArrayList<UserAccountVO> findAll(UserRole userRole) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

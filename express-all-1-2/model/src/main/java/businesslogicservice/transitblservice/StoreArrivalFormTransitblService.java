@@ -1,6 +1,5 @@
 package businesslogicservice.transitblservice;
 
-import state.State;
 import vo.StoreArrivalFormVO;
 
 public interface StoreArrivalFormTransitblService {

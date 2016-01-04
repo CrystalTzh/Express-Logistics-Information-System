@@ -4,6 +4,9 @@
  */
 package businesslogicservice.userblservice;
 
+import java.util.ArrayList;
+
+import state.UserRole;
 import vo.UserAccountVO;
 
 /**
@@ -11,7 +14,12 @@ import vo.UserAccountVO;
  */
 public interface UserAccountuserblService {
 	
-	public UserAccountVO create();
+	/**
+	 * 查找特定职位的所有用户账号
+	 * @param userRole
+	 * @return
+	 */
+	public ArrayList<UserAccountVO> findAll(UserRole userRole);
 	
 	/**
 	 * 添加用户账户信息

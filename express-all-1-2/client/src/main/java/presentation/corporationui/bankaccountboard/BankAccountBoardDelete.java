@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.GregorianCalendar;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -18,8 +19,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import controller.UserID;
 import controller.corporationcontroller.BankAccountController;
+import controller.corporationcontroller.LogController;
+import presentation.handleexception.numberexceptionhandle.BankAccountIDHandle;
+import state.Operation;
+import state.OperationObject;
+import state.UserRole;
 import vo.BankAccountInfoVO;
+import vo.LogVO;
 
 /**
  *删除银行账户面板
@@ -30,6 +38,7 @@ public class BankAccountBoardDelete extends JPanel implements ActionListener{
 	JTextField accountIDjtf, accountNamejtf, balancejtf;//银行账号、账户名和余额文本框
 	JButton deletebt;//删除按钮
 	BankAccountController bankAccountController;
+	LogController logController;
 
 	public BankAccountBoardDelete() {
 		accountNamejtf = new JTextField(10);
@@ -38,13 +47,14 @@ public class BankAccountBoardDelete extends JPanel implements ActionListener{
 		balancejtf.setEditable(false);
 		accountIDjtf = new JTextField(10);
 		deletebt = new JButton("删除");
+		deletebt.setContentAreaFilled(false);
 		accountIDjtf.addActionListener(this);
 		deletebt.addActionListener(this);
 		
 		Box box = Box.createHorizontalBox();
 		JLabel logojl = new JLabel("银行账号信息删除", JLabel.CENTER);
-		logojl.setFont(new Font("TimesRoman", Font.BOLD, 24));
-		logojl.setForeground(Color.BLUE);
+		logojl.setFont(new Font("微软雅黑", Font.PLAIN, 24));
+		logojl.setForeground(Color.DARK_GRAY);
 		box.add(logojl);
 		Box box1 = Box.createHorizontalBox();
 		box1.add(new JLabel("输入要删除的银行账号:", JLabel.CENTER));
@@ -91,6 +101,10 @@ public class BankAccountBoardDelete extends JPanel implements ActionListener{
 			number = accountIDjtf.getText();
 			
 			if(number.length() > 0) {//1.1 输入了银行账号
+				BankAccountIDHandle bankAccountIDHandle = new BankAccountIDHandle();
+				if(!bankAccountIDHandle.handle(this, accountIDjtf)) {//判断是否输入了合法的银行账号，如不合法处理异常
+					return;
+				}
 				BankAccountInfoVO vo = null;
 				bankAccountController = new BankAccountController();
 				vo = bankAccountController.findBankAccount(number);//查找银行账号信息
@@ -104,6 +118,15 @@ public class BankAccountBoardDelete extends JPanel implements ActionListener{
 					int ok = JOptionPane.showConfirmDialog(this, m, "确认", JOptionPane.YES_NO_OPTION);
 					if(ok == JOptionPane.YES_OPTION) {//1.1.1.1 确认删除
 						bankAccountController.deleteAccount(vo);//删除银行账号信息
+						//添加一条日志
+						logController = new LogController();
+						LogVO logToAdd = new LogVO();
+						logToAdd.setOperation(Operation.DELETE);
+						logToAdd.setOperationObject(OperationObject.BankAccountInfo);
+						logToAdd.setOperationTime(new GregorianCalendar());
+						logToAdd.setOperatorID(UserID.userid);
+						logToAdd.setOperatorRole(UserRole.ADFINANCEMAN);
+						logController.addLog(logToAdd);// 添加一条日志
 						clearText();
 					}
 				} else {//1.1.2 输入的银行账号不存在

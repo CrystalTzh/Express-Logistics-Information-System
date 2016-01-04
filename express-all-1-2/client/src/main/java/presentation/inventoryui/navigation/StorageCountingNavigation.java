@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -16,10 +18,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import controller.UserID;
+import controller.inventorycontroller.StorageInFormController;
+import po.StorageInFormPO;
 import presentation.inventoryui.boards.StorageCountingBoard;
 import presentation.mainui.MainFrame;
+import presentation.userui.modifypasswordui.ModifyPasswordBoard;
 
 public class StorageCountingNavigation extends JPanel implements ActionListener{
 
@@ -30,7 +37,7 @@ public class StorageCountingNavigation extends JPanel implements ActionListener{
 				   jpanel4;//开始按钮
 	private JLabel jlabellogo;
 	private JLabel jlcurrentID;
-	private JButton jbStorageInForm,jbStorageOutForm,jbZone,jbStorageCheck,jbStorageCounting,
+	static private JButton jbStorageInForm,jbStorageOutForm,jbZone,jbStorageCheck,jbStorageCounting,
 					jbSetLimit;
 	
 	private ImageIcon imagelogo,imageStorageInForm,imageStorageOutForm,imageZone,
@@ -39,6 +46,11 @@ public class StorageCountingNavigation extends JPanel implements ActionListener{
 	private JTable table;
 	private JButton jbstart,jbexit,jbmodify;
 	private Box b;
+	private Vector<String> columnNames;
+	private ArrayList<StorageInFormPO> allstorageinform;
+	private DefaultTableModel model;
+	private Vector<String> tableValues ;
+	private Vector<String> row;
 	
 	public StorageCountingNavigation(){
 		
@@ -57,116 +69,122 @@ public class StorageCountingNavigation extends JPanel implements ActionListener{
 //		jpanel2.setLayout(new BoxLayout(jpanel2,BoxLayout.Y_AXIS));
 		jpanel2.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 5));
 
-		jbStorageInForm = new JButton();//入库单
+		setJbStorageInForm(new JButton());//入库单
 		imageStorageInForm = new ImageIcon("image/storageinform.jpg");
-		jbStorageInForm.setIcon(imageStorageInForm);
-		jbStorageInForm.setPreferredSize(new Dimension(imageStorageInForm.getIconWidth(),
+		getJbStorageInForm().setIcon(imageStorageInForm);
+		getJbStorageInForm().setPreferredSize(new Dimension(imageStorageInForm.getIconWidth(),
 				imageStorageInForm.getIconHeight()));
-		jbStorageInForm.addActionListener(new ActionListener(){
+		getJbStorageInForm().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbStorageInForm){
-					new MainFrame().setContentPane(new StorageInFormNavigation());
-				}
+//				if(e.getSource() == getJbStorageInForm()){
+//					new MainFrame().setContentPane(new StorageInFormNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
 		
-		jbZone = new JButton();//调整库存分区
+		setJbZone(new JButton());//调整库存分区
 		imageZone = new ImageIcon("image/zone.jpg");
-		jbZone.setIcon(imageZone);
-		jbZone.setPreferredSize(new Dimension(imageZone.getIconWidth(),
+		getJbZone().setIcon(imageZone);
+		getJbZone().setPreferredSize(new Dimension(imageZone.getIconWidth(),
 				imageZone.getIconHeight()));
-		jbZone.addActionListener(new ActionListener(){
+		getJbZone().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbZone){
-					new MainFrame().setContentPane(new AdjustZoneNavigation());
-				}
+//				if(e.getSource() == getJbZone()){
+//					new MainFrame().setContentPane(new AdjustZoneNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
 		
-		jbStorageCheck = new JButton();//库存查看
+		setJbStorageCheck(new JButton());//库存查看
 		imageStorageCheck = new ImageIcon("image/storagecheck.jpg");
-		jbStorageCheck.setIcon(imageStorageCheck);
-		jbStorageCheck.setPreferredSize(new Dimension(imageStorageCheck.getIconWidth(),
+		getJbStorageCheck().setIcon(imageStorageCheck);
+		getJbStorageCheck().setPreferredSize(new Dimension(imageStorageCheck.getIconWidth(),
 				imageStorageCheck.getIconHeight()));
-		jbStorageCheck.addActionListener(new ActionListener(){
+		getJbStorageCheck().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbStorageCheck){
-					new MainFrame().setContentPane(new StorageCheckNavigation());
-				}
+//				if(e.getSource() == getJbStorageCheck()){
+//					new MainFrame().setContentPane(new StorageCheckNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
 		
-		jbStorageCounting = new JButton();//库存盘点
+		setJbStorageCounting(new JButton());//库存盘点
 		imageStorageCounting = new ImageIcon("image/storagecounting.jpg");
-		jbStorageCounting.setIcon(imageStorageCounting);
-		jbStorageCounting.setPreferredSize(new Dimension(imageStorageCounting.getIconWidth(),
+		getJbStorageCounting().setIcon(imageStorageCounting);
+		getJbStorageCounting().setPreferredSize(new Dimension(imageStorageCounting.getIconWidth(),
 				imageStorageCounting.getIconHeight()));
-		jbStorageCounting.addActionListener(new ActionListener(){
+		getJbStorageCounting().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbStorageCounting){
-					new MainFrame().setContentPane(new StorageCountingNavigation());
-				}
+//				if(e.getSource() == getJbStorageCounting()){
+//					new MainFrame().setContentPane(new StorageCountingNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
 		
-		jbSetLimit = new JButton();//设置库存警戒值
+		setJbSetLimit(new JButton());//设置库存警戒值
 		imageSetLimit = new ImageIcon("image/setlimit.jpg");
-		jbSetLimit.setIcon(imageSetLimit);
-		jbSetLimit.setPreferredSize(new Dimension(imageSetLimit.getIconWidth(),
+		getJbSetLimit().setIcon(imageSetLimit);
+		getJbSetLimit().setPreferredSize(new Dimension(imageSetLimit.getIconWidth(),
 				imageSetLimit.getIconHeight()));
-		jbSetLimit.addActionListener(new ActionListener(){
+		getJbSetLimit().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbSetLimit){
-					new MainFrame().setContentPane(new SetLimitNavigation());
-				}
+//				if(e.getSource() == getJbSetLimit()){
+//					new MainFrame().setContentPane(new SetLimitNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
 		
-		jbStorageOutForm = new JButton();//出库单
+		setJbStorageOutForm(new JButton());//出库单
 		imageStorageOutForm = new ImageIcon("image/storageoutform.jpg");
-		jbStorageOutForm.setIcon(imageStorageOutForm);
-		jbStorageOutForm.setPreferredSize(new Dimension(imageStorageOutForm.getIconWidth(),
+		getJbStorageOutForm().setIcon(imageStorageOutForm);
+		getJbStorageOutForm().setPreferredSize(new Dimension(imageStorageOutForm.getIconWidth(),
 				imageStorageOutForm.getIconHeight()));
-		jbStorageOutForm.addActionListener(new ActionListener(){
+		getJbStorageOutForm().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbStorageOutForm){
-					new MainFrame().setContentPane(new StorageOutFormNavigation());
-				}
+//				if(e.getSource() == getJbStorageOutForm()){
+//					new MainFrame().setContentPane(new StorageOutFormNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
 		
-		jpanel2.add(jbStorageInForm);
-		jpanel2.add(jbStorageOutForm);
-		jpanel2.add(jbZone);
-		jpanel2.add(jbStorageCheck);
-		jpanel2.add(jbStorageCounting);
-		jpanel2.add(jbSetLimit);
+		jpanel2.add(getJbStorageInForm());
+		jpanel2.add(getJbStorageOutForm());
+		jpanel2.add(getJbZone());
+		jpanel2.add(getJbStorageCheck());
+		jpanel2.add(getJbStorageCounting());
+		jpanel2.add(getJbSetLimit());
 		
 		
 		jpanel3 = new JPanel();
 		jpanel3.setLayout(new BoxLayout(jpanel3,BoxLayout.Y_AXIS));
 		jpanel3.setBorder(BorderFactory.createEmptyBorder(2, 5, 10, 10));
 		
-		jlcurrentID = new JLabel("当前身份：中转中心仓库管理员     当前任务：库存盘点");
-		jlcurrentID.setFont(new Font("当前身份：中转中心仓库管理员       当前任务：库存盘点",Font.PLAIN,15));
+		jlcurrentID = new JLabel("当前身份：仓库管理员  "+UserID.userid+" 当前任务：库存盘点");
+		jlcurrentID.setFont(new Font("微软雅黑",Font.PLAIN,15));
 
 		jbmodify = new JButton("修改密码");
 		jbmodify.setFont(new Font("修改密码",Font.PLAIN,12));
@@ -186,11 +204,17 @@ public class StorageCountingNavigation extends JPanel implements ActionListener{
 		b.add(jbexit);
 		b.add(Box.createHorizontalStrut(3));
 		
-		String[] columnNames = { "订单号","入库日期","目的地","区号","排号","架号","位号"};  
-        String[][] tableValues = { { "A1", "B1","C1","D1","E1","F1","G1"}, { "A2", "B2","C1","D1","E1","F1","G1"},  
-                { "A3", "B3","C3","D3","E3","F3","G3"}, { "A4", "B4","C4","D4","E4","F4","G4"}, 
-                { "A5", "B5","C5","D5","E5","F5","G5"}, { "A6", "B6","C6","D6","E6","F6","G6"}};  
-        DefaultTableModel model = new DefaultTableModel(tableValues,columnNames){
+		columnNames = new Vector<String>();
+		columnNames.add("订单号");
+		columnNames.add("入库日期");
+		columnNames.add("目的地");
+		columnNames.add("区号");
+		columnNames.add("排号");
+		columnNames.add("架号");
+		columnNames.add("位号");
+		tableValues = new Vector<String>();
+		
+		model = new DefaultTableModel(tableValues,columnNames){
         	/**
 			 * 重写isCellEditable方法使得表格行可选但不可编辑
 			 */
@@ -202,7 +226,41 @@ public class StorageCountingNavigation extends JPanel implements ActionListener{
         	}
         };
         table = new JTable();
+        table.getTableHeader().setReorderingAllowed(false);
+        model.setDataVector(tableValues, columnNames);
         table.setModel(model);
+        DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+        tcr.setHorizontalAlignment(JLabel.CENTER);
+        table.setDefaultRenderer(Object.class, tcr);
+        
+        StorageInFormController storageInFormController = new StorageInFormController();
+        allstorageinform = storageInFormController.findAll();
+        if(allstorageinform == null){
+        	System.out.println("库存信息为空！");
+        }else {
+        	for(int i = 0;i<allstorageinform.size();i++){
+            	row = new Vector<String>();
+            	
+            	String NO = allstorageinform.get(i).getExpressNumber();
+            	String date = allstorageinform.get(i).getDate();
+            	String destination = allstorageinform.get(i).getDestination();
+            	String zone = allstorageinform.get(i).getZone().toString();
+            	String line = allstorageinform.get(i).getLine().toString();
+            	String shelf = allstorageinform.get(i).getShelf().toString();
+            	String tag = allstorageinform.get(i).getTag().toString();
+            	
+            	row.add(0, NO);
+            	row.add(1, date);
+            	row.add(2, destination);
+            	row.add(3, zone);
+            	row.add(4, line);
+            	row.add(5, shelf);
+            	row.add(6, tag);
+            	
+            	model.addRow(row);
+            	
+            }
+        }
         
 //        table = new JTable(tableValues, columnNames); 
 //        table.setEnabled(false);
@@ -243,6 +301,57 @@ public class StorageCountingNavigation extends JPanel implements ActionListener{
 		if(e.getSource() == jbstart){
 			new StorageCountingBoard();
 		}
+		if(e.getSource() == jbmodify){
+			new ModifyPasswordBoard(this, UserID.userid).setVisible(true);
+		}
+	}
+
+	public static JButton getJbStorageInForm() {
+		return jbStorageInForm;
+	}
+
+	public static void setJbStorageInForm(JButton jbStorageInForm) {
+		StorageCountingNavigation.jbStorageInForm = jbStorageInForm;
+	}
+
+	public static JButton getJbStorageOutForm() {
+		return jbStorageOutForm;
+	}
+
+	public static void setJbStorageOutForm(JButton jbStorageOutForm) {
+		StorageCountingNavigation.jbStorageOutForm = jbStorageOutForm;
+	}
+
+	public static JButton getJbZone() {
+		return jbZone;
+	}
+
+	public static void setJbZone(JButton jbZone) {
+		StorageCountingNavigation.jbZone = jbZone;
+	}
+
+	public static JButton getJbStorageCheck() {
+		return jbStorageCheck;
+	}
+
+	public static void setJbStorageCheck(JButton jbStorageCheck) {
+		StorageCountingNavigation.jbStorageCheck = jbStorageCheck;
+	}
+
+	public static JButton getJbStorageCounting() {
+		return jbStorageCounting;
+	}
+
+	public static void setJbStorageCounting(JButton jbStorageCounting) {
+		StorageCountingNavigation.jbStorageCounting = jbStorageCounting;
+	}
+
+	public static JButton getJbSetLimit() {
+		return jbSetLimit;
+	}
+
+	public static void setJbSetLimit(JButton jbSetLimit) {
+		StorageCountingNavigation.jbSetLimit = jbSetLimit;
 	}
 	
 }

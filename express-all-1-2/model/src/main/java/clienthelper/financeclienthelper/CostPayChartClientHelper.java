@@ -5,6 +5,7 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+import RMIHelper.ServiceName;
 import RMIHelper.URL;
 import dataservice.financedataservice.CostPayChartdataService;
 import po.CostpayChartPO;
@@ -12,13 +13,13 @@ import po.CostpayChartPO;
 
 
 public class CostPayChartClientHelper {
-	CostPayChartdataService paymentFormdataService=null;
+	CostPayChartdataService costPayChartdataService=null;
 	public CostpayChartPO goFind(String NO) {
 		System.out.println("进入CostPayChartClientHelper...client wants to finds Form...");
-		paymentFormdataService = go();
+		costPayChartdataService = go();
 		CostpayChartPO po;
 		try {
-			po = paymentFormdataService.find(NO);
+			po = costPayChartdataService.find(NO);
 			return po;
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
@@ -29,9 +30,9 @@ public class CostPayChartClientHelper {
 	
 	public boolean goInsert(CostpayChartPO po) {
 		System.out.println("进入PaymentFormClientHelper...client wants to insert Form ...");
-		paymentFormdataService = go();
+		costPayChartdataService = go();
 		try {
-			paymentFormdataService.insert(po);
+			costPayChartdataService.insert(po);
 			return true;
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
@@ -42,9 +43,9 @@ public class CostPayChartClientHelper {
 	
 	public boolean goDelete(CostpayChartPO po) {
 		System.out.println("进入PaymentFormClientHelper...client wants to delete Form...");
-		paymentFormdataService = go();
+		costPayChartdataService = go();
 		try {
-			paymentFormdataService.delete(po);
+			costPayChartdataService.delete(po);
 			return true;
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
@@ -55,9 +56,9 @@ public class CostPayChartClientHelper {
 	
 	public boolean goUpdate(CostpayChartPO po) {
 		System.out.println("进入PaymentFormClientHelper...client wants to update Car...");
-		paymentFormdataService= go();
+		costPayChartdataService= go();
 		try {
-			paymentFormdataService.update(po);
+			costPayChartdataService.update(po);
 			return true;
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
@@ -68,11 +69,13 @@ public class CostPayChartClientHelper {
 	
 	public CostPayChartdataService go() {
 		System.out.println("进入ReceiptFormClientHelper...go...");
-		if(paymentFormdataService == null) {
+		if(costPayChartdataService == null) {
 			try {
-				paymentFormdataService = (CostPayChartdataService)Naming
-						.lookup("rmi://127.0.0.1:32010/paymentFormdataService");
-				System.out.println("paymentFormdataService RMI服务查找成功...");
+//				costPayChartdataService = (CostPayChartdataService)Naming
+//						.lookup("rmi://127.0.0.1:32222/costPayChartdataService");
+				costPayChartdataService = (CostPayChartdataService)Naming
+						.lookup(URL.getURL(ServiceName.COSTPAYCHART.toString()));
+				System.out.println("costPayChartdataService RMI服务查找成功...");
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
 				System.out.println("URL格式错误！！");
@@ -87,6 +90,6 @@ public class CostPayChartClientHelper {
 				e.printStackTrace();
 			}
 		}
-		return paymentFormdataService;
+		return costPayChartdataService;
 	}
 }

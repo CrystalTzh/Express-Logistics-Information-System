@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 
 
@@ -19,7 +18,7 @@ public class DeliveryFrame extends JFrame implements ActionListener{
 			DeliveryPanel board = new DeliveryPanel();
 			frame.add(board);
 			frame.setSize(531, 219);
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setLocationRelativeTo(null);
 			frame.setVisible(true);
 			frame.setResizable(false);

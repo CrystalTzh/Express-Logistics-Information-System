@@ -48,8 +48,8 @@ public class BossBankAccountManageDriver extends JFrame implements ActionListene
 		setJMenuBar(bar);
 
 		label = new JLabel("银行账户基本信息查询", JLabel.CENTER);
-		label.setFont(new Font("TimesRoman", Font.BOLD, 24));
-		label.setForeground(Color.BLUE);
+		label.setFont(new Font("微软雅黑", Font.PLAIN, 24));
+		label.setForeground(Color.DARK_GRAY);
 
 		addmi.addActionListener(this);
 		addmi.setEnabled(false);

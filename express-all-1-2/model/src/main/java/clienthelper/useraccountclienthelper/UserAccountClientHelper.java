@@ -9,9 +9,13 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
+import RMIHelper.ServiceName;
+import RMIHelper.URL;
 import dataservice.userdataservice.UserAccountUserdataService;
 import po.UserAccountPO;
+import state.UserRole;
 
 /**
  * 在客户端，用户账户建立RMI连接
@@ -20,6 +24,22 @@ public class UserAccountClientHelper {
 
 	UserAccountUserdataService userAccountUserdataService = null;
 
+	/**
+	 * 远程查找所有用户账户信息
+	 * @return
+	 */
+	public ArrayList<UserAccountPO> goFindAll(UserRole userRole) {
+		System.out.println("进入UserAccountClientHelper...goFindAll...");
+		userAccountUserdataService = go();
+		try {
+			return userAccountUserdataService.findAll(userRole);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	/**
 	 * 通过RMI远程更新用户账户信息
 	 * 
@@ -105,8 +125,10 @@ public class UserAccountClientHelper {
 		System.out.println("进入UserAccountClientHelper...go...");
 		if (userAccountUserdataService == null) {
 			try {
-				userAccountUserdataService = (UserAccountUserdataService) Naming
-						.lookup("rmi://127.0.0.1:32003/userAccountUserdataService");
+//				userAccountUserdataService = (UserAccountUserdataService) Naming
+//						.lookup("rmi://127.0.0.1:32003/userAccountUserdataService");
+				userAccountUserdataService = (UserAccountUserdataService)Naming
+						.lookup(URL.getURL(ServiceName.USERACCOUNT.toString()));
 				System.out.println("userAccountUserdataService RMI服务查找成功...");
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block

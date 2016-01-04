@@ -1,11 +1,14 @@
 package vo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-
-import state.FormState;
-
+/**
+ * 付款单持久化对象
+ */
 public class PaymentFormVO implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String date;//付款日期
 	double money;//付款金额
 	String name;//付款人

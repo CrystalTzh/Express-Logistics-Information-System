@@ -12,11 +12,11 @@ public class OfficeArrivalFrame extends JFrame implements ActionListener {
 	OfficeArrivalPanel storeArrivalPanel;
 	
 	public OfficeArrivalFrame(){
-		JFrame frame = new JFrame("中转中心到达单01");
+		JFrame frame = new JFrame("营业厅到达单");
 		OfficeArrivalPanel board=new OfficeArrivalPanel();
 		frame.add(board);
 		frame.setSize(731, 319);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.setResizable(false);

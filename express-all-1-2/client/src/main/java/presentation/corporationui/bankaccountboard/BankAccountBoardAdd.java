@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.GregorianCalendar;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -19,8 +20,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import controller.UserID;
 import controller.corporationcontroller.BankAccountController;
+import controller.corporationcontroller.LogController;
+import presentation.handleexception.numberexceptionhandle.BankAccountIDHandle;
+import state.Operation;
+import state.OperationObject;
+import state.UserRole;
 import vo.BankAccountInfoVO;
+import vo.LogVO;
 
 /**
  * 增加银行账户面板
@@ -31,13 +39,16 @@ public class BankAccountBoardAdd extends JPanel implements ActionListener {
 	JTextField accountIDjtf, accountNamejtf, balancejtf;// 银行账号、账户名和余额文本框
 	JButton addButton, resetButton;// 添加，重置按钮
 	BankAccountController bankAccountController;
+	LogController logController;
 
 	public BankAccountBoardAdd() {
 		accountIDjtf = new JTextField(20);
 		accountNamejtf = new JTextField(20);
 		balancejtf = new JTextField(20);
 		addButton = new JButton("录入");
+		addButton.setContentAreaFilled(false);
 		resetButton = new JButton("重置");
+		resetButton.setContentAreaFilled(false);
 
 		addButton.addActionListener(this);
 		resetButton.addActionListener(this);
@@ -46,7 +57,7 @@ public class BankAccountBoardAdd extends JPanel implements ActionListener {
 		Box box = Box.createHorizontalBox();
 		JLabel logojl = new JLabel("银行账号信息录入", JLabel.CENTER);
 		logojl.setFont(new Font("TimesRoman", Font.BOLD, 24));
-		logojl.setForeground(Color.BLUE);
+		logojl.setForeground(Color.DARK_GRAY);
 		box.add(logojl);
 		Box box1 = Box.createHorizontalBox();
 		box1.add(new JLabel("银行账号:", JLabel.CENTER));
@@ -101,7 +112,12 @@ public class BankAccountBoardAdd extends JPanel implements ActionListener {
 		if (e.getSource() == addButton) {// 1 点击了录入按钮
 			String number = "";
 			number = accountIDjtf.getText();
+			
 			if (number.length() > 0) {// 1.1 输入了银行账号
+				BankAccountIDHandle bankAccountIDHandle = new BankAccountIDHandle();
+				if(!bankAccountIDHandle.handle(this, accountIDjtf)) {//判断是否输入了合法的银行账号，如不合法处理异常
+					return;
+				}
 				BankAccountInfoVO vo = null;
 				bankAccountController = new BankAccountController();
 				vo = bankAccountController.findBankAccount(number);
@@ -123,6 +139,16 @@ public class BankAccountBoardAdd extends JPanel implements ActionListener {
 						voToAdd.setAccountName(accountName);
 						voToAdd.setBalance(balance);
 						bankAccountController.addBankAccount(voToAdd);//添加银行账户
+						
+						//添加日志
+						logController = new LogController();
+						LogVO logToAdd = new LogVO();
+						logToAdd.setOperation(Operation.ADD);
+						logToAdd.setOperationObject(OperationObject.BankAccountInfo);
+						logToAdd.setOperationTime(new GregorianCalendar());
+						logToAdd.setOperatorID(UserID.userid);
+						logToAdd.setOperatorRole(UserRole.ADFINANCEMAN);
+						logController.addLog(logToAdd);// 添加一条日志
 					}//录入结束
 				}
 			} else {//1.2 未输入银行账号

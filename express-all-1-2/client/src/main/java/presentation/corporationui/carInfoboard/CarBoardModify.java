@@ -7,6 +7,7 @@ package presentation.corporationui.carInfoboard;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.GregorianCalendar;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -16,8 +17,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import controller.UserID;
 import controller.corporationcontroller.CarInfoController;
+import controller.corporationcontroller.LogController;
+import presentation.handleexception.numberexceptionhandle.CarNumberHandle;
+import state.Operation;
+import state.OperationObject;
+import state.UserRole;
 import vo.CarInfoVO;
+import vo.LogVO;
 
 public class CarBoardModify extends JPanel implements ActionListener {
 	/**
@@ -27,6 +35,7 @@ public class CarBoardModify extends JPanel implements ActionListener {
 	JTextField carNumberjtf, plateNumberjtf, engineNumberjtf, chassisNumberjtf, buyTimejtf, activeTimejtf;
 	JButton beginModifybt, confirmModifybt, resetbt;
 	CarInfoController carInfoController;
+	LogController logController;
 
 	public CarBoardModify() {
 		//初始化文本框、按钮等组件
@@ -41,6 +50,9 @@ public class CarBoardModify extends JPanel implements ActionListener {
 		confirmModifybt = new JButton("录入修改");
 		confirmModifybt.setEnabled(false);
 		resetbt = new JButton("重置");
+		beginModifybt.setContentAreaFilled(false);
+		confirmModifybt.setContentAreaFilled(false);
+		resetbt.setContentAreaFilled(false);
 		//监听车辆代号文本框、开始修改按钮、确认修改按钮和重置按钮
 		carNumberjtf.addActionListener(this);
 		beginModifybt.addActionListener(this);
@@ -86,27 +98,6 @@ public class CarBoardModify extends JPanel implements ActionListener {
 		boxH.add(Box.createVerticalStrut(10));
 		boxH.add(box6);
 		
-//		Box box8 = Box.createHorizontalBox();
-//		box8.add(new JLabel("行驶证期限2:", JLabel.CENTER));
-//		box8.add(new JTextField(10));
-//		Box box9 = Box.createHorizontalBox();
-//		box9.add(new JLabel("行驶证期限3:", JLabel.CENTER));
-//		box9.add(new JTextField(10));
-//		Box box10 = Box.createHorizontalBox();
-//		box10.add(new JLabel("行驶证期限4:", JLabel.CENTER));
-//		box10.add(new JTextField(10));
-//		Box box11 = Box.createHorizontalBox();
-//		box11.add(new JLabel("行驶证期限5:", JLabel.CENTER));
-//		box11.add(new JTextField(10));
-//		Box box12 = Box.createHorizontalBox();
-//		box12.add(new JLabel("行驶证期限6:", JLabel.CENTER));
-//		box12.add(new JTextField(10));
-//		boxH.add(box8);
-//		boxH.add(box9);
-//		boxH.add(box10);
-//		boxH.add(box11);
-//		boxH.add(box12);
-		
 		//组件之间的距离自动扩充平均分配
 		boxH.add(Box.createVerticalGlue());
 		JPanel pCenter;
@@ -132,8 +123,12 @@ public class CarBoardModify extends JPanel implements ActionListener {
 				|| e.getSource() == carNumberjtf) {//1 点击开始修改按钮或输入车辆代号后按了enter
 			String number = "";
 			number = carNumberjtf.getText();
-
+			
 			if (number.length() > 0) {//1.1 输入了车辆代号，判断是否可以修改
+				CarNumberHandle carNumberHandle = new CarNumberHandle();
+				if(!carNumberHandle.handle(this, carNumberjtf)){//判断输入的车辆代号是否有效，若无效进行相应处理
+					return;
+				}
 				CarInfoVO vo = null;
 				carInfoController = new CarInfoController();
 				vo = carInfoController.findCar(number);
@@ -145,6 +140,7 @@ public class CarBoardModify extends JPanel implements ActionListener {
 					chassisNumberjtf.setText(vo.getChassisNumber());
 					buyTimejtf.setText(vo.getBuyTime());
 					activeTimejtf.setText(vo.getActiveTime());
+					
 				} else {//1.1.2 输入的车辆代号不存在
 					confirmModifybt.setEnabled(false);// 不可修改
 					String warning = "该车辆代号不存在!";
@@ -187,6 +183,15 @@ public class CarBoardModify extends JPanel implements ActionListener {
 						voToModify.setActiveTime(activeTime);
 						carInfoController.modifyCar(voToModify);//修改车辆信息
 						confirmModifybt.setEnabled(false);
+						
+						logController = new LogController();
+						LogVO logToAdd = new LogVO();
+						logToAdd.setOperation(Operation.ADD);
+						logToAdd.setOperationObject(OperationObject.CarInfo);
+						logToAdd.setOperationTime(new GregorianCalendar());
+						logToAdd.setOperatorID(UserID.userid);
+						logToAdd.setOperatorRole(UserRole.OFFICEMAN);
+						logController.addLog(logToAdd);//添加一条日志
 					}
 				} else {//2.1.2 输入的车辆代号不存在
 					String warning = "该车辆代号没有基本信息,不能修改!";
@@ -205,6 +210,7 @@ public class CarBoardModify extends JPanel implements ActionListener {
 		}
 		System.out.println();
 	}
+	
 	public void clearText() {
 		carNumberjtf.setText(null);
 		plateNumberjtf.setText(null);

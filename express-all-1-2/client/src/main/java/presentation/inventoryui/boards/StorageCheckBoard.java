@@ -44,12 +44,12 @@ public class StorageCheckBoard extends JFrame implements ActionListener {
 		this.add(jlend);
 		
 		datechooserstart = new DateChooser(this,"yyyy/mm/dd",50);
-		datechooserstart.setBounds(70, 14, datechooserstart.getdatechooserwidth(), datechooserstart.getdatechooserheight());
+		datechooserstart.setBounds(60, 14, datechooserstart.getdatechooserwidth(), datechooserstart.getdatechooserheight());
 		datechooserstart.setOpaque(false);
 		this.add(datechooserstart);
 		
 		datechooserend = new DateChooser(this,"yyyy/mm/dd",50);
-		datechooserend.setBounds(290, 14, datechooserend.getdatechooserwidth(), datechooserstart.getdatechooserheight());
+		datechooserend.setBounds(280, 14, datechooserend.getdatechooserwidth(), datechooserstart.getdatechooserheight());
 		datechooserend.setOpaque(false);
 		this.add(datechooserend);
 		
@@ -135,6 +135,7 @@ public class StorageCheckBoard extends JFrame implements ActionListener {
 		jbreturn.setText("返回");
 		jbreturn.addActionListener(this);
 		jbreturn.setBounds(397, 330, 60, 25);
+		jbreturn.setContentAreaFilled(false);
 		this.add(jbreturn);
 		
 		this.setVisible(true);

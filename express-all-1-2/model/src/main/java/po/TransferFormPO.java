@@ -4,14 +4,16 @@ import java.io.*;
 import java.util.ArrayList;
 
 import state.FormState;
+import state.Line;
+import state.Shelf;
+import state.Tag;
 import state.Transport;
 import state.Zone;
-
+/**
+ * 中转单持久化对象
+ */
 public class TransferFormPO implements Serializable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	String NO;
 	String putOnCarDate; //装车日期
@@ -21,9 +23,9 @@ public class TransferFormPO implements Serializable {
 	String loadingMember; //监装员
 	Transport transport; //运输方式
 	Zone zone;
-	int line;
-	int shelf;
-	int tag; //区号排号架号位号
+	Line line;
+	Shelf shelf;
+	Tag tag; //区号排号架号位号
 	ArrayList<String> allIDs; // 所有订单号
 	double transCharge; //运费
 	FormState formstate;//单据的状态
@@ -83,22 +85,22 @@ public class TransferFormPO implements Serializable {
 	public void setZone(Zone zone) {
 		this.zone = zone;
 	}
-	public int getLine() {
+	public Line getLine() {
 		return line;
 	}
-	public void setLine(int line) {
+	public void setLine(Line line) {
 		this.line = line;
 	}
-	public int getShelf() {
+	public Shelf getShelf() {
 		return shelf;
 	}
-	public void setShelf(int shelf) {
+	public void setShelf(Shelf shelf) {
 		this.shelf = shelf;
 	}
-	public int getTag() {
+	public Tag getTag() {
 		return tag;
 	}
-	public void setTag(int tag) {
+	public void setTag(Tag tag) {
 		this.tag = tag;
 	}
 	public ArrayList<String> getAllIDs() {

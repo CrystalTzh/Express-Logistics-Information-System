@@ -7,6 +7,7 @@ package presentation.corporationui.carInfoboard;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.GregorianCalendar;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -16,20 +17,26 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import controller.UserID;
 import controller.corporationcontroller.CarInfoController;
+import controller.corporationcontroller.LogController;
+import presentation.handleexception.numberexceptionhandle.CarNumberHandle;
+import state.Operation;
+import state.OperationObject;
+import state.UserRole;
 import vo.CarInfoVO;
+import vo.LogVO;
 
 public class CarBoardAdd extends JPanel implements ActionListener {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	JTextField carNumberjtf, plateNumberjtf, engineNumberjtf, chassisNumberjtf, buyTimejtf, activeTimejtf;
 	JButton addButton, resetButton;
 	CarInfoController carInfoController;
+	LogController logController;
 
 	public CarBoardAdd() {
-		//初始化文本框、按钮等组件
+		// 初始化文本框、按钮等组件
 		carNumberjtf = new JTextField(20);
 		plateNumberjtf = new JTextField(20);
 		engineNumberjtf = new JTextField(20);
@@ -38,10 +45,12 @@ public class CarBoardAdd extends JPanel implements ActionListener {
 		activeTimejtf = new JTextField(20);
 		addButton = new JButton("录入");
 		resetButton = new JButton("重置");
-		//监听录入和重置按钮
+		addButton.setContentAreaFilled(false);
+		resetButton.setContentAreaFilled(false);
+		// 监听录入和重置按钮
 		addButton.addActionListener(this);
 		resetButton.addActionListener(this);
-		//水平显示组件
+		// 水平显示组件
 		Box box1 = Box.createHorizontalBox();
 		box1.add(new JLabel("车辆代号:", JLabel.CENTER));
 		box1.add(Box.createHorizontalStrut(12));
@@ -65,8 +74,8 @@ public class CarBoardAdd extends JPanel implements ActionListener {
 		box6.add(new JLabel("服役时间:", JLabel.CENTER));
 		box6.add(Box.createHorizontalStrut(12));
 		box6.add(activeTimejtf);
-		
-		//垂直显示组件
+
+		// 垂直显示组件
 		Box boxH = Box.createVerticalBox();
 		boxH.add(Box.createVerticalStrut(10));
 		boxH.add(box1);
@@ -80,67 +89,47 @@ public class CarBoardAdd extends JPanel implements ActionListener {
 		boxH.add(box5);
 		boxH.add(Box.createVerticalStrut(10));
 		boxH.add(box6);
-		
-		/*
-		 */
-//		Box box8 = Box.createHorizontalBox();
-//		box8.add(new JLabel("行驶证期限2:", JLabel.CENTER));
-//		box8.add(new JTextField(10));
-//		Box box9 = Box.createHorizontalBox();
-//		box9.add(new JLabel("行驶证期限3:", JLabel.CENTER));
-//		box9.add(new JTextField(10));
-//		Box box10 = Box.createHorizontalBox();
-//		box10.add(new JLabel("行驶证期限4:", JLabel.CENTER));
-//		box10.add(new JTextField(10));
-//		Box box11 = Box.createHorizontalBox();
-//		box11.add(new JLabel("行驶证期限5:", JLabel.CENTER));
-//		box11.add(new JTextField(10));
-//		Box box12 = Box.createHorizontalBox();
-//		box12.add(new JLabel("行驶证期限6:", JLabel.CENTER));
-//		box12.add(new JTextField(10));
-//		boxH.add(box8);
-//		boxH.add(box9);
-//		boxH.add(box10);
-//		boxH.add(box11);
-//		boxH.add(box12);
-		/*
-		 */
+
 		JPanel pCenter;
-		//JScrollPane处理滚动
+		// JScrollPane处理滚动
 		JScrollPane scrollPane = new JScrollPane(pCenter = new JPanel());
 		pCenter.add(boxH);
-		
+
 		setLayout(new BorderLayout());
-		//主要的信息界面显示在中央
+		// 主要的信息界面显示在中央
 		add(scrollPane, BorderLayout.CENTER);
 		JPanel pSouth = new JPanel();
 		pSouth.add(addButton);
 		pSouth.add(resetButton);
-		//两个按钮显示在南边
+		// 两个按钮显示在南边
 		add(pSouth, BorderLayout.SOUTH);
 		validate();
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		System.out.println();
-		if (e.getSource() == addButton) {//1 点击了录入按钮
+		if (e.getSource() == addButton) {// 1 点击了录入按钮
 			String number = "";
 			number = carNumberjtf.getText();
-
-			if (number.length() > 0) {//1.1 输入了车辆代号
+			
+			if (number.length() > 0) {// 1.1 输入了车辆代号
+				CarNumberHandle carNumberHandle = new CarNumberHandle();
+				if(!carNumberHandle.handle(this, carNumberjtf)){//判断输入的车辆代号是否有效，若无效进行相应处理
+					return;
+				}
 				CarInfoVO vo = null;
 				carInfoController = new CarInfoController();
 				vo = carInfoController.findCar(number);
-				if(vo != null) { //1.1.1 输入的车辆代号存在
+				if (vo != null) { // 1.1.1 输入的车辆代号存在
 					String warning = "该车辆基本信息已存在,请到修改页面修改!";
 					JOptionPane.showMessageDialog(this, warning, "警告", JOptionPane.WARNING_MESSAGE);
-				} else {//1.1.2 输出的车辆代号不存在
+				} else {// 1.1.2 输出的车辆代号不存在
 					String m = "基本信息将被录入!";
 					int ok = JOptionPane.showConfirmDialog(this, m, "确认", JOptionPane.YES_NO_OPTION,
 							JOptionPane.INFORMATION_MESSAGE);
-					if (ok == JOptionPane.YES_OPTION) {//确认录入
-						//包装CarInfoVO
+					if (ok == JOptionPane.YES_OPTION) {// 确认录入
 						String carNumber = carNumberjtf.getText();
+						// 包装CarInfoVO
 						String plateNumber = plateNumberjtf.getText();
 						String engineNumber = engineNumberjtf.getText();
 						String chassisNumber = chassisNumberjtf.getText();
@@ -153,19 +142,30 @@ public class CarBoardAdd extends JPanel implements ActionListener {
 						voToAdd.setChassisNumber(chassisNumber);
 						voToAdd.setBuyTime(buyTime);
 						voToAdd.setActiveTime(activeTime);
-						carInfoController.addCar(voToAdd);//添加车辆
-					}//录入结束
+						carInfoController.addCar(voToAdd);// 添加车辆
+
+						logController = new LogController();
+						LogVO logToAdd = new LogVO();
+						logToAdd.setOperation(Operation.ADD);
+						logToAdd.setOperationObject(OperationObject.CarInfo);
+						logToAdd.setOperationTime(new GregorianCalendar());
+						logToAdd.setOperatorID(UserID.userid);
+						logToAdd.setOperatorRole(UserRole.OFFICEMAN);
+						logController.addLog(logToAdd);// 添加一条日志
+
+					} // 录入结束
 				}
-			} else {//1.2 未输入司机编号
+			} else {// 1.2 未输入司机编号
 				String warning = "必须要输入司机编号!";
 				JOptionPane.showMessageDialog(this, warning, "警告", JOptionPane.WARNING_MESSAGE);
 			}
 		}
-		if (e.getSource() == resetButton) {//2 点击了重置按钮
+		if (e.getSource() == resetButton) {// 2 点击了重置按钮
 			textClear();
 		}
 		System.out.println();
 	}
+	
 
 	public void textClear() {
 		carNumberjtf.setText(null);

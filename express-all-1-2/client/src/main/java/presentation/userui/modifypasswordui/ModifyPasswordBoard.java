@@ -38,17 +38,17 @@ public class ModifyPasswordBoard extends JDialog implements ActionListener {
 	JButton savebt, resetbt;// 确认、重置按钮
 	String accountID;
 
-	public ModifyPasswordBoard(JFrame f, String accountID) {
+	public ModifyPasswordBoard(JPanel f, String accountID) {
 		// 指定对话框的所有者、标题、模式,模式为false代表对话框与所属窗口可以互相切换，彼此之间在操作上没有顺序性
-		super(f, false);
+		super();
 
 		userAccountController = new UserAccountController();
 		
 		this.accountID = accountID;
 
-		Font font1 = new Font("Comic Sans MS", Font.BOLD, 16);
-		Font font2 = new Font("TimesRoman", Font.BOLD, 28);
-		Font font3 = new Font("TimesRoman", Font.PLAIN, 14);
+		Font font1 = new Font("微软雅黑", Font.PLAIN, 16);
+		Font font2 = new Font("微软雅黑", Font.PLAIN, 28);
+		Font font3 = new Font("微软雅黑", Font.PLAIN, 14);
 
 		oldPasswordjpf = new JPasswordField(15);
 		newPasswordjpf = new JPasswordField(15);
@@ -107,7 +107,7 @@ public class ModifyPasswordBoard extends JDialog implements ActionListener {
 		this.add(pCenter, BorderLayout.CENTER);
 		this.validate();
 		setVisible(false);
-		setBounds(100, 200, 387, 270);
+		setBounds(560, 250, 387, 270);
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				setVisible(false);
@@ -174,6 +174,7 @@ public class ModifyPasswordBoard extends JDialog implements ActionListener {
 				String m = "修改密码成功!";
 				JOptionPane.showMessageDialog(this, m, "提示", JOptionPane.INFORMATION_MESSAGE);
 				clearText1();
+				this.setVisible(false);
 			} else {//1.2 不一致
 				String warning = "您两次输入的密码不一致, 请重新输入!";
 				JOptionPane.showMessageDialog(this, warning, "警告", JOptionPane.WARNING_MESSAGE);
@@ -219,10 +220,10 @@ public class ModifyPasswordBoard extends JDialog implements ActionListener {
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		Font font = new Font("Comic Sans MS", Font.BOLD, 16);
+		Font font = new Font("微软雅黑", Font.BOLD, 16);
 		JLabel label = new JLabel("Modify Password", JLabel.CENTER);
 		label.setFont(font);
-		final ModifyPasswordBoard modifyPasswordBoard = new ModifyPasswordBoard(frame, "141250122");
+//		final ModifyPasswordBoard modifyPasswordBoard = new ModifyPasswordBoard(frame, "141250122");
 
 		frame.add(label, BorderLayout.CENTER);
 		frame.setSize(200, 200);
@@ -234,7 +235,7 @@ public class ModifyPasswordBoard extends JDialog implements ActionListener {
 
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				modifyPasswordBoard.setVisible(true);
+//				modifyPasswordBoard.setVisible(true);
 			}
 
 			public void mousePressed(MouseEvent e) {

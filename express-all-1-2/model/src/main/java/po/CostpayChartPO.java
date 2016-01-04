@@ -1,11 +1,11 @@
 package po;
 
 import java.io.Serializable;
-
+/**
+ * 成本收益表持久化对象
+ */
 public class CostpayChartPO implements Serializable{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	double income;//总收入
 	double cost;//总支出

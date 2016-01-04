@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import state.FormState;
-
+/**
+ * 收款单持久化对象
+ */
 public class ReceiptFormPO implements  Serializable{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	String date;//收款日期
 	double money;//收款金额
@@ -16,7 +16,14 @@ public class ReceiptFormPO implements  Serializable{
 	ArrayList<String> id;//所有快递单号
 	String NO;//单号
 	FormState formstate;//单据的状态
+	boolean paystate = false;
 
+	public boolean isPaystate() {
+		return paystate;
+	}
+	public void setPaystate(boolean paystate) {
+		this.paystate = paystate;
+	}
 	public FormState getFormstate() {
 		return formstate;
 	}

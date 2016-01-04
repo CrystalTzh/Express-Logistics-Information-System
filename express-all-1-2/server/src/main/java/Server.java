@@ -1,7 +1,5 @@
 import java.rmi.RemoteException;
 
-import serverhelper.userserverhelper.UserAccountServerHelper;
-
 public class Server {
 
 	public static void main(String[] args) throws RemoteException {
@@ -80,8 +78,8 @@ public class Server {
 //		BankAccountServerHelper ankAccountServerHelper = new BankAccountServerHelper();
 //		ankAccountServerHelper.go();
 		
-		UserAccountServerHelper userAccountServerHelper = new UserAccountServerHelper();
-		userAccountServerHelper.go();
+//		UserAccountServerHelper userAccountServerHelper = new UserAccountServerHelper();
+//		userAccountServerHelper.go();
 		
 //		SalaryInfoServerHelper salaryInfoServerHelper = new SalaryInfoServerHelper();
 //		salaryInfoServerHelper.go();
@@ -97,5 +95,15 @@ public class Server {
 		
 //		ReceiptFormServerHelper o = new ReceiptFormServerHelper();
 //		o.go();
+		
+//		LogServerHelper l = new LogServerHelper();
+//		l.go();
+		
+//		OfficeServerHelper o = new OfficeServerHelper();
+//		o.go();
+		
+//		TransferOfficeServerHelper t = new TransferOfficeServerHelper();
+//		t.go();
+		
 	}
 }

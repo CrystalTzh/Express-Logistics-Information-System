@@ -1,14 +1,13 @@
 package po;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 import state.FormState;
-
+/**
+ * 付款单持久化对象
+ */
 public class PaymentFormPO implements Serializable{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	String date;//付款单日期
 	double money;//付款金额

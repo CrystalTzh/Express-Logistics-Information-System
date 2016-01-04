@@ -7,6 +7,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 import dataservice.transitdataservice.OrderFormTransitdataService;
@@ -19,6 +21,7 @@ public class OrderFormTransitImpl extends UnicastRemoteObject implements OrderFo
 	ObjectInputStream inTwo;
 	FileOutputStream outOne;
 	ObjectOutputStream outTwo;
+	@SuppressWarnings("rawtypes")
 	Hashtable allOrderForm;
 	File file = new File("寄件单基本信息.txt");
 	IOHelper ioHelper;
@@ -49,6 +52,7 @@ public class OrderFormTransitImpl extends UnicastRemoteObject implements OrderFo
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void insert(OrderFormPO po) throws RemoteException, IllegalArgumentException {
 		// TODO Auto-generated method stub
 		System.out.println("Insert OrderFormPO Start!!");
@@ -83,6 +87,21 @@ public class OrderFormTransitImpl extends UnicastRemoteObject implements OrderFo
 			insert(po);
 		}
 		System.out.println("update over!");
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<OrderFormPO> findAll() throws RemoteException, IllegalArgumentException {
+		// TODO Auto-generated method stub
+		System.out.println("Find AllPaymentFormPO Start!!");
+		ioHelper = new IOHelper();
+		allOrderForm= ioHelper.readFromFile(file);
+		Enumeration<OrderFormPO> e = allOrderForm.elements();
+		ArrayList<OrderFormPO> polist = new ArrayList<OrderFormPO>();
+		while(e.hasMoreElements()){
+			polist.add(e.nextElement());
+		}
+		return polist;
 	}
 	
 }

@@ -1,6 +1,7 @@
 package businesslogic.inventorybl;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import businesslogicservice.inventoryblservice.StorageOutFormInventoryblService;
 import clienthelper.inventoryinfoclienthelper.StorageOutFormClientHelper;
@@ -8,7 +9,6 @@ import dataservice.inventorydataservice.StorageOutFromInventorydataService;
 import impl.inventoryImpl.StorageOutFormServiceImpl;
 import po.StorageOutFormPO;
 import state.FormState;
-import state.Transport;
 import vo.StorageOutFormVO;
 
 public class StorageOutForm implements StorageOutFormInventoryblService {
@@ -126,11 +126,10 @@ public class StorageOutForm implements StorageOutFormInventoryblService {
 		return false;
 	}
 
-	@Override
-	public boolean storageOutFormAddInfo(String date, String destination, Transport transport, String relayNumber,
-			String motorNumber) {
+	public ArrayList<StorageOutFormPO> findAll() {
 		// TODO Auto-generated method stub
-		return false;
+		System.out.println("进入PaymentFormbl...findAll...");
+		return clienthelper.goFindAll();
 	}
 
 	

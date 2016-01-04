@@ -10,6 +10,8 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+import RMIHelper.ServiceName;
+import RMIHelper.URL;
 import dataservice.constdataservice.PriceInfoConstdataService;
 import po.PricePO;
 
@@ -26,7 +28,8 @@ public class PriceInfoClientHelper {
 			priceInfoConstdataService.update(po);
 			return true;
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
+			//远程方法调用的时候出现网络中断【服务器没有在规定时间内返回数据】
+			//尝试重连：开始跑一个线程，每5秒调用一次ping方法，如果调用成功，结束线程
 			e.printStackTrace();
 		}
 		return false;
@@ -57,17 +60,20 @@ public class PriceInfoClientHelper {
 		System.out.println("进入PriceInfoClientHelper...go...");
 		if(priceInfoConstdataService == null) {
 			try {
+//				priceInfoConstdataService = (PriceInfoConstdataService)Naming
+//						.lookup("rmi://127.0.0.1:32004/priceInfoConstdataService");
 				priceInfoConstdataService = (PriceInfoConstdataService)Naming
-						.lookup("rmi://127.0.0.1:32003/priceInfoConstdataService");
+						.lookup(URL.getURL(ServiceName.PRICEINFO.toString()));
 				System.out.println("priceInfoConstdataService RMI服务查找成功...");
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
 				System.out.println("URL格式错误！！");
 				e.printStackTrace();
 			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
 				System.out.println("其他异常！！");
 				e.printStackTrace();
+				//进行RMI远程对象查找的时候，无法连接服务器
+				//提示确认服务器已连接
 			} catch (NotBoundException e) {
 				// TODO Auto-generated catch block
 				System.out.println("指定服务名称不存在！！");

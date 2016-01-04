@@ -1,12 +1,20 @@
 package controller.transitController;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
-import businesslogic.transitbl.CarInputForm;
 import businesslogic.transitbl.CarOfficeForm;
+import po.CarOfficeFormPO;
 import vo.CarOfficeFormVO;
 
 public class CarOfficeFormController {
+	
+	
+	public ArrayList<CarOfficeFormPO> findAll(){
+		System.out.println("进入CarOfficeFormController...findAll...");
+		CarOfficeForm carOfficeForm = new CarOfficeForm();
+		return 	carOfficeForm.findAll();
+	}
 	
 	public boolean saveDriver(CarOfficeFormVO vo){
 		System.out.println("进入CarOfficeFormController...saveDriver...");

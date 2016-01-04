@@ -23,12 +23,14 @@ public class StorageCountingBoard extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
 	private JLabel jlMessage;
+	@SuppressWarnings("rawtypes")
 	private JComboBox jcbZone;
 	private CardLayout card;
 	private JPanel jptables;
 	private JTable tablecar,tabletrain,tableplane,tableempty;
 	private JButton jbExcel;
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public StorageCountingBoard(){
 		this.setLayout(null);
 		this.setTitle("库存盘点");

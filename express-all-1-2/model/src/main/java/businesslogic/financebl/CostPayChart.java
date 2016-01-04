@@ -2,19 +2,14 @@ package businesslogic.financebl;
 
 import java.rmi.RemoteException;
 
-import clienthelper.financeclienthelper.CostPayChartClientHelper;
-import clienthelper.financeclienthelper.PaymentFormClientHelper;
 import businesslogicservice.financeblservice.CostPayChartFinanceblService;
+import clienthelper.financeclienthelper.CostPayChartClientHelper;
 import dataservice.financedataservice.CostPayChartdataService;
-import dataservice.financedataservice.PaymentFormdataService;
 import impl.financeImpl.CostPayChartServiceImpl;
-import impl.financeImpl.PaymentFormServiceImpl;
 import po.CostpayChartPO;
 import po.PaymentFormPO;
 import po.ReceiptFormPO;
-import state.FormState;
 import vo.CostpayChartVO;
-import vo.PaymentFormVO;
 
 public class CostPayChart implements CostPayChartFinanceblService{
 	CostPayChartClientHelper paymentFormClientHelper = new CostPayChartClientHelper();
@@ -122,7 +117,10 @@ public class CostPayChart implements CostPayChartFinanceblService{
 		CostPayChart c=new CostPayChart();
 		try {
 			c.CostpayChartfind(NO);
-		} catch (RemoteException | IllegalArgumentException e) {
+		} catch (RemoteException  e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

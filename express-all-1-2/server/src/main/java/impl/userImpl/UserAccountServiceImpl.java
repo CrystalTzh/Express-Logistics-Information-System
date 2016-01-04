@@ -12,11 +12,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
 
 import dataservice.userdataservice.UserAccountUserdataService;
 import iohelper.IOHelper;
 import po.UserAccountPO;
+import state.UserRole;
 
 /**
  * 用户账户数据层实现
@@ -28,6 +31,7 @@ public class UserAccountServiceImpl extends UnicastRemoteObject implements UserA
 	ObjectInputStream inTwo;
 	FileOutputStream outOne;
 	ObjectOutputStream outTwo;
+	@SuppressWarnings("rawtypes")
 	Hashtable allUserAccountInfo;
 	File file = new File("用户账户基本信息.txt");
 	IOHelper ioHelper;
@@ -39,9 +43,36 @@ public class UserAccountServiceImpl extends UnicastRemoteObject implements UserA
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	/* (non-Javadoc)
+	 * @see dataservice.userdataservice.UserAccountUserdataService#findAll(state.UserRole)
+	 */
+	@SuppressWarnings("rawtypes")
+	public ArrayList<UserAccountPO> findAll(UserRole userRole) throws RemoteException {
+		System.out.println("进入UserAccountServiceImpl...server finding");
+		ioHelper = new IOHelper();
+		allUserAccountInfo = ioHelper.readFromFile(file);
+		ArrayList<UserAccountPO> allUsers = new ArrayList<UserAccountPO> ();
+		for(Iterator itr = allUserAccountInfo.keySet().iterator(); itr.hasNext();) {
+			String key = (String) itr.next();
+			UserAccountPO po = (UserAccountPO)allUserAccountInfo.get(key);
+			if(po.getUserRole() == userRole) {
+				allUsers.add(po);
+			}
+		}
+		if(allUsers.size() == 0) {
+			System.out.println("服务器中暂时没有用户账户..");
+			return allUsers;
+		} 
+		System.out.println("服务器中的所有用户账号：");
+		for(int i = 0; i < allUsers.size(); i++) {
+			UserAccountPO po = allUsers.get(i);
+			System.out.println(po.getUserAccountID() + " " + po.getUserName() + " " + po.getUserRole().toString());
+		}
+		return allUsers;
+	}
 
 	public UserAccountPO find(String userAccountID) throws RemoteException {
-		// TODO Auto-generated method stub
 		System.out.println("进入UserAccountServiceImpl...server finding");
 		ioHelper = new IOHelper();
 		allUserAccountInfo = ioHelper.readFromFile(file);
@@ -55,6 +86,7 @@ public class UserAccountServiceImpl extends UnicastRemoteObject implements UserA
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void add(UserAccountPO po) throws RemoteException {
 		// TODO Auto-generated method stub
 		System.out.println("进入UserAccountServiceImpl...server adding");
@@ -83,5 +115,5 @@ public class UserAccountServiceImpl extends UnicastRemoteObject implements UserA
 		add(po);
 		System.out.println("Update UserAccountPO Done!!");
 	}
-	
+
 }

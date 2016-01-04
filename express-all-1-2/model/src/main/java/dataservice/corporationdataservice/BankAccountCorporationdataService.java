@@ -17,6 +17,13 @@ import po.BankAccountInfoPO;
 public interface BankAccountCorporationdataService extends Remote{
 	
 	/**
+	 * 找到所有银行账户
+	 * @return
+	 * @throws RemoteException
+	 */
+	public ArrayList<BankAccountInfoPO> findAllBankAccouts() throws RemoteException;
+	
+	/**
 	 * 添加银行账户信息
 	 * @param po
 	 * @throws RemoteException
@@ -45,11 +52,11 @@ public interface BankAccountCorporationdataService extends Remote{
 	 */
 	public BankAccountInfoPO find(String accountID) throws RemoteException;
 	
-	/**
-	 * 关键字模糊查找银行账户信息
-	 * @param accountID
-	 * @return
-	 * @throws RemoteException
-	 */
-	public ArrayList<BankAccountInfoPO> keyFind(String keyID) throws RemoteException;
+//	/**
+//	 * 关键字模糊查找银行账户信息
+//	 * @param accountID
+//	 * @return
+//	 * @throws RemoteException
+//	 */
+//	public ArrayList<BankAccountInfoPO> keyFind(String keyID) throws RemoteException;
 }

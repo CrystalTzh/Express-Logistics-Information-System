@@ -43,6 +43,8 @@ public class SalaryModifyBoard extends JFrame implements ActionListener{
 		
 		savebt = new JButton("保存");
 		cancelbt = new JButton("取消");
+		savebt.setContentAreaFilled(false);
+		cancelbt.setContentAreaFilled(false);
 		savebt.addActionListener(this);
 		cancelbt.addActionListener(this);
 		

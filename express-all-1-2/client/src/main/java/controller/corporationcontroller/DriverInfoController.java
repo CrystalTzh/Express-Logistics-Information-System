@@ -4,6 +4,8 @@
  */
 package controller.corporationcontroller;
 
+import java.util.ArrayList;
+
 import businesslogic.corporationbl.DriverInfobl;
 import vo.DriverInfoVO;
 
@@ -38,4 +40,10 @@ public class DriverInfoController {
 		}
 		return false;
 	}
+	public ArrayList<DriverInfoVO> findAll(){
+		DriverInfobl driverInfobl = new DriverInfobl();
+		return driverInfobl.findAll();
+	}
+
+	
 }

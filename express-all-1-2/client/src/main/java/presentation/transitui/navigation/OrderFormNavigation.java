@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -13,15 +15,21 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import controller.UserID;
+import controller.transitController.OrderFormController;
+import po.OrderFormPO;
 import presentation.mainui.MainFrame;
 import presentation.transitui.OrderBoard.OrderFrame;
+import presentation.userui.modifypasswordui.ModifyPasswordBoard;
 
 public class OrderFormNavigation extends JPanel implements ActionListener{
 
@@ -32,7 +40,7 @@ public class OrderFormNavigation extends JPanel implements ActionListener{
 				   jpanel4;//开始按钮
 	private JLabel jlabellogo;
 	private JLabel jlcurrentID;
-	private JButton jbOrderForm,jbCheck,jbReceiveInfo;
+	static private JButton jbOrderForm,jbCheck,jbReceiveInfo;
 	
 	private ImageIcon imagelogo,imageOrderForm,imageCheck,
 					  imageReceiveInfo;
@@ -40,6 +48,11 @@ public class OrderFormNavigation extends JPanel implements ActionListener{
 	private JTable table;
 	private JButton jbstart,jbrecall,jbexit,jbmodify;
 	private Box b;
+	private Vector<String> columnNames;
+	private ArrayList<OrderFormPO> allform;
+	private DefaultTableModel model;
+	private Vector<String> tableValues ;
+	private Vector<String> row;
 	
 	public OrderFormNavigation(){
 		
@@ -58,52 +71,55 @@ public class OrderFormNavigation extends JPanel implements ActionListener{
 //		jpanel2.setLayout(new BoxLayout(jpanel2,BoxLayout.Y_AXIS));
 		jpanel2.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 5));
 
-		jbOrderForm = new JButton();//寄件单
+		setJbOrderForm(new JButton());//寄件单
 		imageOrderForm = new ImageIcon("image/orderform.jpg");
-		jbOrderForm.setIcon(imageOrderForm);
-		jbOrderForm.setPreferredSize(new Dimension(imageOrderForm.getIconWidth(),
+		getJbOrderForm().setIcon(imageOrderForm);
+		getJbOrderForm().setPreferredSize(new Dimension(imageOrderForm.getIconWidth(),
 				imageOrderForm.getIconHeight()));
-		jbOrderForm.addActionListener(new ActionListener(){
+		getJbOrderForm().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbOrderForm){
-					new MainFrame().setContentPane(new OrderFormNavigation());
-//					MainFrame.mainframe.setContentPane(new OrderFormNavigation());
-				}
+//				if(e.getSource() == getJbOrderForm()){
+//					new MainFrame().setContentPane(new OrderFormNavigation());
+////					MainFrame.mainframe.setContentPane(new OrderFormNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
 		
-		jbCheck = new JButton();//订单信息查询
+		setJbCheck(new JButton());//订单信息查询
 		imageCheck = new ImageIcon("image/orderformcheck.jpg");
-		jbCheck.setIcon(imageCheck);
-		jbCheck.setPreferredSize(new Dimension(imageCheck.getIconWidth(),
+		getJbCheck().setIcon(imageCheck);
+		getJbCheck().setPreferredSize(new Dimension(imageCheck.getIconWidth(),
 				imageCheck.getIconHeight()));
-		jbCheck.addActionListener(new ActionListener(){
+		getJbCheck().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbCheck){
-					new MainFrame().setContentPane(new OrderInfoCheckNavigation());
-//					MainFrame.mainframe.setContentPane(new OrderInfoCheckNavigation());
-				}
+//				if(e.getSource() == getJbCheck()){
+//					new MainFrame().setContentPane(new OrderInfoCheckNavigation());
+////					MainFrame.mainframe.setContentPane(new OrderInfoCheckNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
 		
-		jbReceiveInfo = new JButton();//收件信息输入
+		setJbReceiveInfo(new JButton());//收件信息输入
 		imageReceiveInfo = new ImageIcon("image/receiveinfoinput.jpg");
-		jbReceiveInfo.setIcon(imageReceiveInfo);
-		jbReceiveInfo.setPreferredSize(new Dimension(imageReceiveInfo.getIconWidth(),
+		getJbReceiveInfo().setIcon(imageReceiveInfo);
+		getJbReceiveInfo().setPreferredSize(new Dimension(imageReceiveInfo.getIconWidth(),
 				imageReceiveInfo.getIconHeight()));
-		jbReceiveInfo.addActionListener(new ActionListener(){
+		getJbReceiveInfo().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbReceiveInfo){
-					new MainFrame().setContentPane(new ReceiveMessageInputNavigation());
-				}
+//				if(e.getSource() == getJbReceiveInfo()){
+//					new MainFrame().setContentPane(new ReceiveMessageInputNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
@@ -118,17 +134,17 @@ public class OrderFormNavigation extends JPanel implements ActionListener{
 //		
 //		jpanel2.add(b1);
 		
-		jpanel2.add(jbOrderForm);
-		jpanel2.add(jbCheck);
-		jpanel2.add(jbReceiveInfo);
+		jpanel2.add(getJbOrderForm());
+		jpanel2.add(getJbCheck());
+		jpanel2.add(getJbReceiveInfo());
 		
 		
 		jpanel3 = new JPanel();
 		jpanel3.setLayout(new BoxLayout(jpanel3,BoxLayout.Y_AXIS));
 		jpanel3.setBorder(BorderFactory.createEmptyBorder(2, 5, 10, 10));
 		
-		jlcurrentID = new JLabel("当前身份：快递员     当前任务：寄件单");
-		jlcurrentID.setFont(new Font("当前身份：快递员       当前任务：寄件单",Font.PLAIN,15));
+		jlcurrentID = new JLabel("当前身份：快递员  "+UserID.userid+" 当前任务：寄件单");
+		jlcurrentID.setFont(new Font("微软雅黑",Font.PLAIN,15));
 
 		jbmodify = new JButton("修改密码");
 		jbmodify.setFont(new Font("修改密码",Font.PLAIN,12));
@@ -148,11 +164,17 @@ public class OrderFormNavigation extends JPanel implements ActionListener{
 		b.add(jbexit);
 		b.add(Box.createHorizontalStrut(3));
 		
-		String[] columnNames = { "寄件单编号","创建日期"};  
-        String[][] tableValues = { { "A1", "B1"}, { "A2", "B2"},  
-                { "A3", "B3"}, { "A4", "B4"}, { "A5", "B5"},
-                { "A6", "B6"}}; 
-        DefaultTableModel model = new DefaultTableModel(tableValues,columnNames){
+		columnNames = new Vector<String>();
+		columnNames.add("寄件单编号");
+		columnNames.add("创建日期");
+		tableValues = new Vector<String>();
+		
+        model = new DefaultTableModel(tableValues,columnNames){
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 
 			@Override
         	public boolean isCellEditable(int row,int column){
@@ -160,7 +182,12 @@ public class OrderFormNavigation extends JPanel implements ActionListener{
         	}
         };
         table = new JTable();
+        table.getTableHeader().setReorderingAllowed(false);
+        model.setDataVector(tableValues, columnNames);
         table.setModel(model);
+        DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+        tcr.setHorizontalAlignment(JLabel.CENTER);
+        table.setDefaultRenderer(Object.class, tcr);
         
 //        table = new JTable(tableValues, columnNames); 
 //        table.setEnabled(false);
@@ -175,6 +202,24 @@ public class OrderFormNavigation extends JPanel implements ActionListener{
 			}
         	
         });
+        
+        OrderFormController orderFormController = new OrderFormController();
+        allform = orderFormController.findAll();
+        if(allform == null){
+        	System.out.println("寄件单信息为空！");
+        }else {
+        	for(int i = 0;i<allform.size();i++){
+            	row = new Vector<String>();
+            	
+            	String NO = allform.get(i).getID();
+            	String date = allform.get(i).getDate();
+            	
+            	row.add(0, NO);
+            	row.add(1, date);
+            	model.addRow(row);
+            	
+            }
+        }
         
         jpanel3.add(b);
         jpanel3.add(Box.createVerticalStrut(10));
@@ -215,11 +260,39 @@ public class OrderFormNavigation extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == jbexit){
-			new MainFrame().remove(this);
+			JOptionPane.getFrameForComponent(this).dispose();
+			new MainFrame().setVisible(true);
+		}
+		if(e.getSource() == jbmodify){
+			new ModifyPasswordBoard(this, UserID.userid);
 		}
 		if(e.getSource() == jbstart){
 			new OrderFrame();
 		}
+	}
+
+	public static JButton getJbOrderForm() {
+		return jbOrderForm;
+	}
+
+	public static void setJbOrderForm(JButton jbOrderForm) {
+		OrderFormNavigation.jbOrderForm = jbOrderForm;
+	}
+
+	public static JButton getJbCheck() {
+		return jbCheck;
+	}
+
+	public static void setJbCheck(JButton jbCheck) {
+		OrderFormNavigation.jbCheck = jbCheck;
+	}
+
+	public static JButton getJbReceiveInfo() {
+		return jbReceiveInfo;
+	}
+
+	public static void setJbReceiveInfo(JButton jbReceiveInfo) {
+		OrderFormNavigation.jbReceiveInfo = jbReceiveInfo;
 	}
 	
 }

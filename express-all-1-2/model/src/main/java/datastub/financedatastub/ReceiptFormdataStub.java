@@ -1,6 +1,7 @@
 package datastub.financedatastub;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import dataservice.financedataservice.ReceiptFormdataService;
 import po.ReceiptFormPO;
@@ -19,5 +20,10 @@ public class ReceiptFormdataStub implements ReceiptFormdataService{
 	}
 	public void update(ReceiptFormPO po) throws RemoteException {
 		System.out.println("Update Succeed!\n");
+	}
+	@Override
+	public ArrayList<ReceiptFormPO> findAll() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

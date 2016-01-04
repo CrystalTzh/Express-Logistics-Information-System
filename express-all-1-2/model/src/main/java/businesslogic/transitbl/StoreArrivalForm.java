@@ -1,6 +1,7 @@
 package businesslogic.transitbl;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import businesslogicservice.transitblservice.StoreArrivalFormTransitblService;
 import clienthelper.transitclienthelper.StoreArrivalFormClientHelper;
@@ -118,6 +119,12 @@ public class StoreArrivalForm implements StoreArrivalFormTransitblService{
 			System.out.println("po not found!");
 		
 		return false;
+	}
+
+	public ArrayList<StoreArrivalFormPO> findAll() {
+		// TODO Auto-generated method stub
+		System.out.println("进入PaymentFormbl...findAll...");
+		return storeArrivalFormClientHelper.goFindAll();
 	}
 
 }

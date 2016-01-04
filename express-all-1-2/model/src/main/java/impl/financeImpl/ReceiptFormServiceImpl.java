@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import dataservice.financedataservice.ReceiptFormdataService;
@@ -16,10 +17,15 @@ import po.ReceiptFormPO;
 public class ReceiptFormServiceImpl extends UnicastRemoteObject implements ReceiptFormdataService{
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	FileInputStream inOne;
 	ObjectInputStream inTwo;
 	FileOutputStream outOne;
 	ObjectOutputStream outTwo;
+	@SuppressWarnings("rawtypes")
 	Hashtable allReceiptForm;
 	File file = new File("收款单基本信息.txt");
 	IOHelper ioHelper;
@@ -45,6 +51,7 @@ public class ReceiptFormServiceImpl extends UnicastRemoteObject implements Recei
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void insert(ReceiptFormPO po) throws RemoteException {
 		// TODO Auto-generated method stub
 		System.out.println("Insert ReceiptFormPO Start!!");
@@ -79,6 +86,12 @@ public class ReceiptFormServiceImpl extends UnicastRemoteObject implements Recei
 			insert(po);
 		}
 		System.out.println("update over!");
+	}
+
+	@Override
+	public ArrayList<ReceiptFormPO> findAll() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

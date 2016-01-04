@@ -5,13 +5,14 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
+import RMIHelper.ServiceName;
+import RMIHelper.URL;
 import dataservice.inventorydataservice.InventoryInfoInventorydataService;
 import dataservice.inventorydataservice.StorageInFormInventorydataService;
-import dataservice.inventorydataservice.StorageOutFromInventorydataService;
 import po.InventoryInfoPO;
 import po.StorageInFormPO;
-import po.StorageOutFormPO;
 
 public class StorageInFormClientHelper {
 	
@@ -76,8 +77,10 @@ public class StorageInFormClientHelper {
 		System.out.println("进入StorageInFormClientHelper...go...");
 		if(storageInFormInventorydataService == null) {
 			try {
+//				storageInFormInventorydataService = (StorageInFormInventorydataService)Naming
+//						.lookup("rmi://127.0.0.1:32107/storageInFormInventorydataService");
 				storageInFormInventorydataService = (StorageInFormInventorydataService)Naming
-						.lookup("rmi://127.0.0.1:32010/storageInFormInventorydataService");
+						.lookup(URL.getURL(ServiceName.STORAGEINFORM.toString()));
 				System.out.println("storageInFormInventorydataService RMI服务查找成功...");
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
@@ -115,8 +118,11 @@ public class StorageInFormClientHelper {
 		System.out.println("进入StorageInFormClientHelper...go...");
 		if(inventoryInfoInventorydataService == null) {
 			try {
+//				inventoryInfoInventorydataService = (InventoryInfoInventorydataService)Naming
+//						.lookup("rmi://127.0.0.1:32003/inventoryInfoInventorydataService");
 				inventoryInfoInventorydataService = (InventoryInfoInventorydataService)Naming
-						.lookup("rmi://127.0.0.1:32003/inventoryInfoInventorydataService");
+						.lookup(URL.getURL(ServiceName.INVENTORYINFO.toString()));
+				
 				System.out.println("inventoryInfoInventorydataService RMI服务查找成功...");
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
@@ -133,5 +139,18 @@ public class StorageInFormClientHelper {
 			}
 		}
 		return inventoryInfoInventorydataService;
+	}
+
+	public ArrayList<StorageInFormPO> goFindAll() {
+		// TODO Auto-generated method stub
+		System.out.println("进入PaymentFormClientHelper...client wants to find allform...");
+		storageInFormInventorydataService= go();
+		try {
+			return storageInFormInventorydataService.findAll();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

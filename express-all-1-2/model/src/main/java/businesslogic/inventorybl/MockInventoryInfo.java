@@ -9,6 +9,10 @@ import vo.InventoryInfoVO;
 
 public class MockInventoryInfo extends InventoryInfoPO {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	ArrayList<LocationNode> locationNode = new ArrayList<LocationNode>();
 	LocationNode locationnode = new LocationNode();
 	InventoryInfoVO ivo = new InventoryInfoVO();

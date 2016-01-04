@@ -15,6 +15,16 @@ import vo.BankAccountInfoVO;
 public class BankAccountController {
 	
 	/**
+	 * 找到所有银行账户
+	 * @return
+	 */
+	public ArrayList<BankAccountInfoVO> findAllBankAccounts() {
+		System.out.println("进入BankAccountController...findAllBankAccounts...");
+		BankAccountbl bankAccountbl = new BankAccountbl();
+		return bankAccountbl.findAllBankAccouts();
+	}
+	
+	/**
 	 * 根据银行账户的账号查找银行账户信息
 	 * @param accountID
 	 * @return
@@ -76,5 +86,17 @@ public class BankAccountController {
 			return true;
 		}
 		return false;
+	}
+	
+	public static void main(String[] args) {
+		BankAccountController controller = new BankAccountController();
+		ArrayList<BankAccountInfoVO> allBankAccounts = controller.findAllBankAccounts();
+		if(allBankAccounts == null) {System.out.println("还没有银行账户...");}
+		else {
+			System.out.println("所有银行账户的账号如下:");
+			for(int i = 0; i < allBankAccounts.size(); i++) {
+				System.out.println(allBankAccounts.get(i).getAccountId());
+			}
+		}
 	}
 }

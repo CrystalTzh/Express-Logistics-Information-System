@@ -1,7 +1,6 @@
 package businesslogic.driver.corporationblDriver;
 
 import businesslogicservice.corporationblservice.DriverInfocorporationblService;
-import state.SexList;
 import vo.DriverInfoVO;
 
 public class DriverInfocorporationblDriver {

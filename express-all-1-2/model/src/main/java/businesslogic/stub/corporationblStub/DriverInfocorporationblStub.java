@@ -1,5 +1,7 @@
 package businesslogic.stub.corporationblStub;
 
+import java.util.ArrayList;
+
 import businesslogicservice.corporationblservice.DriverInfocorporationblService;
 import vo.DriverInfoVO;
 
@@ -33,6 +35,12 @@ public class DriverInfocorporationblStub implements DriverInfocorporationblServi
 		// TODO Auto-generated method stub
 		System.out.println("Call DriverInfoVO update...");
 		return true;
+	}
+
+	@Override
+	public ArrayList<DriverInfoVO> findAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

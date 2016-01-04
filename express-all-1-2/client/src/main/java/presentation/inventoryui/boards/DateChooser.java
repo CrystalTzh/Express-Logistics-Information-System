@@ -29,13 +29,14 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+@SuppressWarnings("serial")
 public class DateChooser extends JPanel {
 
 	private int width = 200; // 日期控件的宽度
 	private int height = 200; // 日期控件的高度
 
 	private GridBagLayout gridBagLayout1 = new GridBagLayout();
-	private JTextField dateField = new JTextField(15);
+	private JTextField dateField = new JTextField(20);
 	private DateChooserButton btnChoose = new DateChooserButton("▼"); // ▼是指：▼下拉箭头的unicode码
 	private String parten;
 	private Container owner;
@@ -236,6 +237,7 @@ public class DateChooser extends JPanel {
 			}
 		}
 
+		@SuppressWarnings("unused")
 		private Date getNowDate() {
 			return Calendar.getInstance().getTime();
 		}
@@ -385,6 +387,7 @@ public class DateChooser extends JPanel {
 			}
 		}
 
+		@SuppressWarnings("unused")
 		public void mouseClicked(MouseEvent e) {
 			if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 1) {
 				JButton source = (JButton) e.getSource();

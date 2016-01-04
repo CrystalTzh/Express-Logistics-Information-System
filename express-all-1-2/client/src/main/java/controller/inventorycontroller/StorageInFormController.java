@@ -1,13 +1,22 @@
 package controller.inventorycontroller;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import businesslogic.inventorybl.StorageInForm;
 import po.InventoryInfoPO;
+import po.StorageInFormPO;
 import vo.StorageInFormVO;
 
 
 public class StorageInFormController {
+	
+	public ArrayList<StorageInFormPO> findAll(){
+		System.out.println("进入PaymentFormController...findAll...");
+		StorageInForm storageInForm = new StorageInForm();
+		return 	storageInForm.findAll();
+	}
+	
 	public boolean saveDriver(StorageInFormVO vo){
 		System.out.println("进入StorageInFormController...saveDriver...");
 		StorageInForm storageInForm = new StorageInForm();

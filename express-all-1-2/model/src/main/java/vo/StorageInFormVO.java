@@ -3,39 +3,28 @@ package vo;
 import java.io.Serializable;
 
 import state.FormState;
+import state.Line;
+import state.Shelf;
+import state.Tag;
 import state.Zone;
-
+/**
+ * 入库单持久化对象
+ */
 public class StorageInFormVO implements  Serializable{
+		/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 		String NO;
 		String date;
 		String expressNumber;
 		String destination;
 		Zone zone;//区号
-		String line;//排号
-		String shelf;//架号
-		String tag;//位号
+		Line line;//排号
+		Shelf shelf;//架号
+		Tag tag;//位号
 		FormState formstate;//单据的状态
 		
-		
-		
-		public String getLine() {
-			return line;
-		}
-		public void setLine(String line) {
-			this.line = line;
-		}
-		public String getShelf() {
-			return shelf;
-		}
-		public void setShelf(String shelf) {
-			this.shelf = shelf;
-		}
-		public String getTag() {
-			return tag;
-		}
-		public void setTag(String tag) {
-			this.tag = tag;
-		}
 		public String getNO() {
 			return NO;
 		}
@@ -65,6 +54,24 @@ public class StorageInFormVO implements  Serializable{
 		}
 		public void setZone(Zone zone){
 			this.zone=zone;
+		}
+		public Shelf getShelf(){
+			return shelf;
+		}
+		public void setShelf(Shelf shelf){
+			this.shelf=shelf;
+		}
+		public Tag getTag(){
+			return tag;
+		}
+		public void setTag(Tag tag){
+			this.tag=tag;
+		}
+		public Line getLine(){
+			return line;
+		}
+		public void setLine(Line lines){
+			this.line=lines;
 		}
 		public FormState getFormstate() {
 			return formstate;

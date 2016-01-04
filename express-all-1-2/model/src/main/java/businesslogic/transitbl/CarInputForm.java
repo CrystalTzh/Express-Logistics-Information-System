@@ -1,6 +1,7 @@
 package businesslogic.transitbl;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import businesslogicservice.transitblservice.CarInputFormTransitblService;
 import clienthelper.transitclienthelper.CarInputFormClientHelper;
@@ -123,6 +124,11 @@ public class CarInputForm implements CarInputFormTransitblService{
 			System.out.println("po not found!");
 		
 		return false;
+	}
+
+	public ArrayList<CarInputFormPO> findAll() {
+		// TODO Auto-generated method stub
+		return carInputFormClientHelper.goFindAll();
 	}
 
 }

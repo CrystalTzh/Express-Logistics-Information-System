@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import dataservice.transitdataservice.DeliveryFormTransitdataService;
@@ -18,6 +19,7 @@ public class DeliveryFormImpl extends UnicastRemoteObject implements DeliveryFor
 	ObjectInputStream inTwo;
 	FileOutputStream outOne;
 	ObjectOutputStream outTwo;
+	@SuppressWarnings("rawtypes")
 	Hashtable allDeliveryForm;
 	File file = new File("派件单基本信息.txt");
 	IOHelper ioHelper;
@@ -48,6 +50,7 @@ public class DeliveryFormImpl extends UnicastRemoteObject implements DeliveryFor
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void insert(DeliveryFormPO po) throws RemoteException, IllegalArgumentException {
 		// TODO Auto-generated method stub
 		System.out.println("Insert DeliveryFormPO Start!!");
@@ -82,6 +85,12 @@ public class DeliveryFormImpl extends UnicastRemoteObject implements DeliveryFor
 			insert(po);
 		}
 		System.out.println("update over!");
+	}
+
+	@Override
+	public ArrayList<DeliveryFormPO> findAll() throws RemoteException, IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

@@ -4,11 +4,11 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
+import RMIHelper.ServiceName;
 import RMIHelper.URL;
-
 import dataservice.financedataservice.ReceiptFormdataService;
-
 import po.ReceiptFormPO;
 
 
@@ -73,9 +73,11 @@ public class ReceiptFormClientHelper {
 		System.out.println("进入ReceiptFormClientHelper...go...");
 		if(receiptFormdataService == null) {
 			try {
-				receiptFormdataService = (ReceiptFormdataService)Naming
-						.lookup("rmi://127.0.0.1:32010/receiptFormdataService");
-				System.out.println("receiptFormdataService RMI服务查找成功...");
+//				receiptFormdataService = (ReceiptFormdataService)Naming
+//				.lookup("rmi://127.0.0.1:32110/receiptFormdataService");
+		receiptFormdataService = (ReceiptFormdataService)Naming
+				.lookup(URL.getURL(ServiceName.RECEIPTFORM.toString()));
+
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
 				System.out.println("URL格式错误！！");
@@ -91,6 +93,18 @@ public class ReceiptFormClientHelper {
 			}
 		}
 		return receiptFormdataService;
+	}
+
+	public ArrayList<ReceiptFormPO> goFindAll() {
+		// TODO Auto-generated method stub
+		receiptFormdataService = go();
+		try {
+			return receiptFormdataService.findAll();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 		
 }

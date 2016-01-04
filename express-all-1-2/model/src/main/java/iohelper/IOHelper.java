@@ -20,6 +20,7 @@ public class IOHelper {
 	ObjectOutputStream outTwo;
 
 	// 读取文件中的所有内容
+	@SuppressWarnings("rawtypes")
 	public Hashtable readFromFile(File file) {
 		try {
 			//文件不存在，新建一个空文件
@@ -52,6 +53,7 @@ public class IOHelper {
 	}
 
 	// 重写文件
+	@SuppressWarnings("rawtypes")
 	public boolean writeToFile(Hashtable InfoTabel, File file) {
 		try {
 			outOne = new FileOutputStream(file);

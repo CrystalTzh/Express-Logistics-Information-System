@@ -1,6 +1,7 @@
 package businesslogic.transitbl;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import businesslogicservice.transitblservice.OrderFormTransitblService;
 import clienthelper.transitclienthelper.OrderFormClientHelper;
@@ -40,7 +41,7 @@ public class OrderForm implements OrderFormTransitblService{
 		po.setTransportation(vo.getTransportation());
 		po.setType(vo.getType());
 		po.setWeight(vo.getWeight());
-		
+		po.setAlldates(vo.getAlldates());
 		return po;
 	}
 	
@@ -70,7 +71,7 @@ public class OrderForm implements OrderFormTransitblService{
 		vo.setTransportation(po.getTransportation());
 		vo.setType(po.getType());
 		vo.setWeight(po.getWeight());
-		
+		vo.setAlldates(po.getAlldates());
 		return vo;
 	}
 	
@@ -158,4 +159,9 @@ public class OrderForm implements OrderFormTransitblService{
 		return false;
 	}
 
+	public ArrayList<OrderFormPO> findAll() {
+		// TODO Auto-generated method stub
+		System.out.println("进入PaymentFormbl...findAll...");
+		return orderFormClientHelper.goFindAll();
+	}
 }

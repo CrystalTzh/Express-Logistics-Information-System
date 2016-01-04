@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -13,15 +15,21 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import controller.UserID;
+import controller.transitController.CarOfficeFormController;
+import po.CarOfficeFormPO;
 import presentation.mainui.MainFrame;
 import presentation.transitui.CarInputBoard.CarInputFrame;
+import presentation.userui.modifypasswordui.ModifyPasswordBoard;
 
 public class RelayCarInputFormNavigation extends JPanel implements ActionListener{
 
@@ -32,14 +40,21 @@ public class RelayCarInputFormNavigation extends JPanel implements ActionListene
 				   jpanel4;//开始维护按钮
 	private JLabel jlabellogo;
 	private JLabel jlcurrentID;
-	private JButton jbTransfer,jbCarInput,
+	static private JButton jbTransfer,jbCarInput,
 					jbArrival;
 	private ImageIcon imagelogo,imageTransfer,imageArrival,
 					  imageCarInput;
 	private ImageIcon imageStart,imageRecall;
 	private JTable table;
 	private JButton jbstart,jbrecall,jbexit,jbmodify;
+	@SuppressWarnings("unused")
 	private Box b,b1;
+	private Vector<String> columnNames;
+	private ArrayList<CarOfficeFormPO> allform;
+	private DefaultTableModel model;
+	private Vector<String> tableValues ;
+	private Vector<String> row;
+	
 	
 	public RelayCarInputFormNavigation(){
 		
@@ -59,62 +74,65 @@ public class RelayCarInputFormNavigation extends JPanel implements ActionListene
 		
 		jpanel2.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 0));
 		
-		jbTransfer = new JButton();//中转单
+		setJbTransfer(new JButton());//中转单
 		imageTransfer = new ImageIcon("image/transfer.jpg");
-		jbTransfer.setIcon(imageTransfer);
-		jbTransfer.setPreferredSize(new Dimension(imageTransfer.getIconWidth(),
+		getJbTransfer().setIcon(imageTransfer);
+		getJbTransfer().setPreferredSize(new Dimension(imageTransfer.getIconWidth(),
 				imageTransfer.getIconHeight()));
-		jbTransfer.addActionListener(new ActionListener(){
+		getJbTransfer().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbTransfer){
-					new MainFrame().setContentPane(new RelayFormNavigation());
-				}
+//				if(e.getSource() == getJbTransfer()){
+//					new MainFrame().setContentPane(new RelayFormNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
-		jbArrival = new JButton();//中转中心到达单
+		setJbArrival(new JButton());//中转中心到达单
 		imageArrival = new ImageIcon("image/arrival.jpg");
-		jbArrival.setIcon(imageArrival);
-		jbArrival.setPreferredSize(new Dimension(imageArrival.getIconWidth(),
+		getJbArrival().setIcon(imageArrival);
+		getJbArrival().setPreferredSize(new Dimension(imageArrival.getIconWidth(),
 				imageArrival.getIconHeight()));
-		jbArrival.addActionListener(new ActionListener(){
+		getJbArrival().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbArrival){
-					new MainFrame().setContentPane(new RelayArrivalFormNavigation());
-				}
+//				if(e.getSource() == getJbArrival()){
+//					new MainFrame().setContentPane(new RelayArrivalFormNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
-		jbCarInput = new JButton();//中转中心装车单
+		setJbCarInput(new JButton());//中转中心装车单
 		imageCarInput = new ImageIcon("image/carInput.jpg");
-		jbCarInput.setIcon(imageCarInput);
-		jbCarInput.setPreferredSize(new Dimension(imageCarInput.getIconWidth(),
+		getJbCarInput().setIcon(imageCarInput);
+		getJbCarInput().setPreferredSize(new Dimension(imageCarInput.getIconWidth(),
 				imageCarInput.getIconHeight()));
-		jbCarInput.addActionListener(new ActionListener(){
+		getJbCarInput().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbCarInput){
-					new MainFrame().setContentPane(new RelayCarInputFormNavigation());
-				}
+//				if(e.getSource() == getJbCarInput()){
+//					new MainFrame().setContentPane(new RelayCarInputFormNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
 		
-		jpanel2.add(jbTransfer);
-		jpanel2.add(jbArrival);
-		jpanel2.add(jbCarInput);
+		jpanel2.add(getJbTransfer());
+		jpanel2.add(getJbArrival());
+		jpanel2.add(getJbCarInput());
 		
 		jpanel3 = new JPanel();
 		jpanel3.setLayout(new BoxLayout(jpanel3,BoxLayout.Y_AXIS));
 		jpanel3.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 10));
 		
-		jlcurrentID = new JLabel("当前身份：中转中心业务员      当前任务： 装车单");
-		jlcurrentID.setFont(new Font("当前身份：中转中心业务员       当前任务：装车单",Font.PLAIN,15));
+		jlcurrentID = new JLabel("当前身份：中转中心业务员  "+UserID.userid+" 当前任务： 装车单");
+		jlcurrentID.setFont(new Font("微软雅黑",Font.PLAIN,15));
 
 		jbmodify = new JButton("修改密码");
 		jbmodify.setFont(new Font("修改密码",Font.PLAIN,12));
@@ -134,11 +152,17 @@ public class RelayCarInputFormNavigation extends JPanel implements ActionListene
 		b.add(jbexit);
 		b.add(Box.createHorizontalStrut(3));
 		
-		String[] columnNames = { "装车单编号", "创建日期"};  
-        String[][] tableValues = { { "A1", "B1" }, { "A2", "B2" },  
-                { "A3", "B3" }, { "A4", "B4"}, { "A5", "B5"},
-                { "A6", "B6" }};  
-        DefaultTableModel model = new DefaultTableModel(tableValues,columnNames){
+		columnNames = new Vector<String>();
+		columnNames.add("装车单编号");
+		columnNames.add("创建日期");
+		tableValues = new Vector<String>();
+		
+        model = new DefaultTableModel(tableValues,columnNames){
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 
 			@Override
         	public boolean isCellEditable(int row,int column){
@@ -146,8 +170,12 @@ public class RelayCarInputFormNavigation extends JPanel implements ActionListene
         	}
         };
         table = new JTable();
+        table.getTableHeader().setReorderingAllowed(false);
+        model.setDataVector(tableValues, columnNames);
         table.setModel(model);
-        
+        DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+        tcr.setHorizontalAlignment(JLabel.CENTER);
+        table.setDefaultRenderer(Object.class, tcr);        
 //        table = new JTable(tableValues, columnNames); 
 //        table.setEnabled(false);
         JScrollPane scrollPane = new JScrollPane(table);
@@ -156,11 +184,29 @@ public class RelayCarInputFormNavigation extends JPanel implements ActionListene
 
 			public void valueChanged(ListSelectionEvent e) {
 				// TODO Auto-generated method stub
-				jbstart.setEnabled(false);
+				jbstart.setEnabled(true);
 				jbrecall.setEnabled(true);
 			}
         	
         });
+        
+        CarOfficeFormController carOfficeFormController = new CarOfficeFormController();
+        allform = carOfficeFormController.findAll();
+        if(allform == null){
+        	System.out.println("中转中心装车单信息为空！");
+        }else {
+        	for(int i = 0;i<allform.size();i++){
+            	row = new Vector<String>();
+            	
+            	String NO = allform.get(i).getNO();
+            	String date = allform.get(i).getPutOnCarDate();
+            	
+            	row.add(0, NO);
+            	row.add(1, date);
+            	model.addRow(row);
+            	
+            }
+        }
         jpanel3.add(b);
         jpanel3.add(Box.createVerticalStrut(10));
         jpanel3.add(scrollPane);
@@ -198,11 +244,39 @@ public class RelayCarInputFormNavigation extends JPanel implements ActionListene
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == jbexit){
-			new MainFrame().remove(this);
+			JOptionPane.getFrameForComponent(this).dispose();
+			new MainFrame().setVisible(true);
 		}
 		if(e.getSource() == jbstart){
 			new CarInputFrame();
 		}
+		if(e.getSource() == jbmodify){
+			new ModifyPasswordBoard(this, UserID.userid);
+		}
+	}
+
+	public static JButton getJbTransfer() {
+		return jbTransfer;
+	}
+
+	public static void setJbTransfer(JButton jbTransfer) {
+		RelayCarInputFormNavigation.jbTransfer = jbTransfer;
+	}
+
+	public static JButton getJbArrival() {
+		return jbArrival;
+	}
+
+	public static void setJbArrival(JButton jbArrival) {
+		RelayCarInputFormNavigation.jbArrival = jbArrival;
+	}
+
+	public static JButton getJbCarInput() {
+		return jbCarInput;
+	}
+
+	public static void setJbCarInput(JButton jbCarInput) {
+		RelayCarInputFormNavigation.jbCarInput = jbCarInput;
 	}
 	
 }

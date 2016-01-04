@@ -2,12 +2,12 @@ package po;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+/**
+ * 经营情况表持久化对象
+ */
 
 public class ProfitChartPO implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	ArrayList<PaymentFormPO> paymentformpo;
 	ArrayList<ReceiptFormPO> receiptformpo;

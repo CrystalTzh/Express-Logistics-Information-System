@@ -2,11 +2,14 @@ package vo;
 
 import java.io.Serializable;
 
-import state.FormState;
 import state.SexList;
 
 public class DriverInfoVO implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String driverNumber;
 	String name;
 	String birthday;

@@ -6,9 +6,16 @@ import java.util.ArrayList;
 import po.PaymentFormPO;
 import po.ReceiptFormPO;
 import state.FormState;
+/**
+ * 经营情况表持久化对象
+ */
 
 public class ProfitChartVO implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	ArrayList<PaymentFormPO> paymentformpo;
 	ArrayList<ReceiptFormPO> receiptformpo;
 	String NO;

@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import dataservice.inventorydataservice.StorageInFormInventorydataService;
@@ -19,6 +20,7 @@ public class StorageInFormServiceImpl extends UnicastRemoteObject implements Sto
 	ObjectInputStream inTwo;
 	FileOutputStream outOne;
 	ObjectOutputStream outTwo;
+	@SuppressWarnings("rawtypes")
 	Hashtable allStorageInForm;
 	File file = new File("入库单基本信息.txt");
 	IOHelper ioHelper;
@@ -48,6 +50,7 @@ public class StorageInFormServiceImpl extends UnicastRemoteObject implements Sto
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void insert(StorageInFormPO po) throws RemoteException {
 		// TODO Auto-generated method stub
 		System.out.println("Insert StorageInFormPO Start!!");
@@ -82,6 +85,12 @@ public class StorageInFormServiceImpl extends UnicastRemoteObject implements Sto
 			insert(po);
 		}
 		System.out.println("update over!");
+	}
+
+	@Override
+	public ArrayList<StorageInFormPO> findAll() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

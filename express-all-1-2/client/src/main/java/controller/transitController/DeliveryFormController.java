@@ -1,12 +1,21 @@
 package controller.transitController;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import businesslogic.transitbl.DeliveryForm;
+import po.DeliveryFormPO;
 import vo.DeliveryFormVO;
 
 public class DeliveryFormController {
 
+	
+	public ArrayList<DeliveryFormPO> findAll(){
+		System.out.println("进入DeliveryFormController...findAll...");
+		DeliveryForm deliveryForm = new DeliveryForm();
+		return 	deliveryForm.findAll();
+	}
+	
 	public boolean saveDriver(DeliveryFormVO vo){
 		System.out.println("进入DeliveryFormController...saveDriver...");
 		DeliveryForm deliveryform = new DeliveryForm();

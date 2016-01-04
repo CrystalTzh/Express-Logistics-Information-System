@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.GregorianCalendar;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -19,8 +20,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import controller.UserID;
 import controller.corporationcontroller.BankAccountController;
+import controller.corporationcontroller.LogController;
+import presentation.handleexception.numberexceptionhandle.BankAccountIDHandle;
+import state.Operation;
+import state.OperationObject;
+import state.UserRole;
 import vo.BankAccountInfoVO;
+import vo.LogVO;
 
 /**
  *修改银行账户属性面板
@@ -31,6 +39,7 @@ public class BankAccountBoardModify extends JPanel implements ActionListener{
 	JTextField accountIDjtf, balancejtf, newAccountNamejtf;//银行账号、余额、新账户名文本框
 	JButton beginModifybt, confirmModifybt, resetbt;//开始修改、确认修改、重置按钮
 	BankAccountController bankAccountController;
+	LogController logController;
 	
 	public BankAccountBoardModify() {
 		bankAccountController = new BankAccountController();
@@ -41,8 +50,11 @@ public class BankAccountBoardModify extends JPanel implements ActionListener{
 		balancejtf.setEditable(false);
 		
 		beginModifybt = new JButton("开始修改");
+		beginModifybt.setContentAreaFilled(false);
 		confirmModifybt = new JButton("确认修改");	
+		confirmModifybt.setContentAreaFilled(false);
 		resetbt = new JButton("重置");
+		resetbt.setContentAreaFilled(false);
 		
 		accountIDjtf.addActionListener(this);
 		beginModifybt.addActionListener(this);
@@ -52,7 +64,7 @@ public class BankAccountBoardModify extends JPanel implements ActionListener{
 		Box box = Box.createHorizontalBox();
 		JLabel logojl = new JLabel("银行账号信息修改", JLabel.CENTER);
 		logojl.setFont(new Font("TimesRoman", Font.BOLD, 24));
-		logojl.setForeground(Color.BLUE);
+		logojl.setForeground(Color.DARK_GRAY);
 		box.add(logojl);
 		Box box1 = Box.createHorizontalBox();
 		box1.add(new JLabel("输入要修改的银行账号:", JLabel.CENTER));
@@ -92,10 +104,6 @@ public class BankAccountBoardModify extends JPanel implements ActionListener{
 		add(pSouth, BorderLayout.SOUTH);
 	}
 	
-	/* (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-	 */
-	
 	public void actionPerformed(ActionEvent e) {
 		System.out.println();
 		if(e.getSource() == beginModifybt
@@ -104,6 +112,10 @@ public class BankAccountBoardModify extends JPanel implements ActionListener{
 			number = accountIDjtf.getText();
 			
 			if(number.length() > 0) {//1.1 输入了银行账号，判断是否可以修改
+				BankAccountIDHandle bankAccountIDHandle = new BankAccountIDHandle();
+				if(!bankAccountIDHandle.handle(this, accountIDjtf)) {//判断是否输入了合法的银行账号，如不合法处理异常
+					return;
+				}
 				BankAccountInfoVO vo = this.find(number);
 				if(vo != null) {//1.1.1 输入的银行账号存在
 					confirmModifybt.setEnabled(true);//可以修改
@@ -135,6 +147,15 @@ public class BankAccountBoardModify extends JPanel implements ActionListener{
 					if (ok == JOptionPane.YES_OPTION) {//2.1.1.1 确认修改
 						BankAccountInfoVO voToModify = this.wrappVO();
 						bankAccountController.modifyBankAccount(voToModify);//修改银行账户信息
+						//添加一条日志
+						logController = new LogController();
+						LogVO logToAdd = new LogVO();
+						logToAdd.setOperation(Operation.MODIFY);
+						logToAdd.setOperationObject(OperationObject.BankAccountInfo);
+						logToAdd.setOperationTime(new GregorianCalendar());
+						logToAdd.setOperatorID(UserID.userid);
+						logToAdd.setOperatorRole(UserRole.ADFINANCEMAN);
+						logController.addLog(logToAdd);// 添加一条日志
 						confirmModifybt.setEnabled(false);
 					}
 				} else {//2.1.2 输入的银行账号不存在

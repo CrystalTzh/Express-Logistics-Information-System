@@ -9,6 +9,8 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+import RMIHelper.ServiceName;
+import RMIHelper.URL;
 import dataservice.inventorydataservice.InventoryInfoInventorydataService;
 import po.InventoryInfoPO;
 
@@ -44,6 +46,7 @@ public class InventoryInfoClientHelper {
 	 */
 	public boolean goUpdateInventoryInfo(InventoryInfoPO po) {
 		System.out.println("进入InventoryInfoClientHelper...goUpdateInventoryInfo...");
+		inventoryInfoInventorydataService = this.go();
 		try {
 			inventoryInfoInventorydataService.updateInventoryInfo(po);
 			return true;
@@ -61,6 +64,7 @@ public class InventoryInfoClientHelper {
 	 */
 	public boolean goAddInventoryInfo(InventoryInfoPO po) {
 		System.out.println("进入InventoryInfoClientHelper...goAddInventoryInfo...");
+		inventoryInfoInventorydataService = this.go();
 		try {
 			inventoryInfoInventorydataService.addInventoryInfo(po);
 			return true;
@@ -78,6 +82,7 @@ public class InventoryInfoClientHelper {
 	 */
 	public boolean goDeleteInventoryInfo(InventoryInfoPO po) {
 		System.out.println("进入InventoryInfoClientHelper...goDeleteInventoryInfo...");
+		inventoryInfoInventorydataService = this.go();
 		try {
 			inventoryInfoInventorydataService.deleteInventoryInfo(po);
 			return true;
@@ -96,8 +101,10 @@ public class InventoryInfoClientHelper {
 		System.out.println("进入InventoryInfoClientHelper...go...");
 		if(inventoryInfoInventorydataService == null) {
 			try {
+//				inventoryInfoInventorydataService = (InventoryInfoInventorydataService)Naming
+//						.lookup("rmi://127.0.0.1:32004/inventoryInfoInventorydataService");
 				inventoryInfoInventorydataService = (InventoryInfoInventorydataService)Naming
-						.lookup("rmi://127.0.0.1:32003/inventoryInfoInventorydataService");
+						.lookup(URL.getURL(ServiceName.INVENTORYINFO.toString()));
 				System.out.println("inventoryInfoInventorydataService RMI服务查找成功...");
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
@@ -114,6 +121,11 @@ public class InventoryInfoClientHelper {
 			}
 		}
 		return inventoryInfoInventorydataService;
+	}
+	
+	public static void main(String[] args) {
+		InventoryInfoClientHelper inventoryInfoClientHelper = new InventoryInfoClientHelper();
+		inventoryInfoClientHelper.goAddInventoryInfo(new InventoryInfoPO("0210"));
 	}
 	
 }

@@ -1,6 +1,7 @@
 package vo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import state.ExpressType;
 import state.FormState;
@@ -8,6 +9,10 @@ import state.Transportation;
 
 public class OrderFormVO implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//每个VO都需要属性：编辑状态、草稿状态、提交状态
 	String sendername;
 	String senderaddress;
@@ -31,8 +36,9 @@ public class OrderFormVO implements Serializable {
 	String date; //寄件日期
 	String realReceiver; //实际收件人
 	String realReceiveDate;//实际收件日期
-	Transportation transportation = null;//货运状态
+	ArrayList<Transportation> allTransportations;//货运状态
 	FormState formstate;//单据的状态
+	ArrayList<String> alldates;
 	
 	public String getSendername() {
 		return sendername;
@@ -174,12 +180,19 @@ public class OrderFormVO implements Serializable {
 	public void setFormstate(FormState formstate) {
 		this.formstate = formstate;
 	} 
-	public Transportation getTransportation() {
-		return transportation;
+	public ArrayList<Transportation>  getTransportation() {
+		return allTransportations;
 	}
 
-	public void setTransportation(Transportation transportation) {
-		this.transportation = transportation;
+	public void setTransportation(ArrayList<Transportation> allTransportations) {
+		this.allTransportations = allTransportations;
+	}
+	public ArrayList<String>  getAlldates() {
+		return alldates;
+	}
+
+	public void setAlldates(ArrayList<String> alldates) {
+		this.alldates = alldates;
 	}
 
 }

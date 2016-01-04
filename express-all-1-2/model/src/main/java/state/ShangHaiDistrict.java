@@ -20,7 +20,7 @@ public enum ShangHaiDistrict {
 		return district;
 	}
 	
-	public ShangHaiDistrict districtByStr(String str) {
+	public static ShangHaiDistrict districtByStr(String str) {
 		if(str.equals(HuangPu.toString())) {
 			return HuangPu;
 		} else if(str.equals(LuWan.toString())) {

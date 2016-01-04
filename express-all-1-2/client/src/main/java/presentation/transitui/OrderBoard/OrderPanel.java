@@ -3,11 +3,18 @@ package presentation.transitui.OrderBoard;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -16,23 +23,41 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import controller.UserID;
+import controller.corporationcontroller.LogController;
 import controller.transitController.OrderFormController;
-import controller.transitController.StoreArrivalFormController;
-import state.State;
+import state.City;
+import state.Operation;
+import state.OperationObject;
+import state.Transportation;
+import state.UserRole;
+import vo.LogVO;
 import vo.OrderFormVO;
-import vo.StoreArrivalFormVO;
 
 public class OrderPanel extends JPanel implements ActionListener{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JPanel orderInfoPanel;
 	JLabel sNameLabel, rNameLabel, sHomeLabel,rHomeLabel,sPhoneLabel,rPhoneLabel,sTeleLabel,rTeleLabel,sAdressLabel,rAdressLabel,
-	orderNumLabel,weightLabel,orderNameLabel,hugeLabel,orderKindLabel,costPicLabel,costLabel,IDLabel;
+	orderNumLabel,weightLabel,orderNameLabel,hugeLabel,orderKindLabel,costPicLabel,costLabel,IDLabel,dateLabel;
+	
+	
+	/*          寄件人                                                                 寄件人单位                                            寄件人手机                                                     寄件人电话                                                     寄件人地址                                     */
 	JTextField sNameText, rNameText, sHomeText,rHomeText,sPhoneText,rPhoneText,sTeleText,rTeleText,sAdressText,rAdressText,
-	orderNumText,weightText,orderNameText,hugeText,costText,IDText;
+	/* 原件数                        重量                                 内件品名                             体积                                                    订单号           日期            */
+	orderNumText,weightText,orderNameText,hugeText,costText,IDText,dateText;
 	JButton cancelbutton,savebutton,submitbutton;
 	JRadioButton ecnomic,normal,fast,five,ten,one;
 	ButtonGroup group1,group2;
-	
-	
+	JComboBox<String> jcbcity,jcbcity2;
+	DefaultComboBoxModel<String> BeijingModel;
+	DefaultComboBoxModel<String> NanjingModel;
+	DefaultComboBoxModel<String> ShanghaiModel;
+	DefaultComboBoxModel<String> GuangzhouModel;
+	DefaultComboBoxModel<String> model;
+	int a,b;
 	
 	public OrderPanel(){
 		this.setBorder(new TitledBorder("寄件单01"));
@@ -52,9 +77,72 @@ public class OrderPanel extends JPanel implements ActionListener{
 		orderNameLabel=new JLabel("内件品名");
 		hugeLabel=new JLabel("体积");
 		orderKindLabel =new JLabel("快递种类");
+		dateLabel=new JLabel("日期");
 		costPicLabel=new JLabel("包装费");
 		costLabel=new JLabel("费用合计");
 		IDLabel=new JLabel("订单号");
+		
+		
+		jcbcity = new JComboBox<String>();
+		jcbcity.addItem("----");
+		jcbcity.addItem(City.BEIJING.toString());
+		jcbcity.addItem(City.GUANGZHOU.toString());
+		jcbcity.addItem(City.NANJING.toString());
+		jcbcity.addItem(City.SHANGHAI.toString());
+		String[] none = {"----"};
+		model = new DefaultComboBoxModel<String>(none);
+		
+		jcbcity2 = new JComboBox<String>();
+		jcbcity2.addItem("----");
+		jcbcity2.addItem(City.BEIJING.toString());
+		jcbcity2.addItem(City.GUANGZHOU.toString());
+		jcbcity2.addItem(City.NANJING.toString());
+		jcbcity2.addItem(City.SHANGHAI.toString());
+		String[] none2 = {"----"};
+		model = new DefaultComboBoxModel<String>(none2);
+		
+		
+		
+		
+		jcbcity.addItemListener(new ItemListener(){
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getItem().equals(City.BEIJING.toString())){
+					a=1;
+				}else if(e.getItem().equals(City.SHANGHAI.toString())){
+					a=2;
+				}else if(e.getItem().equals(City.GUANGZHOU.toString())){
+					a=3;
+				}else if(e.getItem().equals(City.NANJING.toString())){
+					a=4;
+				}else if(e.getItem().equals("----")){
+					a=5;
+				}
+			}
+			
+		});
+		
+		jcbcity2.addItemListener(new ItemListener(){
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getItem().equals(City.BEIJING.toString())){
+					b=1;
+				}else if(e.getItem().equals(City.SHANGHAI.toString())){
+					b=2;
+				}else if(e.getItem().equals(City.GUANGZHOU.toString())){
+					b=3;
+				}else if(e.getItem().equals(City.NANJING.toString())){
+					b=4;
+				}else if(e.getItem().equals("----")){
+					b=5;
+				}
+			}
+			
+		});
 		
 		sNameText=new JTextField(20);
 		rNameText=new JTextField(20);
@@ -64,14 +152,17 @@ public class OrderPanel extends JPanel implements ActionListener{
 		rPhoneText=new JTextField(20);
 		sTeleText=new JTextField(20);
 		rTeleText=new JTextField(20);
-		sAdressText=new JTextField(50);
-		rAdressText=new JTextField(50);
+		sAdressText=new JTextField(30);
+		rAdressText=new JTextField(30);
 		orderNumText=new JTextField(20);
 		weightText=new JTextField(20);
 		orderNameText=new JTextField(20);
 		hugeText=new JTextField(20);
-		costText=new JTextField(20);
-		IDText=new JTextField(20);
+		costText=new JTextField(15);
+		costText.setText("自动计算不必填写");
+		costText.setEditable(false);
+		IDText=new JTextField(15);
+		dateText=new JTextField(15);
 		
 		cancelbutton=new JButton("取消");
 		savebutton=new JButton("保存");
@@ -80,6 +171,9 @@ public class OrderPanel extends JPanel implements ActionListener{
 		savebutton.addActionListener(this);
 		submitbutton.addActionListener(this);
 		submitbutton.setEnabled(false);
+		cancelbutton.setContentAreaFilled(false);
+		savebutton.setContentAreaFilled(false);
+		submitbutton.setContentAreaFilled(false);
 		
 		ecnomic=new JRadioButton("经济", true);
 		normal=new JRadioButton("标准",false);
@@ -96,6 +190,8 @@ public class OrderPanel extends JPanel implements ActionListener{
 		group2.add(five);
 		group2.add(ten);
 		group2.add(one);
+		
+		dateText.setText(getCurrenTime());
 		
 		Box box1 = Box.createHorizontalBox();
 		box1.add(sNameLabel);
@@ -133,10 +229,16 @@ public class OrderPanel extends JPanel implements ActionListener{
 		box5.add(sAdressLabel);
 		box5.add(Box.createHorizontalStrut(12));
 		box5.add(sAdressText);
+		box5.add(new JLabel("出发城市:", JLabel.CENTER));
+		box5.add(Box.createHorizontalStrut(12));
+		box5.add(jcbcity);
 		Box box6 = Box.createHorizontalBox();
 		box6.add(rAdressLabel);
 		box6.add(Box.createHorizontalStrut(12));
 		box6.add(rAdressText);
+		box6.add(new JLabel("到达城市:", JLabel.CENTER));
+		box6.add(Box.createHorizontalStrut(12));
+		box6.add(jcbcity2);
 		Box box7 = Box.createHorizontalBox();
 		box7.add(orderNumLabel);
 		box7.add(Box.createHorizontalStrut(12));
@@ -181,10 +283,14 @@ public class OrderPanel extends JPanel implements ActionListener{
 		box12.add(costLabel);
 		box12.add(Box.createHorizontalStrut(12));
 		box12.add(costText);
-		box12.add(Box.createHorizontalStrut(25));
+		box12.add(Box.createHorizontalStrut(10));
 		box12.add(IDLabel);
 		box12.add(Box.createHorizontalStrut(12));
 		box12.add(IDText);
+		box12.add(Box.createHorizontalStrut(10));
+		box12.add(dateLabel);
+		box12.add(Box.createHorizontalStrut(12));
+		box12.add(dateText);
 		//垂直显示组件
 		Box boxH = Box.createVerticalBox();
 		boxH.add(Box.createVerticalStrut(10));
@@ -224,6 +330,7 @@ public class OrderPanel extends JPanel implements ActionListener{
 		JPanel pSouth = new JPanel();
 		pSouth.add(cancelbutton);
 		pSouth.add(savebutton);
+		pSouth.add(submitbutton);
 		//两个按钮显示在南边
 		add(pSouth, BorderLayout.SOUTH);
 		
@@ -234,8 +341,10 @@ public class OrderPanel extends JPanel implements ActionListener{
 		
 		if(e.getSource()==cancelbutton){
 			textClear();
+			JOptionPane.getFrameForComponent(this).dispose();
 		}
 		if(e.getSource()==savebutton){
+			setMoney();
 			String NO = "";
 			NO = IDText.getText();
 			if(NO.length()>0){
@@ -267,6 +376,7 @@ public class OrderPanel extends JPanel implements ActionListener{
 						String receiveraddress=rAdressText.getText();
 						String receivercompany=rHomeText.getText();
 						String receivertel=rTeleText.getText();
+						String date=dateText.getText(); //寄件日期
 						String receivermobiletel=rPhoneText.getText();
 						int number=Integer.parseInt(orderNumText.getText());		//原件数
 						double weight=Double.parseDouble(weightText.getText());  //实际重量
@@ -277,6 +387,10 @@ public class OrderPanel extends JPanel implements ActionListener{
 						double transCharges=Double.parseDouble(costText.getText());//运费
 			//			double expressCharges;//快递费
 						String ID=IDText.getText(); //快递订单号
+						ArrayList<Transportation> allTransportations=new ArrayList<>();
+						allTransportations.add(Transportation.COLLECTED);
+						ArrayList<String> alldates=new ArrayList<>();
+						alldates.add(getCurrenTime());
 				//		String date; //寄件日期
 					//	String realReceiver; //实际收件人
 				//		String realReceiveDate;//实际收件日期
@@ -290,6 +404,7 @@ public class OrderPanel extends JPanel implements ActionListener{
 						voToAdd.setReceivername(receivername);
 						voToAdd.setReceivertel(receivertel);
 						voToAdd.setSenderaddress(senderaddress);
+						voToAdd.setDate(date);
 						voToAdd.setSendercompany(sendercompany);
 						voToAdd.setSendermobiletel(sendermobiletel);
 						voToAdd.setSendername(sendername);
@@ -297,10 +412,23 @@ public class OrderPanel extends JPanel implements ActionListener{
 						voToAdd.setSize(size);
 						voToAdd.setTransCharges(transCharges);
 						voToAdd.setWeight(weight);
-						
+						voToAdd.setTransportation(allTransportations);
+						voToAdd.setAlldates(alldates);
 						orderFormController.saveDriver(voToAdd);//添加车辆
+						
+						LogController logController;
+						logController = new LogController();
+						LogVO logToAdd = new LogVO();
+						logToAdd.setOperation(Operation.ADD);
+						logToAdd.setOperationObject(OperationObject.OrderForm);
+						logToAdd.setOperationTime(new GregorianCalendar());
+						logToAdd.setOperatorID(UserID.userid);
+						logToAdd.setOperatorRole(UserRole.EXPRESSMAN);
+						logController.addLog(logToAdd);//添加一条日志
+						
 					}//录入结束
 				}
+				submitbutton.setEnabled(true);
 			}else {//1.2 未输入司机编号
 				String warning = "必须要输入信息!";
 				JOptionPane.showMessageDialog(this, warning, "警告", JOptionPane.WARNING_MESSAGE);
@@ -326,7 +454,11 @@ public class OrderPanel extends JPanel implements ActionListener{
 			double transCharges=Double.parseDouble(costText.getText());//运费
 //			double expressCharges;//快递费
 			String ID=IDText.getText(); //快递订单号
-	//		String date; //寄件日期
+			String date=dateText.getText(); //寄件日期
+			ArrayList<Transportation> allTransportations=new ArrayList<>();
+			allTransportations.add(Transportation.COLLECTED);
+			ArrayList<String> alldates=new ArrayList<>();
+			alldates.add(getCurrenTime());
 		//	String realReceiver; //实际收件人
 	//		String realReceiveDate;//实际收件日期
 			OrderFormVO voToAdd = new OrderFormVO();
@@ -344,10 +476,15 @@ public class OrderPanel extends JPanel implements ActionListener{
 			voToAdd.setSendername(sendername);
 			voToAdd.setSendertel(sendertel);
 			voToAdd.setSize(size);
+			voToAdd.setDate(date);
 			voToAdd.setTransCharges(transCharges);
 			voToAdd.setWeight(weight);
+			voToAdd.setTransportation(allTransportations);
+			voToAdd.setAlldates(alldates);
+			orderFormController.submitDriver(voToAdd);//添加车辆
 			
-			orderFormController.saveDriver(voToAdd);//添加车辆
+			JOptionPane.getFrameForComponent(this).dispose();
+			
 		}
 	}
 	private void textClear() {
@@ -366,9 +503,66 @@ public class OrderPanel extends JPanel implements ActionListener{
 		weightText.setText(null);
 		orderNameText.setText(null);
 		hugeText.setText(null);
-		costText.setText(null);
+		costText.setText("自动计算不必填写");
+		costText.setEditable(false);
 		IDText.setText(null);
+		jcbcity.setSelectedItem("----");
+		jcbcity2.setSelectedItem("----");
 	}
-
+	private void setMoney(){
+		double cost=0;
+		if((a==1&&b==2)||(a==2&&b==1)){
+			cost=25;
+		}
+		else if((a==1&&b==3)||(a==3&&b==1)){
+			cost=30;
+		}
+		else if((a==1&&b==4)||(a==4&&b==1)){
+			cost=25;
+		}
+		else if((a==2&&b==3)||(a==3&&b==2)){
+			cost=25;
+		}
+		else if((a==2&&b==4)||(a==4&&b==2)){
+			cost=15;
+		}
+		else if((a==3&&b==4)||(a==4&&b==3)){
+			cost=15;
+		}
+	
+		double weight=Double.parseDouble(weightText.getText());
+		
+		cost=cost*weight/15;
+		if(ecnomic.isSelected()){
+			cost=cost+0;
+		}
+		else if(normal.isSelected()){
+			cost=cost+5;
+		}
+		else if(fast.isSelected()){
+			cost=cost+10;
+		}
+		if(five.isSelected()){
+			cost=cost+5;
+		}
+		else if(ten.isSelected()){
+			cost=cost+10;
+		}
+		else if(one.isSelected()){
+			cost=cost+1;
+		}
+		costText.setText(cost+"");
+	}
+	public String getCurrenTime() {
+		int year, month, day;
+		
+		Calendar calendar = new GregorianCalendar();
+		year = calendar.get(Calendar.YEAR);
+		month = calendar.get(Calendar.MONTH)+1;
+		day = calendar.get(Calendar.DATE);
+		
+		return year+"-"+month+"-"+day;
+	}
+	
 	
 }

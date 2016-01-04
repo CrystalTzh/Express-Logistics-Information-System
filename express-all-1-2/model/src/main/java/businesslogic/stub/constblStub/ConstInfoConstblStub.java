@@ -1,8 +1,5 @@
 package businesslogic.stub.constblStub;
 
-import po.ConstPO;
-import vo.ConstInfoVO;
-
 public class ConstInfoConstblStub {
 //	double distancePrice;//距离价格常量
 //	double baseSalary;//快递员和营业厅业务员的基本工资

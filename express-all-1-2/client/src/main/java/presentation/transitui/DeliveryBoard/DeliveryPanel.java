@@ -1,13 +1,8 @@
 package presentation.transitui.DeliveryBoard;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,24 +10,34 @@ import java.util.GregorianCalendar;
 
 import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.border.TitledBorder;
 
-import controller.transitController.CarOfficeFormController;
+import controller.UserID;
+import controller.corporationcontroller.LogController;
 import controller.transitController.DeliveryFormController;
-import vo.CarOfficeFormVO;
+import controller.transitController.OrderFormController;
+import state.Operation;
+import state.OperationObject;
+import state.Transportation;
+import state.UserRole;
 import vo.DeliveryFormVO;
+import vo.LogVO;
+import vo.OrderFormVO;
 
 public class DeliveryPanel extends JPanel implements ActionListener{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JPanel deliveryInfoPanel;
 		JLabel arriveDateLabel, deliveryManLabel, IDLabel;
 		JTextField arriveDateText, deliveryManText, IDText;
+				/*  到达日期                                   派件员编号                                        订单号         */
+		
 		JButton cancelbutton,savebutton,submitbutton;
 //	public DeliveryBoard() {}
 	public DeliveryPanel() {
@@ -56,6 +61,9 @@ public class DeliveryPanel extends JPanel implements ActionListener{
 		submitbutton.setEnabled(false);
 		cancelbutton.addActionListener(this);
 		savebutton.addActionListener(this);
+		cancelbutton.setContentAreaFilled(false);
+		savebutton.setContentAreaFilled(false);
+		submitbutton.setContentAreaFilled(false);
 		
 	//deliveryInfoPanel.setLayout(null);
 	//	deliveryInfoPanel.setBorder(new TitledBorder("派件单信息"));
@@ -182,6 +190,34 @@ public class DeliveryPanel extends JPanel implements ActionListener{
 						voToAdd.setID(ID);
 						
 						deliveryFormController.saveDriver(voToAdd);//添加车辆
+						
+						OrderFormController oo=new OrderFormController();
+						OrderFormVO ovo;
+						try {
+							ovo = oo.findDriver(ID);
+							ArrayList<Transportation> a=ovo.getTransportation();
+							a.add(Transportation.SENDING);
+							ovo.setTransportation(a);
+							ArrayList<String> b=ovo.getAlldates();
+							b.add(getCurrenTime());
+							ovo.setAlldates(b);
+					//		oo.submitDriver(ovo);
+							
+						} catch (RemoteException | IllegalArgumentException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+						LogController logController;
+						logController = new LogController();
+						LogVO logToAdd = new LogVO();
+						logToAdd.setOperation(Operation.ADD);
+						logToAdd.setOperationObject(OperationObject.DeliveryForm);
+						logToAdd.setOperationTime(new GregorianCalendar());
+						logToAdd.setOperatorID(UserID.userid);
+						logToAdd.setOperatorRole(UserRole.OFFICEMAN);
+						logController.addLog(logToAdd);//添加一条日志
+						
 					}//录入结束	
 				}
 				submitbutton.setEnabled(true);
@@ -203,10 +239,28 @@ public class DeliveryPanel extends JPanel implements ActionListener{
 				
 				DeliveryFormVO voToAdd = new DeliveryFormVO();
 				voToAdd.setArrivaeDate(arriveDate);
+			//	System.out.println(arriveDate+"!");
 				voToAdd.setDeliveryMan(deliveryMan);
 				voToAdd.setID(ID);
 				
 				deliveryFormController.submitDriver(voToAdd);//添加车辆
+				
+				OrderFormController oo=new OrderFormController();
+				OrderFormVO ovo;
+				try {
+					ovo = oo.findDriver(ID);
+					ArrayList<Transportation> a=ovo.getTransportation();
+					a.add(Transportation.SENDING);
+					ovo.setTransportation(a);
+					oo.submitDriver(ovo);
+					ArrayList<String> b=ovo.getAlldates();
+					b.add(getCurrenTime());
+					ovo.setAlldates(b);
+				} catch (RemoteException | IllegalArgumentException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 			}//录入结束	
 		}
 	}

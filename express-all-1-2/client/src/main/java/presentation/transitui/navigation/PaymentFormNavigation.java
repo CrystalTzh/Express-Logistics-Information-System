@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -13,23 +15,21 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import controller.UserID;
+import controller.financeController.PaymentFormController;
+import po.PaymentFormPO;
 import presentation.financeui.PaymentBoard.PaymentFrame;
-import presentation.financeui.navigation.AccountsNavigation;
-import presentation.financeui.navigation.BeginningAccountNavigation;
-import presentation.financeui.navigation.CheckCostPayChartNavigation;
-import presentation.financeui.navigation.CheckDiaryNavigation;
-import presentation.financeui.navigation.CheckProfitChartNavigation;
-import presentation.financeui.navigation.CreateCostPayChartNavigation;
-import presentation.financeui.navigation.CreateProfitChartNavigation;
-import presentation.financeui.navigation.ReceiptGatherNavigation;
 import presentation.mainui.MainFrame;
+import presentation.userui.modifypasswordui.ModifyPasswordBoard;
 
 public class PaymentFormNavigation extends JPanel implements ActionListener{
 
@@ -40,7 +40,7 @@ public class PaymentFormNavigation extends JPanel implements ActionListener{
 				   jpanel4;//开始维护按钮
 	private JLabel jlabellogo;
 	private JLabel jlcurrentID;
-	private JButton jbReceiptGather,jbCreatePaymentForm,jbCreateCostPayChart,
+	static private JButton jbReceiptGather,jbCreatePaymentForm,jbCreateCostPayChart,
 					jbCreateProfitChart,jbAccountID,jbBeginningAccount,
 					jbCheckCostPayChart,jbCheckProfitChart,jbCheckDiary;
 	
@@ -51,6 +51,12 @@ public class PaymentFormNavigation extends JPanel implements ActionListener{
 	private JTable table;
 	private JButton jbstart,jbexit,jbmodify;
 	private Box b;
+	private Vector<String> columnNames;
+	private ArrayList<PaymentFormPO> allform;
+	private DefaultTableModel model;
+	private Vector<String> tableValues ;
+	private Vector<String> row;
+	
 	
 	public PaymentFormNavigation(){
 		
@@ -66,168 +72,177 @@ public class PaymentFormNavigation extends JPanel implements ActionListener{
 		jpanel2 = new JPanel(new GridLayout(9, 1,5,10));
 		jpanel2.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 0));
 
-		jbReceiptGather = new JButton();//收款单汇总
+		setJbReceiptGather(new JButton());//收款单汇总
 		imageReceiptGather = new ImageIcon("image/receiptgather.jpg");
-		jbReceiptGather.setIcon(imageReceiptGather);
-		jbReceiptGather.setPreferredSize(new Dimension(imageReceiptGather.getIconWidth(),
+		getJbReceiptGather().setIcon(imageReceiptGather);
+		getJbReceiptGather().setPreferredSize(new Dimension(imageReceiptGather.getIconWidth(),
 				imageReceiptGather.getIconHeight()));
-		jbReceiptGather.addActionListener(new ActionListener(){
+		getJbReceiptGather().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbReceiptGather){
-					new MainFrame().setContentPane(new ReceiptGatherNavigation());
-				}
+//				if(e.getSource() == getJbReceiptGather()){
+//					new MainFrame().setContentPane(new ReceiptGatherNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
 		
 		
-		jbCreatePaymentForm = new JButton();//生成付款单
+		setJbCreatePaymentForm(new JButton());//生成付款单
 		imageCreatePaymentForm = new ImageIcon("image/createpaymentform.jpg");
-		jbCreatePaymentForm.setIcon(imageCreatePaymentForm);
-		jbCreatePaymentForm.setPreferredSize(new Dimension(imageCreatePaymentForm.getIconWidth(),
+		getJbCreatePaymentForm().setIcon(imageCreatePaymentForm);
+		getJbCreatePaymentForm().setPreferredSize(new Dimension(imageCreatePaymentForm.getIconWidth(),
 				imageCreatePaymentForm.getIconHeight()));
-		jbCreatePaymentForm.addActionListener(new ActionListener(){
+		getJbCreatePaymentForm().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbCreatePaymentForm){
-					new MainFrame().setContentPane(new PaymentFormNavigation());
-				}
+//				if(e.getSource() == getJbCreatePaymentForm()){
+//					new MainFrame().setContentPane(new PaymentFormNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
 		
-		jbCreateCostPayChart = new JButton();//创建成本收益表
+		setJbCreateCostPayChart(new JButton());//创建成本收益表
 		imageCreateCostPayChart = new ImageIcon("image/createcostpaychart.jpg");
-		jbCreateCostPayChart.setIcon(imageCreateCostPayChart);
-		jbCreateCostPayChart.setPreferredSize(new Dimension(imageCreateCostPayChart.getIconWidth(),
+		getJbCreateCostPayChart().setIcon(imageCreateCostPayChart);
+		getJbCreateCostPayChart().setPreferredSize(new Dimension(imageCreateCostPayChart.getIconWidth(),
 				imageCreateCostPayChart.getIconHeight()));
-		jbCreateCostPayChart.addActionListener(new ActionListener(){
+		getJbCreateCostPayChart().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbCreateCostPayChart){
-					new MainFrame().setContentPane(new CreateCostPayChartNavigation());
-				}
+//				if(e.getSource() == getJbCreateCostPayChart()){
+//					new MainFrame().setContentPane(new CreateCostPayChartNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
 		
-		jbCreateProfitChart = new JButton();//创建经营情况表
+		setJbCreateProfitChart(new JButton());//创建经营情况表
 		imageCreateProfitChart = new ImageIcon("image/createprofitchart.jpg");
-		jbCreateProfitChart.setIcon(imageCreateProfitChart);
-		jbCreateProfitChart.setPreferredSize(new Dimension(imageCreateProfitChart.getIconWidth(),
+		getJbCreateProfitChart().setIcon(imageCreateProfitChart);
+		getJbCreateProfitChart().setPreferredSize(new Dimension(imageCreateProfitChart.getIconWidth(),
 				imageCreateProfitChart.getIconHeight()));
-		jbCreateProfitChart.addActionListener(new ActionListener(){
+		getJbCreateProfitChart().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbCreateProfitChart){
-					new MainFrame().setContentPane(new CreateProfitChartNavigation());
-				}
+//				if(e.getSource() == getJbCreateProfitChart()){
+//					new MainFrame().setContentPane(new CreateProfitChartNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
 		
-		jbBeginningAccount = new JButton();//期初建账
+		setJbBeginningAccount(new JButton());//期初建账
 		imageBeginningAccount = new ImageIcon("image/beginningaccount.jpg");
-		jbBeginningAccount.setIcon(imageBeginningAccount);
-		jbBeginningAccount.setPreferredSize(new Dimension(imageBeginningAccount.getIconWidth(),
+		getJbBeginningAccount().setIcon(imageBeginningAccount);
+		getJbBeginningAccount().setPreferredSize(new Dimension(imageBeginningAccount.getIconWidth(),
 				imageBeginningAccount.getIconHeight()));
-		jbBeginningAccount.addActionListener(new ActionListener(){
+		getJbBeginningAccount().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbBeginningAccount){
-					new MainFrame().setContentPane(new BeginningAccountNavigation());
-				}
+//				if(e.getSource() == getJbBeginningAccount()){
+//					new MainFrame().setContentPane(new BeginningAccountNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
 		
-		jbAccountID = new JButton();//增删改查账户
+		setJbAccountID(new JButton());//增删改查账户
 		imageAccount = new ImageIcon("image/accountID.jpg");
-		jbAccountID.setIcon(imageAccount);
-		jbAccountID.setPreferredSize(new Dimension(imageAccount.getIconWidth(),
+		getJbAccountID().setIcon(imageAccount);
+		getJbAccountID().setPreferredSize(new Dimension(imageAccount.getIconWidth(),
 				imageAccount.getIconHeight()));
-		jbAccountID.addActionListener(new ActionListener(){
+		getJbAccountID().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbAccountID){
-					new MainFrame().setContentPane(new AccountsNavigation());
-				}
+//				if(e.getSource() == getJbAccountID()){
+//					new MainFrame().setContentPane(new AccountsNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
 		
-		jbCheckCostPayChart = new JButton();//查看成本收益表
+		setJbCheckCostPayChart(new JButton());//查看成本收益表
 		imageCheckCostPayChart = new ImageIcon("image/checkcostpaychart.jpg");
-		jbCheckCostPayChart.setIcon(imageCheckCostPayChart);
-		jbCheckCostPayChart.setPreferredSize(new Dimension(imageCheckCostPayChart.getIconWidth(),
+		getJbCheckCostPayChart().setIcon(imageCheckCostPayChart);
+		getJbCheckCostPayChart().setPreferredSize(new Dimension(imageCheckCostPayChart.getIconWidth(),
 				imageCheckCostPayChart.getIconHeight()));
-		jbCheckCostPayChart.addActionListener(new ActionListener(){
+		getJbCheckCostPayChart().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbCheckCostPayChart){
-					new MainFrame().setContentPane(new CheckCostPayChartNavigation());
-				}
+//				if(e.getSource() == getJbCheckCostPayChart()){
+//					new MainFrame().setContentPane(new CheckCostPayChartNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
 		
-		jbCheckProfitChart = new JButton();//查看经营情况表
+		setJbCheckProfitChart(new JButton());//查看经营情况表
 		imageCheckProfitChart = new ImageIcon("image/checkprofitchart.jpg");
-		jbCheckProfitChart.setIcon(imageCheckProfitChart);
-		jbCheckProfitChart.setPreferredSize(new Dimension(imageCheckProfitChart.getIconWidth(),
+		getJbCheckProfitChart().setIcon(imageCheckProfitChart);
+		getJbCheckProfitChart().setPreferredSize(new Dimension(imageCheckProfitChart.getIconWidth(),
 				imageCheckProfitChart.getIconHeight()));
-		jbCheckProfitChart.addActionListener(new ActionListener(){
+		getJbCheckProfitChart().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbCheckProfitChart){
-					new MainFrame().setContentPane(new CheckProfitChartNavigation());
-				}
+//				if(e.getSource() == getJbCheckProfitChart()){
+//					new MainFrame().setContentPane(new CheckProfitChartNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
 		
-		jbCheckDiary = new JButton();//查看日志
+		setJbCheckDiary(new JButton());//查看日志
 		imageCheckDiary = new ImageIcon("image/checkdiary.jpg");
-		jbCheckDiary.setIcon(imageCheckDiary);
-		jbCheckDiary.setPreferredSize(new Dimension(imageCheckDiary.getIconWidth(),
+		getJbCheckDiary().setIcon(imageCheckDiary);
+		getJbCheckDiary().setPreferredSize(new Dimension(imageCheckDiary.getIconWidth(),
 				imageCheckDiary.getIconHeight()));
-		jbCheckDiary.addActionListener(new ActionListener(){
+		getJbCheckDiary().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbCheckDiary){
-					new MainFrame().setContentPane(new CheckDiaryNavigation());
-				}
+//				if(e.getSource() == getJbCheckDiary()){
+//					new MainFrame().setContentPane(new CheckDiaryNavigation());
+//				}
+				MainFrame.jumping(e);
 			}
 			
 		});
 		
-		jpanel2.add(jbReceiptGather);
-		jpanel2.add(jbCreatePaymentForm);
-		jpanel2.add(jbCreateProfitChart);
-		jpanel2.add(jbCreateCostPayChart);
-		jpanel2.add(jbBeginningAccount);
-		jpanel2.add(jbAccountID);
-		jpanel2.add(jbCheckCostPayChart);
-		jpanel2.add(jbCheckProfitChart);
-		jpanel2.add(jbCheckDiary);
+		jpanel2.add(getJbReceiptGather());
+		jpanel2.add(getJbCreatePaymentForm());
+		jpanel2.add(getJbCreateProfitChart());
+		jpanel2.add(getJbCreateCostPayChart());
+		jpanel2.add(getJbBeginningAccount());
+		jpanel2.add(getJbAccountID());
+		jpanel2.add(getJbCheckCostPayChart());
+		jpanel2.add(getJbCheckProfitChart());
+		jpanel2.add(getJbCheckDiary());
 		
 		
 		jpanel3 = new JPanel();
 		jpanel3.setLayout(new BoxLayout(jpanel3,BoxLayout.Y_AXIS));
 		jpanel3.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 10));
 		
-		jlcurrentID = new JLabel("当前身份：高级财务人员      当前任务：生成付款单");
-		jlcurrentID.setFont(new Font("当前身份：高级财务人员       当前任务：生成付款单",Font.PLAIN,15));
+		jlcurrentID = new JLabel("当前身份：高级财务人员  "+UserID.userid+" 当前任务：生成付款单");
+		jlcurrentID.setFont(new Font("微软雅黑",Font.PLAIN,15));
 
 		jbmodify = new JButton("修改密码");
 		jbmodify.setFont(new Font("修改密码",Font.PLAIN,12));
@@ -247,11 +262,14 @@ public class PaymentFormNavigation extends JPanel implements ActionListener{
 		b.add(jbexit);
 		b.add(Box.createHorizontalStrut(3));
 		
-		String[] columnNames = { "付款单编号","付款日期", "付款账号","付款金额" };  
-        String[][] tableValues = { { "A1", "B1","C1","D1" }, { "A2", "B2","C2","D2"},  
-                { "A3", "B3","C3","D3"}, { "A4", "B4","C4","D4"}, { "A5", "B5","C5","D5" },{ "A6", "B6","C6","D6" }};  
-       
-        DefaultTableModel model = new DefaultTableModel(tableValues,columnNames){
+		columnNames = new Vector<String>();
+		columnNames.add("付款单编号");
+		columnNames.add("付款日期");
+		columnNames.add("付款账号");
+		columnNames.add("付款金额");
+		tableValues = new Vector<String>();
+		
+        model = new DefaultTableModel(tableValues,columnNames){
 
 			/**
 			 * 重写isCellEditable方法使得列表每一行可以选中但是不能修改
@@ -264,7 +282,12 @@ public class PaymentFormNavigation extends JPanel implements ActionListener{
         	}
         };
         table = new JTable();
+        table.getTableHeader().setReorderingAllowed(false);
+        model.setDataVector(tableValues, columnNames);
         table.setModel(model);
+        DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+        tcr.setHorizontalAlignment(JLabel.CENTER);
+        table.setDefaultRenderer(Object.class, tcr);
         
 //        table = new JTable(tableValues, columnNames); 
 //        table.setEnabled(false);
@@ -279,6 +302,28 @@ public class PaymentFormNavigation extends JPanel implements ActionListener{
 			}
         	
         });
+        
+        PaymentFormController paymentFormController = new PaymentFormController(); 
+        allform = paymentFormController.findAll();
+        if(allform == null){
+        	System.out.println("付款单信息为空！");
+        }else {
+        	for(int i = 0;i<allform.size();i++){
+            	row = new Vector<String>();
+            	
+            	String NO = allform.get(i).getNO();
+            	String date = allform.get(i).getDate();
+            	String account = allform.get(i).getAccount();
+            	String money = Double.toString(allform.get(i).getMoney());
+            	
+            	row.add(0, NO);
+            	row.add(1, date);
+            	row.add(2, account);
+            	row.add(3, money);
+            	model.addRow(row);
+            	
+            }
+        }
         jpanel3.add(b);
         jpanel3.add(Box.createVerticalStrut(10));
         jpanel3.add(scrollPane);
@@ -307,11 +352,87 @@ public class PaymentFormNavigation extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == jbexit){
-			new MainFrame().remove(this);
+			JOptionPane.getFrameForComponent(this).dispose();
+			new MainFrame().setVisible(true);
 		}
 		if(e.getSource() == jbstart){
 			new PaymentFrame();
 		}
+		if(e.getSource() == jbmodify){
+			new ModifyPasswordBoard(this, UserID.userid);
+		}
+	}
+
+	public static JButton getJbReceiptGather() {
+		return jbReceiptGather;
+	}
+
+	public static void setJbReceiptGather(JButton jbReceiptGather) {
+		PaymentFormNavigation.jbReceiptGather = jbReceiptGather;
+	}
+
+	public static JButton getJbCreatePaymentForm() {
+		return jbCreatePaymentForm;
+	}
+
+	public static void setJbCreatePaymentForm(JButton jbCreatePaymentForm) {
+		PaymentFormNavigation.jbCreatePaymentForm = jbCreatePaymentForm;
+	}
+
+	public static JButton getJbCreateCostPayChart() {
+		return jbCreateCostPayChart;
+	}
+
+	public static void setJbCreateCostPayChart(JButton jbCreateCostPayChart) {
+		PaymentFormNavigation.jbCreateCostPayChart = jbCreateCostPayChart;
+	}
+
+	public static JButton getJbCreateProfitChart() {
+		return jbCreateProfitChart;
+	}
+
+	public static void setJbCreateProfitChart(JButton jbCreateProfitChart) {
+		PaymentFormNavigation.jbCreateProfitChart = jbCreateProfitChart;
+	}
+
+	public static JButton getJbBeginningAccount() {
+		return jbBeginningAccount;
+	}
+
+	public static void setJbBeginningAccount(JButton jbBeginningAccount) {
+		PaymentFormNavigation.jbBeginningAccount = jbBeginningAccount;
+	}
+
+	public static JButton getJbAccountID() {
+		return jbAccountID;
+	}
+
+	public static void setJbAccountID(JButton jbAccountID) {
+		PaymentFormNavigation.jbAccountID = jbAccountID;
+	}
+
+	public static JButton getJbCheckCostPayChart() {
+		return jbCheckCostPayChart;
+	}
+
+	public static void setJbCheckCostPayChart(JButton jbCheckCostPayChart) {
+		PaymentFormNavigation.jbCheckCostPayChart = jbCheckCostPayChart;
+	}
+
+	public static JButton getJbCheckProfitChart() {
+		return jbCheckProfitChart;
+	}
+
+	public static void setJbCheckProfitChart(JButton jbCheckProfitChart) {
+		PaymentFormNavigation.jbCheckProfitChart = jbCheckProfitChart;
+	}
+
+	public static JButton getJbCheckDiary() {
+		return jbCheckDiary;
+	}
+
+	public static void setJbCheckDiary(JButton jbCheckDiary) {
+		PaymentFormNavigation.jbCheckDiary = jbCheckDiary;
 	}
 	
 }

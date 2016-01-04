@@ -7,53 +7,67 @@ package presentation.corporationui.bankaccountboard;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 import javax.swing.Box;
-import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import controller.UserID;
 import controller.corporationcontroller.BankAccountController;
+import controller.corporationcontroller.LogController;
+import state.Operation;
+import state.OperationObject;
+import state.UserRole;
 import vo.BankAccountInfoVO;
+import vo.LogVO;
 
 /**
- *查询银行账户属性面板
+ * 查询银行账户属性面板
  */
-public class BankAccountBoardInquire extends JDialog implements ActionListener{
+public class BankAccountBoardInquire extends JDialog implements ItemListener {
 
 	private static final long serialVersionUID = 1L;
-	JTextField accountIDjtf, accountNamejtf, balancejtf;//银行账号、账户名和余额文本框
-	JButton findButton;//查询按钮
+	JTextField accountNamejtf, balancejtf;// 账户名和余额文本框
+	@SuppressWarnings("rawtypes")
+	JComboBox accountIDjcb;// 银行账号组合框
 	BankAccountController bankAccountController;
+	LogController logController;
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public BankAccountBoardInquire(JFrame f) {
 		super(f, "查询对话框", false);
+		bankAccountController = new BankAccountController();
 		accountNamejtf = new JTextField(10);
 		accountNamejtf.setEditable(false);
 		balancejtf = new JTextField(10);
 		balancejtf.setEditable(false);
-		accountIDjtf = new JTextField(10);
-		findButton = new JButton("查询");
-		accountIDjtf.addActionListener(this);
-		findButton.addActionListener(this);
-		
+
+		ArrayList<BankAccountInfoVO> allBankAccounts = bankAccountController.findAllBankAccounts();
+		final String[] allBankAccountIDs = new String[allBankAccounts.size()+1];
+		for (int i = 1; i <= allBankAccounts.size(); i++) {
+			allBankAccountIDs[i] = allBankAccounts.get(i-1).getAccountId();
+		}
+		accountIDjcb = new JComboBox(allBankAccountIDs);
+		accountIDjcb.addItemListener(this);
+
 		Box box = Box.createHorizontalBox();
 		JLabel logojl = new JLabel("银行账号信息查询", JLabel.CENTER);
 		logojl.setFont(new Font("TimesRoman", Font.BOLD, 24));
-		logojl.setForeground(Color.BLUE);
+		logojl.setForeground(Color.DARK_GRAY);
 		box.add(logojl);
 		Box box1 = Box.createHorizontalBox();
-		box1.add(new JLabel("输入要查询的银行账号:", JLabel.CENTER));
-		box1.add(accountIDjtf);
-		box1.add(findButton);
+		box1.add(new JLabel("选择要查询的银行账号:", JLabel.CENTER));
+		box1.add(accountIDjcb);
 		Box box2 = Box.createHorizontalBox();
 		box2.add(new JLabel("账户名:", JLabel.CENTER));
 		box2.add(Box.createHorizontalStrut(28));
@@ -65,7 +79,7 @@ public class BankAccountBoardInquire extends JDialog implements ActionListener{
 		box3.add(balancejtf);
 		box3.add(Box.createHorizontalStrut(5));
 		box3.add(new JLabel("元", JLabel.CENTER));
-		
+
 		Box boxH = Box.createVerticalBox();
 		boxH.add(box);
 		boxH.add(Box.createVerticalStrut(20));
@@ -74,7 +88,7 @@ public class BankAccountBoardInquire extends JDialog implements ActionListener{
 		boxH.add(box2);
 		boxH.add(Box.createVerticalStrut(20));
 		boxH.add(box3);
-		
+
 		JPanel pCenter = new JPanel();
 		pCenter.add(boxH);
 		setLayout(new BorderLayout());
@@ -87,44 +101,36 @@ public class BankAccountBoardInquire extends JDialog implements ActionListener{
 			}
 		});
 	}
-	
-	/* (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-	 */
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		System.out.println();
-		clearText();
-		
-		if(e.getSource() == findButton 
-			|| e.getSource() == accountIDjtf) {//1 点击了查询按钮或按下Enter键确认输入银行账号结束
-			String number = "";
-			number = accountIDjtf.getText();
-			
-			if(number.length() > 0) {//1.1 输入了银行账号
-				BankAccountInfoVO vo;//用来接收查询得来的银行账户信息
-				bankAccountController = new BankAccountController();
-				vo = bankAccountController.findBankAccount(number);
-				if(vo == null) {//1.1.1 输入的银行账号不存在
-					String warning = "该银行账号不存在!";
-					JOptionPane.showMessageDialog(this, warning, "警告", JOptionPane.WARNING_MESSAGE);
-				} else {//1.1.2 输入的银行账号存在
-					accountIDjtf.setText(vo.getAccountId());
-					accountNamejtf.setText(vo.getAccountName());
-					balancejtf.setText(String.valueOf(vo.getBalance()));
-				}
-			}else {//1.2 没有输入银行账号
-				String warning = "必须要输入银行账号!";
-				JOptionPane.showMessageDialog(this, warning, "警告", JOptionPane.WARNING_MESSAGE);
-			}
-		}
-		System.out.println();
-		
-	}
-	
+
 	public void clearText() {
 		accountNamejtf.setText(null);
 		balancejtf.setText(null);
+	}
+
+	/* (non-Javadoc)
+	 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+	 */
+	public void itemStateChanged(ItemEvent e) {
+		clearText();
+		if(e.getSource() == accountIDjcb.getItemAt(0)) {
+			System.out.println("选择为空");
+			accountNamejtf.setText(null);
+			balancejtf.setText(null);
+			return;
+		}
+		String number = (String) accountIDjcb.getSelectedItem();
+		BankAccountInfoVO vo = bankAccountController.findBankAccount(number);
+		//添加一条日志
+		logController = new LogController();
+		LogVO logToAdd = new LogVO();
+		logToAdd.setOperation(Operation.FIND);
+		logToAdd.setOperationObject(OperationObject.BankAccountInfo);
+		logToAdd.setOperationTime(new GregorianCalendar());
+		logToAdd.setOperatorID(UserID.userid);
+		logToAdd.setOperatorRole(UserRole.ADFINANCEMAN);
+		logController.addLog(logToAdd);// 添加一条日志
+		accountNamejtf.setText(vo.getAccountName());
+		balancejtf.setText(String.valueOf(vo.getBalance()));
 	}
 
 }

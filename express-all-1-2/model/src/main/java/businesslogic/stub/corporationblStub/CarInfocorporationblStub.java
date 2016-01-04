@@ -1,5 +1,7 @@
 package businesslogic.stub.corporationblStub;
 
+import java.util.ArrayList;
+
 import businesslogicservice.corporationblservice.CarInfocorporationblService;
 import vo.CarInfoVO;
 
@@ -34,6 +36,12 @@ public class CarInfocorporationblStub implements CarInfocorporationblService{
 		// TODO Auto-generated method stub
 		System.out.println("Call CarInfoVO update...");
 		return true;
+	}
+
+	@Override
+	public ArrayList<CarInfoVO> findAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

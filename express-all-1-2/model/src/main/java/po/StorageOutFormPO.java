@@ -6,6 +6,10 @@ import state.FormState;
 import state.Transport;
 
 public class StorageOutFormPO implements  Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String NO;//出库单编号
 	String date;//出库日期
 	String expressNumber;//快递订单号

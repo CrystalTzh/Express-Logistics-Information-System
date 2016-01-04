@@ -5,10 +5,11 @@ import java.util.ArrayList;
 
 import state.FormState;
 
+/**
+ * 营业厅装车单持久化对象
+ */
 public class CarOfficeFormPO implements Serializable{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	String NO;//编号
 	String putOnCarDate;//装车日期

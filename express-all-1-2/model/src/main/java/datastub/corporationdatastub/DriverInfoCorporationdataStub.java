@@ -1,6 +1,7 @@
 package datastub.corporationdatastub;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import dataservice.corporationdataservice.DriverInfoCorporationdataService;
 import po.DriverInfoPO;
@@ -27,6 +28,12 @@ public class DriverInfoCorporationdataStub implements DriverInfoCorporationdataS
 
 	public void delete(DriverInfoPO po) throws RemoteException {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public ArrayList<DriverInfoPO> findAll() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

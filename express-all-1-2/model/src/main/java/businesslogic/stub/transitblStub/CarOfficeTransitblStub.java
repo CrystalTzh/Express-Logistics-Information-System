@@ -1,7 +1,6 @@
 package businesslogic.stub.transitblStub;
 
 import businesslogicservice.transitblservice.CarOfficeFormTransitblService;
-import vo.CarInfoVO;
 import vo.CarOfficeFormVO;
 
 public class CarOfficeTransitblStub implements CarOfficeFormTransitblService{

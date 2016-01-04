@@ -14,13 +14,11 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
 
+import controller.UserID;
 import presentation.corporationui.navigation.CarInfoNavigation;
 import presentation.corporationui.navigation.DriverInfoNavigation;
 import presentation.mainui.MainFrame;
@@ -28,10 +26,12 @@ import presentation.transitui.navigation.DeliveryFormNavigation;
 import presentation.transitui.navigation.OfficeArrivalFormNavigation;
 import presentation.transitui.navigation.OfficeCarInputFormNavigation;
 import presentation.transitui.navigation.ReceiptFormNavigation;
+import presentation.userui.modifypasswordui.ModifyPasswordBoard;
 
 public class OfficeManPanel extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("unused")
 	private JPanel jpanel1,//logo
 				   jpanel2,//任务栏6个
 				   jpanel3,//加在CENTER的表格
@@ -42,8 +42,11 @@ public class OfficeManPanel extends JPanel implements ActionListener{
 					jbArrival,jbCarInfo,jbDriverInfo;
 	private ImageIcon imagelogo,imageReceipt,imageDelivery,imageArrival,
 					  imageCarInput,imageDriverInfo,imageCarInfo;
+	@SuppressWarnings("unused")
 	private ImageIcon imageStart,imageRecall;
+	@SuppressWarnings("unused")
 	private JTable table;
+	@SuppressWarnings("unused")
 	private JButton jbstart,jbrecall,jbexit,jbmodify;
 	private Box b,b1;
 	
@@ -168,8 +171,8 @@ public class OfficeManPanel extends JPanel implements ActionListener{
 		jpanel3.setLayout(new BoxLayout(jpanel3,BoxLayout.Y_AXIS));
 		jpanel3.setBorder(BorderFactory.createEmptyBorder(2, 5, 10, 10));
 		
-		jlcurrentID = new JLabel("当前身份：营业厅业务员      ");
-		jlcurrentID.setFont(new Font("当前身份：营业厅业务员       ",Font.PLAIN,15));
+		jlcurrentID = new JLabel("当前身份：营业厅业务员      "+UserID.userid);
+		jlcurrentID.setFont(new Font("微软雅黑",Font.PLAIN,15));
 
 		jbmodify = new JButton("修改密码");
 		jbmodify.setFont(new Font("修改密码",Font.PLAIN,12));
@@ -212,11 +215,11 @@ public class OfficeManPanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == jbmodify){
-			
+			new ModifyPasswordBoard(this, UserID.userid).setVisible(true);
 		}
 		if(e.getSource() == jbexit){
-//			new MainFrame().setVisible(true);
-			new MainFrame().remove(this);
+			JOptionPane.getFrameForComponent(this).dispose();
+			new MainFrame().setVisible(true);
 		}
 	}
 	

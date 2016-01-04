@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -13,14 +15,19 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import clienthelper.useraccountclienthelper.UserAccountClientHelper;
+import controller.UserID;
+import controller.usercontroller.UserAccountController;
 import presentation.mainui.MainFrame;
+import presentation.userui.modifypasswordui.ModifyPasswordBoard;
 import presentation.userui.useraccounboard.UserAccountManageDriver;
+import state.UserRole;
+import vo.UserAccountVO;
 
 public class UserInfoNavigation extends JPanel implements ActionListener{
 
@@ -31,9 +38,11 @@ public class UserInfoNavigation extends JPanel implements ActionListener{
 				   jpanel4;//开始按钮
 	private JLabel jlabellogo;
 	private JLabel jlcurrentID;
-	private JButton jbID,jbSalary,jbAccountID,jbJudge,
+	@SuppressWarnings("unused")
+	static private JButton jbID,jbSalary,jbAccountID,jbJudge,
 					jbCheckCostPayChart,jbCheckProfitChart,jbCheckDiary;
 	
+	@SuppressWarnings("unused")
 	private ImageIcon imagelogo,imageID,imageSalary,
 					  imageAccount,imageJudge,
 					  imageCheckCostPayChart,imageCheckProfitChart,imageCheckDiary;
@@ -43,6 +52,11 @@ public class UserInfoNavigation extends JPanel implements ActionListener{
 	private Box b;
 //	private ScrollPane sp;
 	MainFrame mainframe;
+	Vector<String> tableValues ;
+	Vector<String> columnNames ;
+	Vector<String> row;
+	DefaultTableModel model ;
+	UserAccountController userAccountController;
 	
 	public UserInfoNavigation(){
 		
@@ -60,25 +74,27 @@ public class UserInfoNavigation extends JPanel implements ActionListener{
 		jpanel2 = new JPanel(new GridLayout(8, 1,5,10));
 		jpanel2.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 5));
 
-		jbID = new JButton();//管理账号密码
+		setJbID(new JButton());//管理账号密码
 		imageID = new ImageIcon("image/IDandPassword.jpg");
-		jbID.setIcon(imageID);
-		jbID.setPreferredSize(new Dimension(imageID.getIconWidth(),
+		getJbID().setIcon(imageID);
+		getJbID().setPreferredSize(new Dimension(imageID.getIconWidth(),
 				imageID.getIconHeight()));
-		jbID.addActionListener(new ActionListener(){
+		getJbID().addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getSource() == jbID){
-					new MainFrame().setContentPane(new UserInfoNavigation());
-				}
+//				if(e.getSource() == jbID){
+//					new MainFrame().setContentPane(new UserInfoNavigation());
+//				}
+				MainFrame.jumping(e);
+				JOptionPane.getRootFrame().dispose();
 			}
 			
 		});
 		
 		
 		
-		jpanel2.add(jbID);
+		jpanel2.add(getJbID());
 		
 		
 		
@@ -86,8 +102,8 @@ public class UserInfoNavigation extends JPanel implements ActionListener{
 		jpanel3.setLayout(new BoxLayout(jpanel3,BoxLayout.Y_AXIS));
 		jpanel3.setBorder(BorderFactory.createEmptyBorder(2, 5, 10, 10));
 		
-		jlcurrentID = new JLabel("当前身份：管理员      当前任务：管理账号密码");
-		jlcurrentID.setFont(new Font("当前身份：管理员       当前任务：管理账号密码",Font.PLAIN,15));
+		jlcurrentID = new JLabel("当前身份：管理员   "+UserID.userid+" 当前任务：管理账号密码");
+		jlcurrentID.setFont(new Font("微软雅黑",Font.PLAIN,15));
 
 		jbmodify = new JButton("修改密码");
 		jbmodify.setFont(new Font("修改密码",Font.PLAIN,12));
@@ -107,27 +123,173 @@ public class UserInfoNavigation extends JPanel implements ActionListener{
 		b.add(jbexit);
 		b.add(Box.createHorizontalStrut(3));
 		
-		String[] columnNames = { "账号","密码"};  
-        String[][] tableValues = { { "A1", "B1"}, { "A2", "B2"},  
-                { "A3", "B3" }, { "A4", "B4"}, 
-                { "A5", "B5"},{ "A6", "B6"}}; 
-        DefaultTableModel model = new DefaultTableModel(tableValues,columnNames){
+		columnNames = new Vector<String>();
+		columnNames.add("账号");
+		columnNames.add("初始密码");
+		columnNames.add("职位");
+		tableValues = new Vector<String>();
+		
+        model = new DefaultTableModel(tableValues,columnNames){
         	/**
 			 * 重写isCellEditable方法使得表格行可选但不可编辑
 			 */
 			private static final long serialVersionUID = 1L;
 
+			
 			@Override
         	public boolean isCellEditable(int row,int column){
         		return false;
         	}
+			
+			
         };
         table = new JTable();
+        model.setDataVector(tableValues, columnNames);
         table.setModel(model);
         
 //        table = new JTable(tableValues, columnNames); 
 //        table.setEnabled(false);
         JScrollPane scrollPane = new JScrollPane(table); 
+        
+        userAccountController = new UserAccountController();
+        //快递员
+        ArrayList<UserAccountVO> allExpressMan = userAccountController.findAll(UserRole.EXPRESSMAN);
+        if(allExpressMan!=null){
+        	for(int i = 0;i<allExpressMan.size();i++){
+            	row = new Vector<String>();
+            	
+            	String accountID = allExpressMan.get(i).getAccountID();
+            	String admin = allExpressMan.get(i).getInitialPassword();
+            	String userrole = allExpressMan.get(i).getUserRole().toString();
+            	
+            	row.add(0, accountID);
+            	row.add(1, admin);
+            	row.add(2, userrole);
+            	model.addRow(row);
+            }
+        }
+        
+        //营业厅业务员
+        ArrayList<UserAccountVO> allOfficeMan = userAccountController.findAll(UserRole.OFFICEMAN);
+        if(allOfficeMan!=null){
+        	for(int i = 0;i<allOfficeMan.size();i++){
+            	row = new Vector<String>();
+            	
+            	String accountID = allOfficeMan.get(i).getAccountID();
+            	String admin = allOfficeMan.get(i).getInitialPassword();
+            	String userrole = allOfficeMan.get(i).getUserRole().toString();
+            	
+            	row.add(0, accountID);
+            	row.add(1, admin);
+            	row.add(2, userrole);
+            	model.addRow(row);
+            }
+        }
+        
+        //中转中心业务员
+        ArrayList<UserAccountVO> allTransferMan = userAccountController.findAll(UserRole.TRANSITCENTERMAN);
+        if(allTransferMan!=null){
+        	for(int i = 0;i<allTransferMan.size();i++){
+            	row = new Vector<String>();
+            	
+            	String accountID = allTransferMan.get(i).getAccountID();
+            	String admin = allTransferMan.get(i).getInitialPassword();
+            	String userrole = allTransferMan.get(i).getUserRole().toString();
+            	
+            	row.add(0, accountID);
+            	row.add(1, admin);
+            	row.add(2, userrole);
+            	model.addRow(row);
+            }
+        }
+        
+        //仓库管理人员
+        ArrayList<UserAccountVO> allInventoryMan = userAccountController.findAll(UserRole.INVENTORYMAN);
+        if(allInventoryMan!=null){
+        	for(int i = 0;i<allInventoryMan.size();i++){
+            	row = new Vector<String>();
+            	
+            	String accountID = allInventoryMan.get(i).getAccountID();
+            	String admin = allInventoryMan.get(i).getInitialPassword();
+            	String userrole = allInventoryMan.get(i).getUserRole().toString();
+            	
+            	row.add(0, accountID);
+            	row.add(1, admin);
+            	row.add(2, userrole);
+            	model.addRow(row);
+            }
+        }
+        
+        //高级财务人员
+        ArrayList<UserAccountVO> allAdfinanceMan = userAccountController.findAll(UserRole.ADFINANCEMAN);
+        if(allAdfinanceMan!=null){
+        	for(int i = 0;i<allAdfinanceMan.size();i++){
+            	row = new Vector<String>();
+            	
+            	String accountID = allAdfinanceMan.get(i).getAccountID();
+            	String admin = allAdfinanceMan.get(i).getInitialPassword();
+            	String userrole = allAdfinanceMan.get(i).getUserRole().toString();
+            	
+            	row.add(0, accountID);
+            	row.add(1, admin);
+            	row.add(2, userrole);
+            	model.addRow(row);
+            }
+        }
+        
+        //普通财务人员
+        ArrayList<UserAccountVO> allGefinanceMan = userAccountController.findAll(UserRole.GEFINACEMAN);
+        if(allGefinanceMan!=null){
+        	 for(int i = 0;i<allGefinanceMan.size();i++){
+             	row = new Vector<String>();
+             	
+             	String accountID = allGefinanceMan.get(i).getAccountID();
+             	String admin = allGefinanceMan.get(i).getInitialPassword();
+             	String userrole = allGefinanceMan.get(i).getUserRole().toString();
+             	
+             	row.add(0, accountID);
+             	row.add(1, admin);
+             	row.add(2, userrole);
+             	model.addRow(row);
+             }
+        }
+       
+        //总经理
+        ArrayList<UserAccountVO> allManager = userAccountController.findAll(UserRole.MANAGER);
+        if(allManager!=null){
+        	 for(int i = 0;i<allManager.size();i++){
+             	row = new Vector<String>();
+             	
+             	String accountID = allManager.get(i).getAccountID();
+             	String admin = allManager.get(i).getInitialPassword();
+             	String userrole = allManager.get(i).getUserRole().toString();
+             	
+             	row.add(0, accountID);
+             	row.add(1, admin);
+             	row.add(2, userrole);
+             	model.addRow(row);
+             }
+        }
+        //管理员
+        ArrayList<UserAccountVO> administrator = userAccountController.findAll(UserRole.ADMINISTRATOR);
+        if(administrator!=null){
+        	 for(int i = 0;i<administrator.size();i++){
+             	row = new Vector<String>();
+             	
+             	String accountID = administrator.get(i).getAccountID();
+             	String admin = administrator.get(i).getInitialPassword();
+             	String userrole = administrator.get(i).getUserRole().toString();
+             	
+             	row.add(0, accountID);
+             	row.add(1, admin);
+             	row.add(2, userrole);
+             	model.addRow(row);
+             }
+        }
+        
+       
+       
+        
         jpanel3.add(b);
         jpanel3.add(Box.createVerticalStrut(10));
         jpanel3.add(scrollPane);
@@ -143,18 +305,7 @@ public class UserInfoNavigation extends JPanel implements ActionListener{
 		jbstart.setIcon(imageStart);
 		jbstart.setPreferredSize(new Dimension(imageStart.getIconWidth(),
 				imageStart.getIconHeight()));
-		jbstart.addActionListener(new ActionListener(){
-
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if(e.getSource() == jbstart){
-					new UserAccountClientHelper();
-					new UserAccountManageDriver().setVisible(true);;
-				}
-			}
-			
-		});
-		
+		jbstart.addActionListener(this);
 		
 		jpanel4.add(Box.createHorizontalStrut(622));
 		jpanel4.add(jbstart);
@@ -170,9 +321,29 @@ public class UserInfoNavigation extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == jbexit){
-			new MainFrame().remove(this);
+			JOptionPane.getFrameForComponent(this).dispose();
+			new MainFrame().setVisible(true);
+		}
+		if(e.getSource() == jbmodify){
+			new ModifyPasswordBoard(this, UserID.userid).setVisible(true);
+		}
+		if(e.getSource() == jbstart){
+//			new UserAccountClientHelper();
+			new UserAccountManageDriver().setVisible(true);;
 		}
 	}
+
+	public static JButton getJbID() {
+		return jbID;
+	}
+
+	public static void setJbID(JButton jbID) {
+		UserInfoNavigation.jbID = jbID;
+	}
 	
-	
+	public static void main(String[] args) {
+		MainFrame main = new MainFrame();
+		main.setContentPane(new UserInfoNavigation());
+		main.setVisible(true);
+	}
 }

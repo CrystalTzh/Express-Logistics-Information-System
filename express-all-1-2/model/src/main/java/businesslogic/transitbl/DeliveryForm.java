@@ -1,6 +1,7 @@
 package businesslogic.transitbl;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import clienthelper.transitclienthelper.DeliveryFormClientHelper;
 import businesslogicservice.transitblservice.DeliveryFormTransitblService;
@@ -76,6 +77,7 @@ public class DeliveryForm implements DeliveryFormTransitblService{
 		return false;
 	}
 
+	@SuppressWarnings("null")
 	public boolean DeliveryFormsubmit(DeliveryFormVO vo) {
 		// TODO Auto-generated method stub
 		System.out.println("进入DeliveryFormbl...submitDeliveryForm...");
@@ -90,6 +92,7 @@ public class DeliveryForm implements DeliveryFormTransitblService{
 		return false;
 	}
 
+	@SuppressWarnings("null")
 	public boolean DeliveryFormwithdraw(DeliveryFormVO vo) {
 		// TODO Auto-generated method stub
 		System.out.println("进入DeliveryFormbl...withdrawDeliveryForm...");
@@ -107,6 +110,12 @@ public class DeliveryForm implements DeliveryFormTransitblService{
 			System.out.println("po not found!");
 		
 		return false;
+	}
+
+	public ArrayList<DeliveryFormPO> findAll() {
+		// TODO Auto-generated method stub
+		System.out.println("进入PaymentFormbl...findAll...");
+		return deliveryFormClientHelper.goFindAll();
 	}
 
 }

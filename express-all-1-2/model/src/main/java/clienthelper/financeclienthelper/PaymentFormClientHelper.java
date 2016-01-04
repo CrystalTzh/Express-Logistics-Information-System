@@ -4,9 +4,10 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
+import RMIHelper.ServiceName;
 import RMIHelper.URL;
-
 import dataservice.financedataservice.PaymentFormdataService;
 import po.PaymentFormPO;
 
@@ -71,8 +72,8 @@ public class PaymentFormClientHelper {
 		if(paymentFormdataService == null) {
 			try {
 				paymentFormdataService = (PaymentFormdataService)Naming
-						.lookup("rmi://127.0.0.1:32010/paymentFormdataService");
-				System.out.println("paymentFormdataService RMI服务查找成功...");
+						.lookup(URL.getURL(ServiceName.PAYMENTFORM.toString()));
+
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
 				System.out.println("URL格式错误！！");
@@ -88,5 +89,18 @@ public class PaymentFormClientHelper {
 			}
 		}
 		return paymentFormdataService;
+	}
+
+	public ArrayList<PaymentFormPO> goFindAll() {
+		// TODO Auto-generated method stub
+		System.out.println("进入PaymentFormClientHelper...client wants to find allform...");
+		paymentFormdataService= go();
+		try {
+			return paymentFormdataService.findAll();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

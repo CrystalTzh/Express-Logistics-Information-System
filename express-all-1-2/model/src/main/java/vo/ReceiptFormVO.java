@@ -4,8 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import state.FormState;
-
+/**
+ * 收款单持久化对象
+ */
 public class ReceiptFormVO implements  Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String date;//收款日期
 	double money;//收款金额
 	String expressManNumber;//收款快递员

@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.GregorianCalendar;
 
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
@@ -25,8 +26,13 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import controller.UserID;
+import controller.corporationcontroller.LogController;
 import controller.usercontroller.UserAccountController;
+import state.Operation;
+import state.OperationObject;
 import state.UserRole;
+import vo.LogVO;
 import vo.UserAccountVO;
 
 public class UserAccountBoardInquire extends JDialog implements ActionListener {
@@ -44,6 +50,7 @@ public class UserAccountBoardInquire extends JDialog implements ActionListener {
 			geFinanceManrbt,administratorbt;
 	ButtonGroup group = null;
 	UserAccountController userAccountController;
+	LogController logController;
 	JButton findButton;
 
 	public UserAccountBoardInquire(JFrame f) {
@@ -58,6 +65,7 @@ public class UserAccountBoardInquire extends JDialog implements ActionListener {
 		// 监听账号文本框和查询按钮
 		accountIDjtf.addActionListener(this);
 		findButton.addActionListener(this);
+		findButton.setContentAreaFilled(false);
 		userNamejtf = new JTextField(10);
 		userNamejtf.setEditable(false);
 		initialPasswordjtf = new JTextField(10);
@@ -173,6 +181,14 @@ public class UserAccountBoardInquire extends JDialog implements ActionListener {
 			if (number.length() > 0) {// 1.1 输入了用户账号
 				UserAccountVO vo;// 用来接收查询得来的用户账号信息
 				vo = userAccountController.findUserAccount(number);// 查找用户账号信息
+				logController = new LogController();
+				LogVO logToAdd = new LogVO();
+				logToAdd.setOperation(Operation.FIND);
+				logToAdd.setOperationObject(OperationObject.UserAccount);
+				logToAdd.setOperationTime(new GregorianCalendar());
+				logToAdd.setOperatorID(UserID.userid);
+				logToAdd.setOperatorRole(UserRole.ADMINISTRATOR);
+				logController.addLog(logToAdd);//添加一条日志
 				if (vo == null) {// 1.1.1 输入的用户账号不存在
 					String warning = "该用户账号不存在!";
 					JOptionPane.showMessageDialog(this, warning, "警告", JOptionPane.WARNING_MESSAGE);
@@ -201,6 +217,7 @@ public class UserAccountBoardInquire extends JDialog implements ActionListener {
 	 * 显示基本信息
 	 * @param vo
 	 */
+	@SuppressWarnings("incomplete-switch")
 	public void showText(UserAccountVO vo) {
 		userNamejtf.setText(vo.getUserName());
 		initialPasswordjtf.setText(vo.getInitialPassword());

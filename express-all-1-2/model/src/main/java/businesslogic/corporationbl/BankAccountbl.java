@@ -16,6 +16,21 @@ public class BankAccountbl implements BankAccountcorporationblService{
 	BankAccountClientHelper bankAccountClientHelper = new BankAccountClientHelper();
 	
 	/* (non-Javadoc)
+	 * @see businesslogicservice.corporationblservice.BankAccountcorporationblService#findAllBankAccouts()
+	 */
+	public ArrayList<BankAccountInfoVO> findAllBankAccouts() {
+		System.out.println("进入BankAccountbl...findAllBankAccouts...");
+		ArrayList<BankAccountInfoPO> allBankAccountsPO = bankAccountClientHelper.findAllBankAccouts();
+		if(allBankAccountsPO.size() == 0) {return null;}
+		ArrayList<BankAccountInfoVO> allBankAccountsVO = new ArrayList<BankAccountInfoVO>();
+		for(int i = 0; i < allBankAccountsPO.size(); i++) {
+			BankAccountInfoVO vo = this.wrappPOtoVO(allBankAccountsPO.get(i));
+			allBankAccountsVO.add(vo);
+		}
+		return allBankAccountsVO;
+	}
+	
+	/* (non-Javadoc)
 	 * @see businesslogicservice.corporationblservice.BankAccountcorporationblService#find(java.lang.String)
 	 */
 	public BankAccountInfoVO find(String accountID) {
@@ -30,20 +45,20 @@ public class BankAccountbl implements BankAccountcorporationblService{
 		return null;
 	}
 	
-	/* (non-Javadoc)
-	 * @see businesslogicservice.corporationblservice.BankAccountcorporationblService#keyFindBanAccount(java.lang.String)
-	 */
-	public ArrayList<BankAccountInfoVO> keyFindBanAccount(String keyID) {
-		// TODO Auto-generated method stub
-		System.out.println("进入BankAccountbl...keyFindBanAccount...");
-		ArrayList<BankAccountInfoPO> listPO = bankAccountClientHelper.gokeyFind(keyID);
-		ArrayList<BankAccountInfoVO> listVO = new ArrayList<BankAccountInfoVO> ();
-		for(BankAccountInfoPO po : listPO) {//逐一进行遍历，将PO包装为对应的VO
-			BankAccountInfoVO vo = this.wrappPOtoVO(po);
-			listVO.add(vo);
-		}
-		return listVO;
-	}
+//	/* (non-Javadoc)
+//	 * @see businesslogicservice.corporationblservice.BankAccountcorporationblService#keyFindBanAccount(java.lang.String)
+//	 */
+//	public ArrayList<BankAccountInfoVO> keyFindBanAccount(String keyID) {
+//		// TODO Auto-generated method stub
+//		System.out.println("进入BankAccountbl...keyFindBanAccount...");
+//		ArrayList<BankAccountInfoPO> listPO = bankAccountClientHelper.gokeyFind(keyID);
+//		ArrayList<BankAccountInfoVO> listVO = new ArrayList<BankAccountInfoVO> ();
+//		for(BankAccountInfoPO po : listPO) {//逐一进行遍历，将PO包装为对应的VO
+//			BankAccountInfoVO vo = this.wrappPOtoVO(po);
+//			listVO.add(vo);
+//		}
+//		return listVO;
+//	}
 
 	/* (non-Javadoc)
 	 * @see businesslogicservice.corporationblservice.BankAccountcorporationblService#add(po.BankAccountInfoPO)
@@ -109,4 +124,5 @@ public class BankAccountbl implements BankAccountcorporationblService{
 		vo.setBalance(po.getBalance());
 		return vo;
 	}
+
 }

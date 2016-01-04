@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.GregorianCalendar;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -21,8 +22,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import controller.UserID;
 import controller.corporationcontroller.CarInfoController;
+import controller.corporationcontroller.LogController;
+import presentation.handleexception.numberexceptionhandle.CarNumberHandle;
+import state.Operation;
+import state.OperationObject;
+import state.UserRole;
 import vo.CarInfoVO;
+import vo.LogVO;
 
 public class CarBoardInquire extends JDialog implements ActionListener {
 	/**
@@ -32,6 +40,7 @@ public class CarBoardInquire extends JDialog implements ActionListener {
 	JTextField carNumberjtf, plateNumberjtf, engineNumberjtf, chassisNumberjtf, buyTimejtf, activeTimejtf;
 	JButton findButton;
 	CarInfoController carInfoController;
+	LogController logController;
 
 	public CarBoardInquire(JFrame f) {
 		//指定对话框的所有者、标题、模式,模式为false代表对话框与所属窗口可以互相切换，彼此之间在操作上没有顺序性
@@ -42,6 +51,7 @@ public class CarBoardInquire extends JDialog implements ActionListener {
 		//监听车辆代号文本框和查询按钮
 		carNumberjtf.addActionListener(this);
 		findButton.addActionListener(this);
+		findButton.setContentAreaFilled(false);
 		plateNumberjtf = new JTextField(10);
 		plateNumberjtf.setEditable(false);
 		engineNumberjtf = new JTextField(10);
@@ -91,29 +101,6 @@ public class CarBoardInquire extends JDialog implements ActionListener {
 		boxH.add(Box.createVerticalStrut(5));
 		boxH.add(box6);
 		
-		/*
-		 */
-//		Box box8 = Box.createHorizontalBox();
-//		box8.add(new JLabel("行驶证期限2:", JLabel.CENTER));
-//		box8.add(new JTextField(10));
-//		Box box9 = Box.createHorizontalBox();
-//		box9.add(new JLabel("行驶证期限3:", JLabel.CENTER));
-//		box9.add(new JTextField(10));
-//		Box box10 = Box.createHorizontalBox();
-//		box10.add(new JLabel("行驶证期限4:", JLabel.CENTER));
-//		box10.add(new JTextField(10));
-//		Box box11 = Box.createHorizontalBox();
-//		box11.add(new JLabel("行驶证期限5:", JLabel.CENTER));
-//		box11.add(new JTextField(10));
-//		Box box12 = Box.createHorizontalBox();
-//		box12.add(new JLabel("行驶证期限6:", JLabel.CENTER));
-//		box12.add(new JTextField(10));
-//		boxH.add(box8);
-//		boxH.add(box9);
-//		boxH.add(box10);
-//		boxH.add(box11);
-//		boxH.add(box12);
-		
 		JPanel pCenter;
 		//JScrollPane处理滚动
 		JScrollPane scrollPane = new JScrollPane(pCenter = new JPanel());
@@ -140,12 +127,16 @@ public class CarBoardInquire extends JDialog implements ActionListener {
 				|| e.getSource() == carNumberjtf) {//1 点击查询按钮或输入车辆代号后按了enter
 			String number = "";
 			number = carNumberjtf.getText();
-
+			
 			if (number.length() > 0) {//1.1 输入了车辆代号，go Find
-
+				CarNumberHandle carNumberHandle = new CarNumberHandle();
+				if(!carNumberHandle.handle(this, carNumberjtf)){//判断输入的车辆代号是否有效，若无效进行相应处理
+					return;
+				}
 				CarInfoVO vo;// 用来接收查询得来的车辆信息
 				CarInfoController carInfoController = new CarInfoController();
 				vo = carInfoController.findCar(number);
+				
 				if (vo == null) { //1.1.1 输入的司机编号不存在
 					String warning = "该车辆代号不存在!";
 					JOptionPane.showMessageDialog(this, warning, "警告", JOptionPane.WARNING_MESSAGE);
@@ -155,6 +146,16 @@ public class CarBoardInquire extends JDialog implements ActionListener {
 					chassisNumberjtf.setText(vo.getChassisNumber());
 					buyTimejtf.setText(vo.getBuyTime());
 					activeTimejtf.setText(vo.getActiveTime());
+					
+					logController = new LogController();
+					LogVO logToAdd = new LogVO();
+					logToAdd.setOperation(Operation.ADD);
+					logToAdd.setOperationObject(OperationObject.CarInfo);
+					logToAdd.setOperationTime(new GregorianCalendar());
+					logToAdd.setOperatorID(UserID.userid);
+					logToAdd.setOperatorRole(UserRole.OFFICEMAN);
+					logController.addLog(logToAdd);//添加一条日志
+					
 				}
 
 			} else {//1.2 没有输入车辆代号
@@ -164,7 +165,7 @@ public class CarBoardInquire extends JDialog implements ActionListener {
 		}
 		System.out.println();
 	}
-
+	
 	public void cleartext() {
 		plateNumberjtf.setText(null);
 		engineNumberjtf.setText(null);

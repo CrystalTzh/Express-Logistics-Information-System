@@ -15,10 +15,15 @@ import po.CostpayChartPO;
 
 
 public class CostPayChartServiceImpl extends UnicastRemoteObject implements CostPayChartdataService{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	FileInputStream inOne;
 	ObjectInputStream inTwo;
 	FileOutputStream outOne;
 	ObjectOutputStream outTwo;
+	@SuppressWarnings("rawtypes")
 	Hashtable allCostPayChart;
 	File file = new File("成本收益表基本信息.txt");
 	IOHelper ioHelper;
@@ -42,6 +47,7 @@ public class CostPayChartServiceImpl extends UnicastRemoteObject implements Cost
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void insert(CostpayChartPO po) throws RemoteException {
 		// TODO Auto-generated method stub
 		System.out.println("Insert CostPayChartPO Start!!");

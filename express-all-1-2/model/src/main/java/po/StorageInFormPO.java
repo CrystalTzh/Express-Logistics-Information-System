@@ -3,17 +3,26 @@ package po;
 import java.io.Serializable;
 
 import state.FormState;
+import state.Line;
+import state.Shelf;
+import state.Tag;
 import state.Zone;
-
+/**
+ * 入库单持久化对象
+ */
 public class StorageInFormPO implements  Serializable{
+		/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 		String NO;//快递编号
 		String date;//入库日期
 		String expressNumber;//快递单编号
 		String destination;//目的地
 		Zone zone;//区号
-		String line;//排号
-		String shelf;//架号
-		String tag;//位号
+		Line line;//排号
+		Shelf shelf;//架号
+		Tag tag;//位号
 		FormState formstate;//单据状态
 		
 
@@ -58,29 +67,27 @@ public class StorageInFormPO implements  Serializable{
 			this.zone = zone;
 		}
 
-		
-
-		public String getLine() {
+		public Line getLine() {
 			return line;
 		}
 
-		public void setLine(String line) {
+		public void setLine(Line line) {
 			this.line = line;
 		}
 
-		public String getShelf() {
+		public Shelf getShelf() {
 			return shelf;
 		}
 
-		public void setShelf(String shelf) {
+		public void setShelf(Shelf shelf) {
 			this.shelf = shelf;
 		}
 
-		public String getTag() {
+		public Tag getTag() {
 			return tag;
 		}
 
-		public void setTag(String tag) {
+		public void setTag(Tag tag) {
 			this.tag = tag;
 		}
 

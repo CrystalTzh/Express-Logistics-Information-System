@@ -5,14 +5,29 @@
  */
 package controller.usercontroller;
 
+import java.util.ArrayList;
+
 import businesslogic.userbl.UserAccountbl;
+import state.UserRole;
 import vo.UserAccountVO;
 
 /**
  * 用户账户信息控制器 
  */
 public class UserAccountController {
+	
 	UserAccountbl userAccountbl;
+	
+	/**
+	 * 根据用户类型查找用户账户信息
+	 * @param userRole
+	 * @return
+	 */
+	public ArrayList<UserAccountVO> findAll(UserRole userRole) {
+		System.out.println("进入UserAccountController...findUserAccount...");
+		userAccountbl = new UserAccountbl();
+		return userAccountbl.findAll(userRole);
+	}
 	
 	/**
 	 * 根据用户账号查找账户信息

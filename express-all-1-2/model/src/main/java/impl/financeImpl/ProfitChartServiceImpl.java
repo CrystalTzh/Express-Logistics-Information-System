@@ -14,10 +14,15 @@ import iohelper.IOHelper;
 import po.ProfitChartPO;
 
 public class ProfitChartServiceImpl extends UnicastRemoteObject implements ProfitChartdataService {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	FileInputStream inOne;
 	ObjectInputStream inTwo;
 	FileOutputStream outOne;
 	ObjectOutputStream outTwo;
+	@SuppressWarnings("rawtypes")
 	Hashtable allProfitChart;
 	File file = new File("经营情况表基本信息.txt");
 	IOHelper ioHelper;
@@ -50,6 +55,18 @@ public class ProfitChartServiceImpl extends UnicastRemoteObject implements Profi
 			System.out.print("exception");
 		}
 		return null;
+	}
+
+	@Override
+	public void insert(ProfitChartPO po) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(ProfitChartPO po) throws RemoteException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

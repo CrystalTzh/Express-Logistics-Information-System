@@ -19,16 +19,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import controller.UserID;
 import controller.usercontroller.UserAccountController;
 import presentation.mainui.MainFrame;
-import presentation.position.AdfinanceManPanel;
-import presentation.position.AdministratorPanel;
-import presentation.position.BossPanel;
-import presentation.position.ExpressManPanel;
-import presentation.position.GefinanceManPanel;
-import presentation.position.InventoryManPanel;
-import presentation.position.OfficeManPanel;
-import presentation.position.TransitCenterManPanel;
 import state.UserRole;
 import vo.UserAccountVO;
 
@@ -49,18 +42,18 @@ public class LoginBoard extends JFrame implements ActionListener {
 
 		accountIdjtf = new JTextField(15);
 		passwordjpf = new JPasswordField(15);
-		Font font = new Font("Comic Sans MS", Font.BOLD, 16);
-		accountIDjl = new JLabel("Account:", JLabel.CENTER);
+		Font font = new Font("微软雅黑", Font.BOLD, 16);
+		accountIDjl = new JLabel("账号：", JLabel.CENTER);
 		accountIDjl.setFont(font);
-		passwordjl = new JLabel("Password:", JLabel.CENTER);
+		passwordjl = new JLabel("密码：", JLabel.CENTER);
 		passwordjl.setFont(font);
 		logojl = new JLabel("快递物流系统登录", JLabel.CENTER);
-		logojl.setFont(new Font("TimesRoman", Font.BOLD, 32));
+		logojl.setFont(new Font("微软雅黑", Font.BOLD, 32));
 		logojl.setForeground(Color.DARK_GRAY);
 
-		Font font2 = new Font("Comic Sans MS", Font.PLAIN, 14);
-		loginbt = new JButton("Login");
-		cancelbt = new JButton("Cancel");
+		Font font2 = new Font("微软雅黑", Font.PLAIN, 14);
+		loginbt = new JButton("登录");
+		cancelbt = new JButton("取消");
 		loginbt.setFont(font2);
 		cancelbt.setFont(font2);
 		loginbt.setForeground(Color.BLACK);
@@ -68,6 +61,8 @@ public class LoginBoard extends JFrame implements ActionListener {
 		loginbt.addActionListener(this);
 		cancelbt.addActionListener(this);
 		passwordjpf.addActionListener(this);
+		loginbt.setContentAreaFilled(false);
+		cancelbt.setContentAreaFilled(false);
 
 		Box box = Box.createHorizontalBox();
 		box.add(logojl);
@@ -77,6 +72,7 @@ public class LoginBoard extends JFrame implements ActionListener {
 		box1.add(accountIdjtf);
 		Box box2 = Box.createHorizontalBox();
 		box2.add(passwordjl);
+		box2.add(Box.createHorizontalStrut(10));
 		box2.add(passwordjpf);
 		Box box3 = Box.createHorizontalBox();
 		box3.add(loginbt);
@@ -86,7 +82,7 @@ public class LoginBoard extends JFrame implements ActionListener {
 		Box boxH = Box.createVerticalBox();
 		boxH.add(Box.createVerticalStrut(50));
 		boxH.add(box);
-		boxH.add(Box.createVerticalStrut(60));
+		boxH.add(Box.createVerticalStrut(50));
 		boxH.add(box1);
 		boxH.add(Box.createVerticalStrut(30));
 		boxH.add(box2);
@@ -132,23 +128,12 @@ public class LoginBoard extends JFrame implements ActionListener {
 						JOptionPane.showMessageDialog(this, m, "提示", JOptionPane.INFORMATION_MESSAGE);
 					
 						UserRole userrole =  vo.getUserRole();
-						if(userrole.equals(UserRole.MANAGER)){
-							new MainFrame().setContentPane(new BossPanel());
-						}else if(userrole.equals(UserRole.ADFINANCEMAN)){
-							new MainFrame().setContentPane(new AdfinanceManPanel());
-						}else if(userrole.equals(UserRole.GEFINACEMAN)){
-							new MainFrame().setContentPane(new GefinanceManPanel());
-						}else if(userrole.equals(UserRole.OFFICEMAN)){
-							new MainFrame().setContentPane(new OfficeManPanel());
-						}else if(userrole.equals(UserRole.EXPRESSMAN)){
-							new MainFrame().setContentPane(new ExpressManPanel());
-						}else if(userrole.equals(UserRole.TRANSITCENTERMAN)){
-							new MainFrame().setContentPane(new TransitCenterManPanel());
-						}else if(userrole.equals(UserRole.INVENTORYMAN)){
-							new MainFrame().setContentPane(new InventoryManPanel());
-						}else if(userrole.equals(UserRole.ADMINISTRATOR)){
-							new MainFrame().setContentPane(new AdministratorPanel());
-						}
+						
+						UserID.userid = number;
+						
+						this.setVisible(false);
+						MainFrame.repainting(userrole);
+						
 					} else {// 1.1.2.2 输入的密码错误
 						String error = "密码错误!";
 						JOptionPane.showMessageDialog(this, error, "错误", JOptionPane.ERROR_MESSAGE);
@@ -180,7 +165,7 @@ public class LoginBoard extends JFrame implements ActionListener {
 		return pass;
 	}
 
-//	public static void main(String[] args) {
-//		new LoginBoard();
-//	}
+	public static void main(String[] args) {
+		new LoginBoard();
+	}
 }

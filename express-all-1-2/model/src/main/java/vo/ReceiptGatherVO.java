@@ -7,6 +7,10 @@ import po.ReceiptFormPO;
 
 public class ReceiptGatherVO implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String startdate;//开始日期
 	String enddate;//结束日期
 	ArrayList<ReceiptFormPO> receiptgather;

@@ -37,7 +37,9 @@ public class PriceModifyBoard extends JFrame implements ActionListener {
 		
 		pricejtf = new JTextField(5);
 		savebt = new JButton("保存");
+		savebt.setContentAreaFilled(false);
 		cancelbt = new JButton("取消");
+		cancelbt.setContentAreaFilled(false);
 		savebt.addActionListener(this);
 		cancelbt.addActionListener(this);
 

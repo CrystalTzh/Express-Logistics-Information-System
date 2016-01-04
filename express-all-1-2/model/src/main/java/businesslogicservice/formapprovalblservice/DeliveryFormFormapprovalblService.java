@@ -1,7 +1,5 @@
 package businesslogicservice.formapprovalblservice;
 
-import java.io.Serializable;
-
 import vo.DeliveryFormVO;
 
 public interface DeliveryFormFormapprovalblService{

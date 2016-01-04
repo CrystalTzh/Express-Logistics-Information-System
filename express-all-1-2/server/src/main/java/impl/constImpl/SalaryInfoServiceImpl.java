@@ -29,6 +29,7 @@ public class SalaryInfoServiceImpl extends UnicastRemoteObject implements Salary
 	ObjectInputStream inTwo;
 	FileOutputStream outOne;
 	ObjectOutputStream outTwo;
+	@SuppressWarnings("rawtypes")
 	Hashtable allConstInfo = new Hashtable();
 	File file = new File("公司常量基本信息.txt");
 	IOHelper ioHelper;
@@ -41,6 +42,7 @@ public class SalaryInfoServiceImpl extends UnicastRemoteObject implements Salary
 	/* (non-Javadoc)
 	 * @see dataservice.constdataservice.ConstdataService#init()
 	 */
+	@SuppressWarnings("unchecked")
 	public void init() throws RemoteException {
 		// TODO Auto-generated method stub
 		System.out.println("进入SalaryInfoServiceImpl...server initing...");
@@ -68,6 +70,7 @@ public class SalaryInfoServiceImpl extends UnicastRemoteObject implements Salary
 	/* (non-Javadoc)
 	 * @see dataservice.constdataservice.ConstdataService#update(po.ConstPO)
 	 */
+	@SuppressWarnings("unchecked")
 	public void update(SalaryPO po) throws RemoteException {
 		// TODO Auto-generated method stub
 		System.out.println("进入SalaryInfoServiceImpl...server updating...");
@@ -110,8 +113,8 @@ public class SalaryInfoServiceImpl extends UnicastRemoteObject implements Salary
 	public static void main(String[] args) {
 		try {
 			SalaryInfoServiceImpl salaryInfoServiceImpl = new SalaryInfoServiceImpl();
-//			salaryInfoServiceImpl.init();
-			salaryInfoServiceImpl.find();
+			salaryInfoServiceImpl.init();
+//			salaryInfoServiceImpl.find();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

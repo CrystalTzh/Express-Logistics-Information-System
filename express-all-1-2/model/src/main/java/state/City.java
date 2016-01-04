@@ -5,13 +5,20 @@
 package state;
 
 public enum City {
-	BEIJING("北京"), SHANGHAI("上海"), GUANGZHOU("广州"), NANJING("南京");
+	BEIJING("北京", "010"), SHANGHAI("上海", "021"), GUANGZHOU("广州", "020"), NANJING("南京", "025");
+	
 	private String city;
-	private City(String city) {
+	private String num;
+	
+	private City(String city, String num) {
 		this.city = city;
+		this.num = num;
 	}
 	public String toString() {
 		return city;
+	}
+	public String toNum() {
+		return num;
 	}
 	
 

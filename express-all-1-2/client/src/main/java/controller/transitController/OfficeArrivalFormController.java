@@ -1,13 +1,19 @@
 package controller.transitController;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import businesslogic.transitbl.OfficeArrivalForm;
-import businesslogic.transitbl.OrderForm;
+import po.OfficeArrivalFormPO;
 import vo.OfficeArrivalFormVO;
-import vo.OrderFormVO;
 
 public class OfficeArrivalFormController {
+	
+	public ArrayList<OfficeArrivalFormPO> findAll(){
+		System.out.println("进入PaymentFormController...findAll...");
+		OfficeArrivalForm officeArrivalForm = new OfficeArrivalForm();
+		return 	officeArrivalForm.findAll();
+	}
 	
 	public boolean saveDriver(OfficeArrivalFormVO vo){
 		System.out.println("进入OfficeArrivalFormController...saveDriver...");

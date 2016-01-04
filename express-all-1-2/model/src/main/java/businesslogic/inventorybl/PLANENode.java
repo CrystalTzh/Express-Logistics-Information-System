@@ -1,12 +1,15 @@
 package businesslogic.inventorybl;
 
-import java.util.ArrayList;
-
 import state.NodeState;
 import state.Zone;
 
 public class PLANENode extends LocationNode {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public PLANENode(){
 		this.state = NodeState.VACANT;
 	}

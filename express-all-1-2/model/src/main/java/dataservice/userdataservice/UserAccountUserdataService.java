@@ -7,13 +7,22 @@ package dataservice.userdataservice;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import po.UserAccountPO;
+import state.UserRole;
 
 /**
  * 用户账户数据层接口
  */
 public interface UserAccountUserdataService extends Remote{
+	
+	/**
+	 * 根据职位查找所有用户账户
+	 * @return
+	 * @throws RemoteException
+	 */
+	public ArrayList<UserAccountPO> findAll(UserRole userRole) throws RemoteException;
 	
 	/**
 	 * 根据用户账号userAccountID查找用户账户信息

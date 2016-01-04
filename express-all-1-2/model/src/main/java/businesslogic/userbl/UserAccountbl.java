@@ -5,9 +5,12 @@
  */
 package businesslogic.userbl;
 
+import java.util.ArrayList;
+
 import businesslogicservice.userblservice.UserAccountuserblService;
 import clienthelper.useraccountclienthelper.UserAccountClientHelper;
 import po.UserAccountPO;
+import state.UserRole;
 import vo.UserAccountVO;
 
 /**
@@ -16,13 +19,20 @@ import vo.UserAccountVO;
 public class UserAccountbl implements UserAccountuserblService{
 	
 	UserAccountClientHelper userAccountClientHelper = new UserAccountClientHelper();
-
+	
 	/* (non-Javadoc)
-	 * @see businesslogicservice.userblservice.UserAccountuserblService#create()
+	 * @see businesslogicservice.userblservice.UserAccountuserblService#findAll(state.UserRole)
 	 */
-	public UserAccountVO create() {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<UserAccountVO> findAll(UserRole userRole) {
+		System.out.println("进入UserAccountbl...findAll...");
+		ArrayList<UserAccountPO> allUsersPO = userAccountClientHelper.goFindAll(userRole);
+		if(allUsersPO.size() == 0) {return null;}
+		ArrayList<UserAccountVO> allUsersVO = new ArrayList<UserAccountVO>();
+		for(int i = 0; i < allUsersPO.size(); i++) {
+			UserAccountVO vo = this.wrappPOtoVO(allUsersPO.get(i));
+			allUsersVO.add(vo);
+		}
+		return allUsersVO;
 	}
 
 	/* (non-Javadoc)

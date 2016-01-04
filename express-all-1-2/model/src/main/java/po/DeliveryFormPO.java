@@ -3,11 +3,11 @@ package po;
 import java.io.Serializable;
 
 import state.FormState;
-
+/**
+ * 派件单持久化对象
+ */
 public class DeliveryFormPO implements Serializable{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	String arrivaeDate;//到达日期
 	String ID;//订单条形码号

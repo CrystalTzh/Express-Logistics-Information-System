@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import state.FormState;
-
+/**
+ * 中转中心装车单持久化对象
+ */
+@SuppressWarnings("serial")
 public class CarInputFormVO implements Serializable {
 	String NO; //装车单编号
 	String destination; //目的地

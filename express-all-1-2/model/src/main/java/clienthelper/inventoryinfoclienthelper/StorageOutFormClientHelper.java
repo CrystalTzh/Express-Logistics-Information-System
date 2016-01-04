@@ -4,7 +4,10 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
+import RMIHelper.ServiceName;
+import RMIHelper.URL;
 import dataservice.inventorydataservice.StorageOutFromInventorydataService;
 import po.StorageOutFormPO;
 
@@ -69,8 +72,10 @@ public class StorageOutFormClientHelper {
 		System.out.println("进入StorageOutFromClientHelper...go...");
 		if(storageOutFormInventorydataService == null) {
 			try {
+//				storageOutFormInventorydataService = (StorageOutFromInventorydataService)Naming
+//						.lookup("rmi://127.0.0.1:32108/storageOutFormInventorydataService");
 				storageOutFormInventorydataService = (StorageOutFromInventorydataService)Naming
-						.lookup("rmi://127.0.0.1:32010/storageOutFormInventorydataService");
+						.lookup(URL.getURL(ServiceName.STORAGEOUTFORM.toString()));
 				System.out.println("storageOutFormInventorydataService RMI服务查找成功...");
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
@@ -87,6 +92,19 @@ public class StorageOutFormClientHelper {
 			}
 		}
 		return storageOutFormInventorydataService;
+	}
+
+	public ArrayList<StorageOutFormPO> goFindAll() {
+		// TODO Auto-generated method stub
+		System.out.println("进入PaymentFormClientHelper...client wants to find allform...");
+		storageOutFormInventorydataService= go();
+		try {
+			return storageOutFormInventorydataService.findAll();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }

@@ -22,7 +22,6 @@ public class BeginningAccountPO implements Serializable{
 		this.userInfo = userInfo;
 		this.carInfo = carInfo;
 		this.inventoryInfo = inventoryInfo;
-		this.bankAccountInfoPO = bankAccountInfoPO;
 	}
 
 	

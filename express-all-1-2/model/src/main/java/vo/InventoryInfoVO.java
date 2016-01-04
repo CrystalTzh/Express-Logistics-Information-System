@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import po.InventoryInfoPO;
 import po.Position;
 import state.Line;
 import state.NodeState;
@@ -28,10 +27,20 @@ public class InventoryInfoVO implements Serializable {
 	static int tagNum = 5;//位的数量
 	public static int capacity = lineNum * shelfNum * tagNum;
 	
-	public InventoryInfoVO() {
-		limit = 0.9;
+	public InventoryInfoVO() {}
+	
+	/**
+	 * 创建一个仓库时需要调用的构造函数
+	 * @param transferOfficeID 对应的中转中心的编号
+	 * @param _zoneNum 区的数量
+	 * @param _lineNum 排得数量
+	 * @param _shelfNum 架的数量
+	 * @param _tagNum 位的数量
+	 */
+	public InventoryInfoVO(String transferOfficeID) {
+		limit = 0.9;//默认情况下警戒值为0.9
 		emptyZone = Zone.EMPTY;
-		inventoryID = "01";
+		inventoryID = transferOfficeID;
 		planeZoneInfo = new Hashtable<NodeState, ArrayList<Position>>();
 		initZone(planeZoneInfo);
 		carZoneInfo = new Hashtable<NodeState, ArrayList<Position>>();
@@ -40,16 +49,6 @@ public class InventoryInfoVO implements Serializable {
 		initZone(trainZoneInfo);
 		emptyZoneInfo = new Hashtable<NodeState, ArrayList<Position>>();
 		initZone(emptyZoneInfo);
-	}
-	
-	public InventoryInfoVO(int _zoneNum, int _lineNum, int _shelfNum, int _tagNum) {
-		zoneNum = _zoneNum;
-		lineNum = _lineNum;
-		shelfNum = _shelfNum;
-		tagNum = _tagNum;
-		capacity = lineNum * shelfNum * tagNum;
-		//TODO
-		new InventoryInfoPO();
 	}
 	
 	public void initZone(Hashtable<NodeState, ArrayList<Position>> zoneInfo) {

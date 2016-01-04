@@ -36,10 +36,12 @@ public class InventoryInfoServiceImpl extends UnicastRemoteObject implements Inv
 	ObjectInputStream inTwo;
 	FileOutputStream outOne;
 	ObjectOutputStream outTwo;
+	@SuppressWarnings("rawtypes")
 	Hashtable allInventoryInfo = new Hashtable();
 	File file = new File("仓库库存信息.txt");;
 	IOHelper ioHelper;
 	
+	@SuppressWarnings("unchecked")
 	public void init() {
 		System.out.println("进入InventoryInfoServiceImpl...server initing...");
 		ioHelper = new IOHelper();
@@ -68,6 +70,7 @@ public class InventoryInfoServiceImpl extends UnicastRemoteObject implements Inv
 	/* (non-Javadoc)
 	 * @see dataservice.inventorydataservice.InventoryInfoInventorydataService#updateInventoryInfo(po.InventoryInfoPO)
 	 */
+	@SuppressWarnings("unchecked")
 	public void updateInventoryInfo(InventoryInfoPO po) throws RemoteException {
 		// TODO Auto-generated method stub
 		System.out.println("进入InventoryInfoServiceImpl...server updateInventoryInfo...");
@@ -83,6 +86,7 @@ public class InventoryInfoServiceImpl extends UnicastRemoteObject implements Inv
 	/* (non-Javadoc)
 	 * @see dataservice.inventorydataservice.InventoryInfoInventorydataService#addInventoryInfo(po.InventoryInfoPO)
 	 */
+	@SuppressWarnings("unchecked")
 	public void addInventoryInfo(InventoryInfoPO po) throws RemoteException {
 		// TODO Auto-generated method stub
 		System.out.println("进入InventoryInfoServiceImpl...server addInventoryInfo...");
@@ -110,7 +114,8 @@ public class InventoryInfoServiceImpl extends UnicastRemoteObject implements Inv
 	public static void main(String[] args) {
 		try {
 			InventoryInfoServiceImpl impl = new InventoryInfoServiceImpl();
-			impl.init();
+			impl.addInventoryInfo(new InventoryInfoPO("0210"));
+//			impl.init();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
