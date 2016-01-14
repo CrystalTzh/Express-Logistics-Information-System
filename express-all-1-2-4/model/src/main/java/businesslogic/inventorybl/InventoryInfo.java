@@ -16,6 +16,9 @@ public class InventoryInfo implements InventoryInfoInventoryblSercice{
 		// TODO Auto-generated method stub
 		System.out.println("进入findInventoryInfo...findInventoryInfo...");
 		InventoryInfoPO po = inventoryInfoClientHelper.goFindInventoryInfo(inventoryID);
+		if(po == null){
+			return null;
+		}
 		return this.wrappPOtoVO(po);
 	}
 	
@@ -93,6 +96,12 @@ public class InventoryInfo implements InventoryInfoInventoryblSercice{
 		po.setPlaneZoneInfo(vo.getPlaneZoneInfo());
 		po.setTrainZoneInfo(vo.getTrainZoneInfo());
 		return po;
+	}
+	
+	public static void main(String[] args) {
+		InventoryInfo bl = new InventoryInfo();
+		InventoryInfoVO vo = bl.findInventoryInfo("0251");
+		System.out.println(vo.getLimit());
 	}
 
 }

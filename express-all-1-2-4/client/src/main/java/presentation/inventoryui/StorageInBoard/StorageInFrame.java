@@ -23,6 +23,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 
 import controller.inventorycontroller.InventoryController;
 import controller.inventorycontroller.StorageInFormController;
@@ -249,6 +253,46 @@ public class StorageInFrame extends JFrame implements ActionListener{
 		jtfNumber = new JTextField();
 		jtfNumber.setBounds(320, 45, 60, 28);
 		panel_2.add(jtfNumber);
+		Document doc = jtfNumber.getDocument();  
+		 doc.addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				Document doc = e.getDocument();  
+				try {
+					InventoryID = doc.getText(0, doc.getLength());
+				} catch (BadLocationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				Document doc = e.getDocument();  
+				try {
+					InventoryID = doc.getText(0, doc.getLength());
+				} catch (BadLocationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				Document doc = e.getDocument();  
+				try {
+					InventoryID = doc.getText(0, doc.getLength());
+				} catch (BadLocationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});  
+		
 		
 		Lzone = new JLabel("区号 ：");
 		Lzone.setForeground(Color.BLACK);
@@ -301,33 +345,37 @@ public class StorageInFrame extends JFrame implements ActionListener{
 			public void itemStateChanged(ItemEvent e) {
 				// TODO Auto-generated method stub
 				InventoryController inventoryController= new InventoryController();
-				InventoryID = jtfNumber.getText();
-				switch (e.getItem().toString()) {
-				case "航空区":
-					Lines = inventoryController.getvacantline(InventoryID, Zone.PLANE);
-					Lines.add(0, "---");
-					LineModel = new DefaultComboBoxModel<String>(Lines);
-					linebox.setModel(LineModel);
-					System.out.println(e.getItem().toString());
-					break;
-				case "火车区":
-					Lines = inventoryController.getvacantline(InventoryID, Zone.TRAIN);
-					Lines.add(0, "---");
-					LineModel = new DefaultComboBoxModel<String>(Lines);
-					linebox.setModel(LineModel);
-					System.out.println(e.getItem().toString());
-					break;
-				case "汽车区":
-					Lines = inventoryController.getvacantline(InventoryID, Zone.CAR);
-					Lines.add(0, "---");
-					LineModel = new DefaultComboBoxModel<String>(Lines);
-					linebox.setModel(LineModel);
-					System.out.println(e.getItem().toString());
-					break;
+				if(inventoryController.findInventory(InventoryID)==null){
+					JOptionPane.showMessageDialog(panel, "请输入正确的中转中心编号","警告", JOptionPane.WARNING_MESSAGE);
+				}else{
+					switch (e.getItem().toString()) {
+					case "航空区":
+						Lines = inventoryController.getvacantline(InventoryID, Zone.PLANE);
+						Lines.add(0, "---");
+						LineModel = new DefaultComboBoxModel<String>(Lines);
+						linebox.setModel(LineModel);
+						System.out.println(e.getItem().toString());
+						break;
+					case "火车区":
+						Lines = inventoryController.getvacantline(InventoryID, Zone.TRAIN);
+						Lines.add(0, "---");
+						LineModel = new DefaultComboBoxModel<String>(Lines);
+						linebox.setModel(LineModel);
+						System.out.println(e.getItem().toString());
+						break;
+					case "汽车区":
+						Lines = inventoryController.getvacantline(InventoryID, Zone.CAR);
+						Lines.add(0, "---");
+						LineModel = new DefaultComboBoxModel<String>(Lines);
+						linebox.setModel(LineModel);
+						System.out.println(e.getItem().toString());
+						break;
 
-				default:
-//					JOptionPane.showConfirmDialog(null, "请填写正确的库存位置", "请填写正确的区号", JOptionPane.YES_OPTION); 
-					break;
+					default:
+//						JOptionPane.showConfirmDialog(null, "请填写正确的库存位置", "请填写正确的区号", JOptionPane.YES_OPTION); 
+						break;
+					}
+					
 				}
 				
 //				if(e.getItem().toString()=="航空区"){
@@ -580,6 +628,12 @@ public class StorageInFrame extends JFrame implements ActionListener{
 						
 					default:
 						break;
+					}
+					
+					boolean isAlarm = inventoryController.inventoryAlarm(InventoryID, zonez);
+					if(isAlarm){
+						JOptionPane.showMessageDialog(this, "该仓库库存报警");
+						return;
 					}
 					inventoryController.updateInventory(vo);
 					storageInFormController.submitDriver(voToAdd);//

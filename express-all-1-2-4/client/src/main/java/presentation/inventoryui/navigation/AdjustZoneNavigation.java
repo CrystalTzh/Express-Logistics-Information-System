@@ -1,6 +1,7 @@
 package presentation.inventoryui.navigation;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -13,13 +14,17 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import controller.UserID;
+import controller.inventorycontroller.InventoryController;
 import presentation.inventoryui.boards.AdjustZoneBoard;
 import presentation.mainui.MainFrame;
 import presentation.userui.modifypasswordui.ModifyPasswordBoard;
+import state.Zone;
+import vo.InventoryInfoVO;
 
 public class AdjustZoneNavigation extends JPanel implements ActionListener{
 
@@ -29,16 +34,17 @@ public class AdjustZoneNavigation extends JPanel implements ActionListener{
 				   jpanel3,//加在CENTER的表格
 				   jpanel4;//开始按钮
 	private JLabel jlabellogo;
-	private JLabel jlcurrentID,jlCar,jlPlane,jlTrain,jlEmpty,jlLabel;
+	private JLabel jlcurrentID,jlCar,jlPlane,jlTrain,jlEmpty,jlLabel,jlcangku;
 	static private JButton jbStorageInForm,jbStorageOutForm,jbZone,jbStorageCheck,jbStorageCounting,
 					jbSetLimit;
 	
 	private ImageIcon imagelogo,imageStorageInForm,imageStorageOutForm,imageZone,
 					  imageStorageCheck,imageStorageCounting,imageSetLimit;
 	private ImageIcon imageStart;
-	private JButton jbstart,jbexit,jbmodify;
-	private Box b,b1,b2,b3;
-	private JTextField jtCar,jtPlane,jtTrain,jtEmpty;
+	private JButton jbstart,jbexit,jbmodify, jbcangku;
+	private Box b,b1,b2,b3, bb;
+	private JTextField jtCar,jtPlane,jtTrain,jtEmpty,jtfcangku;
+	private String id;
 	
 	public AdjustZoneNavigation(){
 		
@@ -192,24 +198,36 @@ public class AdjustZoneNavigation extends JPanel implements ActionListener{
 		b.add(jbexit);
 		b.add(Box.createHorizontalStrut(3));
 		
+		jlcangku = new JLabel("请输入仓库编号：");
+		jlcangku.setFont(new Font("微软雅黑",Font.PLAIN,15));
+		jtfcangku = new JTextField(13);
+		jbcangku = new JButton("确认");
+		jbcangku.addActionListener(this);
+		jbcangku.setContentAreaFilled(false);
+		
+		bb = Box.createHorizontalBox();
+		bb.add(jlcangku);
+		bb.add(jtfcangku);
+		bb.add(jbcangku);
+		
 		
 		jlLabel = new JLabel("各分区被占用位置数目 / 可容纳总数：");
-		jlLabel.setFont(new Font("各分区被占用位置数目 / 可容纳总数：",Font.PLAIN,15));
+		jlLabel.setFont(new Font("微软雅黑",Font.PLAIN,15));
 		
 		jlCar = new JLabel("汽车区：");
-		jlCar.setFont(new Font("汽车区：",Font.PLAIN,15));
+		jlCar.setFont(new Font("微软雅黑",Font.PLAIN,15));
 		jtCar = new JTextField(13);
 		jtCar.setEnabled(false);
 		jlTrain = new JLabel("火车区：");
-		jlTrain.setFont(new Font("火车区：",Font.PLAIN,15));
+		jlTrain.setFont(new Font("微软雅黑",Font.PLAIN,15));
 		jtTrain = new JTextField(15);
 		jtTrain.setEnabled(false);
 		jlPlane = new JLabel("飞机区：");
-		jlPlane.setFont(new Font("飞机区：",Font.PLAIN,15));
+		jlPlane.setFont(new Font("微软雅黑",Font.PLAIN,15));
 		jtPlane = new JTextField(13);
 		jtPlane.setEnabled(false);
 		jlEmpty = new JLabel("机动仓库区：");
-		jlEmpty.setFont(new Font("机动仓库区：",Font.PLAIN,15));
+		jlEmpty.setFont(new Font("微软雅黑",Font.PLAIN,15));
 		jtEmpty = new JTextField(15);
 		jtEmpty.setEnabled(false);
 		
@@ -241,6 +259,8 @@ public class AdjustZoneNavigation extends JPanel implements ActionListener{
 		
         jpanel3.add(b);
         jpanel3.add(Box.createVerticalStrut(80));
+        jpanel3.add(bb);
+        jpanel3.add(Box.createVerticalStrut(20));
         jpanel3.add(b3);
         jpanel3.add(Box.createVerticalStrut(20));
         jpanel3.add(b1);
@@ -278,10 +298,45 @@ public class AdjustZoneNavigation extends JPanel implements ActionListener{
 			new MainFrame().remove(this);
 		}
 		if(e.getSource() == jbstart){
-			new AdjustZoneBoard().setVisible(true);
+//			String id = JOptionPane.showInputDialog("请输入仓库编号");
+			String inventoryID = jtfcangku.getText();
+			new AdjustZoneBoard(inventoryID).setVisible(true);
 		}
 		if(e.getSource() == jbmodify){
 			new ModifyPasswordBoard(this, UserID.userid).setVisible(true);
+		}
+		if(e.getSource() == jbcangku) {
+			String inventoryID = jtfcangku.getText();
+			if(inventoryID.length() == 0) {//输入了仓库编号
+				JOptionPane.showMessageDialog(this, "请输入仓库编号!", "警告", JOptionPane.WARNING_MESSAGE);
+			} else {//没有输入仓库编号
+				InventoryController inventoryController = new InventoryController();
+				//查找此仓库是否存在
+				InventoryInfoVO inventoryInfoVO = inventoryController.findInventory(inventoryID);
+				if(inventoryInfoVO == null) {//没有找到仓库，提示错误并返回
+					JOptionPane.showMessageDialog(this, "没有找到对应仓库，请重新输入编号!", "警告", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				//找到了仓库，显示相应信息
+				jtCar.setText((inventoryController.getInventoryPercentage(inventoryID, Zone.CAR)).toString());
+				boolean carIsAlam = inventoryController.inventoryAlarm(inventoryID, Zone.CAR);
+				if(carIsAlam) {
+//					jtCar.setForeground(Color.RED);
+					JOptionPane.showMessageDialog(this, "汽车区报警！");
+				}
+				jtPlane.setText((inventoryController.getInventoryPercentage(inventoryID, Zone.PLANE)).toString());
+				boolean planeIsAlam = inventoryController.inventoryAlarm(inventoryID, Zone.PLANE);
+				System.out.println(planeIsAlam);
+				if(planeIsAlam) {
+					JOptionPane.showMessageDialog(this, "航空区报警！");
+				}
+				jtTrain.setText((inventoryController.getInventoryPercentage(inventoryID, Zone.TRAIN)).toString());
+				boolean trainIsAlam = inventoryController.inventoryAlarm(inventoryID, Zone.TRAIN);
+				if(trainIsAlam) {
+					JOptionPane.showMessageDialog(this, "火车区报警！");
+				}
+				jtEmpty.setText((inventoryController.getInventoryPercentage(inventoryID, Zone.EMPTY)).toString());
+			}
 		}
 	}
 

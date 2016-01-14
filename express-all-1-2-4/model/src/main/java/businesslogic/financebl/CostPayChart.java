@@ -30,7 +30,7 @@ public class CostPayChart implements CostPayChartFinanceblService{
 		po.setNO(vo.getNO());
 		po.setCost(vo.getCost());
 		po.setProfit(vo.getProfit());
-		po.setIncome(po.getIncome());
+		po.setIncome(vo.getIncome());
 		return po;
 	}
 	

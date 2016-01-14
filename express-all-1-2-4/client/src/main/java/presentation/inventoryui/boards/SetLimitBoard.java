@@ -22,10 +22,14 @@ public class SetLimitBoard extends JFrame implements ActionListener {
 	private JLabel jlMessage;
 	private JTextField jtLimitation;
 	private JButton jbSure, jbCancel;
+	private String id;
+	
 	InventoryController inventoryController;
 
-	public SetLimitBoard() {
+	public SetLimitBoard(String id) {
 
+//		id = JOptionPane.showInputDialog("请输入仓库编号");
+		this.id = id;
 		inventoryController = new InventoryController();
 
 		this.setLayout(null);
@@ -44,20 +48,32 @@ public class SetLimitBoard extends JFrame implements ActionListener {
 		this.add(jtLimitation);
 		jtLimitation.addActionListener(this);
 
-		double limit = inventoryController.getLimit("01");
-		jtLimitation.setText(String.valueOf(limit));
+		if(inventoryController.findInventory(id) != null){
+			double limit = inventoryController.getLimit(id);
+			jtLimitation.setText(String.valueOf(limit));
+		}else {
+			JOptionPane.showMessageDialog(this, "请重新输入仓库编号！");
+			id = JOptionPane.showInputDialog("请输入仓库编号");
+			double limit = inventoryController.getLimit(id);
+			jtLimitation.setText(String.valueOf(limit));
+		}
+		
+		
+		
 
 		jbSure = new JButton();
 		jbSure.setText("确认修改");
 		jbSure.setBounds(110, 222, 90, 25);
 		this.add(jbSure);
 		jbSure.addActionListener(this);
+		jbSure.setContentAreaFilled(false);
 
 		jbCancel = new JButton();
 		jbCancel.setText("取消修改");
 		jbCancel.setBounds(215, 222, 90, 25);
 		this.add(jbCancel);
 		jbCancel.addActionListener(this);
+		jbCancel.setContentAreaFilled(false);
 
 		this.setVisible(true);
 
@@ -83,7 +99,7 @@ public class SetLimitBoard extends JFrame implements ActionListener {
 						JOptionPane.INFORMATION_MESSAGE);
 				if (ok == JOptionPane.YES_OPTION) {
 					// 确认修改库存警戒值，当前窗口关闭，更改navigation界面上输入框中的值；
-					inventoryController.setLimit("01", Double.parseDouble(number));
+					inventoryController.setLimit(id, Double.parseDouble(number));
 					this.setVisible(false);
 				}
 			}
@@ -106,7 +122,8 @@ public class SetLimitBoard extends JFrame implements ActionListener {
 
 	}
 
-	public static void main(String[] args) {
-		new SetLimitBoard();
-	}
+//	public static void main(String[] args) {
+//		
+//		new SetLimitBoard("0210").setVisible(true);
+//	}
 }

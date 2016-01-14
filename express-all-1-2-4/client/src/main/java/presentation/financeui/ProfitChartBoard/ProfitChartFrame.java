@@ -89,8 +89,8 @@ public class ProfitChartFrame extends JFrame implements ActionListener{
 	private JTextField pyear;
 	private JTextField pID;
 	private JTextField pmonth;
-	private ArrayList<PaymentFormPO> all1 = null;
-	private	ArrayList<ReceiptFormPO> all = null;
+	private ArrayList<PaymentFormPO> all1 = new ArrayList<PaymentFormPO>();
+	private	ArrayList<ReceiptFormPO> all = new ArrayList<ReceiptFormPO>();
 	private JPanel panel;
 	private JLabel Lstartdate;
 	private JLabel Lenddate;
@@ -580,6 +580,7 @@ public class ProfitChartFrame extends JFrame implements ActionListener{
 			else{
 				ArrayList<ReceiptFormPO> sall = findReceiptFormPO();
 				ArrayList<PaymentFormPO> sall1 = findPaymentFormPO();
+				
 				if(sall!=null){
 					for(int i=0;i<sall.size();i++){
 						String[] tempdate = sall.get(i).getDate().split("-");
@@ -605,7 +606,8 @@ public class ProfitChartFrame extends JFrame implements ActionListener{
 						}
 					}
 				}	
-				frame.repaint();
+				frame.dispose();
+				initialize();
 				save.setEnabled(false);
 			}		
 		}

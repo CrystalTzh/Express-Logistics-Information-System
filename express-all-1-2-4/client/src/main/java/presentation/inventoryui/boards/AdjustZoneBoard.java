@@ -22,10 +22,11 @@ public class AdjustZoneBoard extends JFrame implements ActionListener {
 	private JComboBox<String> jcbZone;
 	private JButton jbSure,jbCancel;//确认修改按钮、取消修改按钮
 	InventoryController inventoryController;
+	String id;
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public AdjustZoneBoard(){
-		
+	public AdjustZoneBoard(String id){
+		this.id = id;
 		 inventoryController = new InventoryController();
 		
 		this.setLayout(null);
@@ -43,7 +44,7 @@ public class AdjustZoneBoard extends JFrame implements ActionListener {
 		jcbZone.addItem(Zone.TRAIN.toString());
 		jcbZone.addItem(Zone.EMPTY.toString());
 //		jcbZone.setSelectedItem(Zone.EMPTY.toString());
-		Zone zone = inventoryController.getEmptyZoneState("01");
+		Zone zone = inventoryController.getEmptyZoneState(id);
 		jcbZone.setSelectedItem(zone.toString());
 		jcbZone.setBounds(210, 77, 150, 25);
 		
@@ -85,7 +86,7 @@ public class AdjustZoneBoard extends JFrame implements ActionListener {
 				String zoneStr = jcbZone.getSelectedItem().toString();
 				Zone zone = null;
 				zone = Zone.getbyStr(zoneStr);
-				inventoryController.adjustZone("01", zone);
+				inventoryController.adjustZone(id, zone);
 				this.setVisible(false);
 			}
 		}
@@ -108,7 +109,7 @@ public class AdjustZoneBoard extends JFrame implements ActionListener {
 		
 	}
 
-	public static void main(String[] args) {
-		new AdjustZoneBoard();
-	}
+//	public static void main(String[] args) {
+//		new AdjustZoneBoard();
+//	}
 }

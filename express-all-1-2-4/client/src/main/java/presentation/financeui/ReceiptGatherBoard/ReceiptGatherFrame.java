@@ -27,6 +27,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import clienthelper.financeclienthelper.ReceiptFormClientHelper;
 import controller.corporationcontroller.BankAccountController;
 import controller.financeController.ReceiptFormController;
 import po.ReceiptFormPO;
@@ -177,7 +178,6 @@ public class ReceiptGatherFrame extends JFrame implements ActionListener{
 			for(int i=all.size()-1;i>=0;i--){
 				if(!all.get(i).isPaystate()){
 					dlm.addElement((String)("收款单"+all.get(i).getNO()));
-					all.get(i).setPaystate(true);
 				}				
 			}
 		}else{
@@ -279,6 +279,15 @@ public class ReceiptGatherFrame extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource()==settle){
+			ReceiptFormClientHelper clienthelper = new ReceiptFormClientHelper();
+			for(int i=all.size()-1;i>=0;i--){
+				if(!all.get(i).isPaystate()){
+					all.get(i).setPaystate(true);
+					System.out.println(all.get(i).isPaystate());
+					clienthelper.goUpdate(all.get(i));
+				}				
+			}
+			
 			double money = 0;
 			for(int i=0;i<all.size();i++){
 				money += all.get(i).getMoney();
@@ -289,6 +298,9 @@ public class ReceiptGatherFrame extends JFrame implements ActionListener{
 			vo.setBalance(vo.getBalance()+money);
 			controller.modifyBankAccount(vo);
 			settle.setEnabled(false);
+		}
+		if(e.getActionCommand()=="取消"){
+			frame.dispose();
 		}
 	}
 	

@@ -545,19 +545,43 @@ public class InventoryController {
 //		Hashtable<NodeState, ArrayList<Position>> emptyZoneInfo = vo.getEmptyZoneInfo();
 		switch (zone) {
 		case PLANE:// 飞机区
-			takenNum = BigDecimal.valueOf(this.takenOrVacantPosition(inventoryID, Zone.PLANE, NodeState.TAKEN).size());
+			ArrayList<Position> positions = this.takenOrVacantPosition(inventoryID, Zone.PLANE, NodeState.TAKEN);
+			if(positions == null) {
+				takenNum = BigDecimal.valueOf(0);
+			}
+			else {
+				takenNum = BigDecimal.valueOf(positions.size());
+			}
 			persentage = takenNum.divide(BigDecimal.valueOf(InventoryInfoVO.capacity));
 			break;
 		case CAR:// 汽车区
-			takenNum = BigDecimal.valueOf(this.takenOrVacantPosition(inventoryID, Zone.CAR, NodeState.TAKEN).size());
+			ArrayList<Position> positionsCar = this.takenOrVacantPosition(inventoryID, Zone.CAR, NodeState.TAKEN);
+			if(positionsCar == null) {
+				takenNum = BigDecimal.valueOf(0);
+			} else {
+				takenNum = BigDecimal.valueOf(positionsCar.size());
+			}
+			
 			persentage = takenNum.divide(BigDecimal.valueOf(InventoryInfoVO.capacity));
 			break;
 		case TRAIN:// 火车区
-			takenNum = BigDecimal.valueOf(this.takenOrVacantPosition(inventoryID, Zone.TRAIN, NodeState.TAKEN).size());
+			ArrayList<Position> positionsTrain = this.takenOrVacantPosition(inventoryID, Zone.TRAIN, NodeState.TAKEN);
+			if(positionsTrain == null) {
+				takenNum = BigDecimal.valueOf(0);
+			}
+			else {
+				takenNum = BigDecimal.valueOf(positionsTrain.size());
+			}
 			persentage = takenNum.divide(BigDecimal.valueOf(InventoryInfoVO.capacity));
 			break;
 		default:// 机动区
-			takenNum = BigDecimal.valueOf(this.takenOrVacantPosition(inventoryID, Zone.EMPTY, NodeState.TAKEN).size());
+			ArrayList<Position> positionsEmpty = this.takenOrVacantPosition(inventoryID, Zone.EMPTY, NodeState.TAKEN);
+			if(positionsEmpty == null) {
+				takenNum = BigDecimal.valueOf(0);
+			}
+			else {
+				takenNum = BigDecimal.valueOf(positionsEmpty.size());
+			}
 			persentage = takenNum.divide(BigDecimal.valueOf(InventoryInfoVO.capacity));
 			break;
 		}
@@ -587,6 +611,11 @@ public class InventoryController {
 		case CAR://获取汽车区被占据或空闲的位置集合
 			Hashtable<NodeState, ArrayList<Position>> carZoneInfo = vo.getCarZoneInfo();
 			positions = carZoneInfo.get(nodeState);
+//			System.out.println(positions.size());
+//			System.out.println(carZoneInfo.size());
+			if(positions == null) {
+				System.out.println(0);
+			}
 			System.out.println("didcar");
 			break;
 		case TRAIN://获取火车区被占据或空闲的位置集合
@@ -600,11 +629,14 @@ public class InventoryController {
 			System.out.println("didempty");
 			break;
 		}
-		while(i<positions.size()){
-			Position position = positions.get(i);
-			System.out.println("Zone: "+position.getZone()+" Line: "+position.getLine()+" Shelf: "+position.getShelf()+" Tag: "+position.getTag()+" NodeState: "+position.getState());
-			i++;
+		if(positions != null) {
+			while(i<positions.size()){
+				Position position = positions.get(i);
+				System.out.println("Zone: "+position.getZone()+" Line: "+position.getLine()+" Shelf: "+position.getShelf()+" Tag: "+position.getTag()+" NodeState: "+position.getState());
+				i++;
+			}
 		}
+		
 		System.out.println("-----------------------------------------");
 		return positions;
 	}
@@ -627,4 +659,17 @@ public class InventoryController {
 ////		 }
 ////		System.out.println("controller找到limit: " + limit);
 //	}
+	
+	public static void main(String[] args) {
+		InventoryController in = new InventoryController();
+//		System.out.println(in.getInventoryPercentage("0211", Zone.CAR));
+//		InventoryInfoVO vo = in.findInventory("0211");
+//		in.addInventory(new InventoryInfoVO("0211"));
+//		vo.setLimit(0.8);
+//		in.updateInventory(vo);
+//		System.out.println(vo.getLimit());
+		boolean b = in.inventoryAlarm("0251", Zone.PLANE);
+		System.out.println(b);
+		
+	}
 }

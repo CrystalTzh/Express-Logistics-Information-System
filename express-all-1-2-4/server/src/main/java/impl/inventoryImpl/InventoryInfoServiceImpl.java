@@ -95,6 +95,7 @@ public class InventoryInfoServiceImpl extends UnicastRemoteObject implements Inv
 		allInventoryInfo.put(po.getInventoryID(), po);
 		System.out.println(po.getInventoryID() + " " + po.getLimit() + " " + po.getEmptyZone().toString());
 		ioHelper.writeToFile(allInventoryInfo, file);
+		
 		System.out.println("server addInventoryInfo done!");
 	}
 
@@ -114,7 +115,9 @@ public class InventoryInfoServiceImpl extends UnicastRemoteObject implements Inv
 	public static void main(String[] args) {
 		try {
 			InventoryInfoServiceImpl impl = new InventoryInfoServiceImpl();
-			impl.addInventoryInfo(new InventoryInfoPO("0200"));
+//			impl.addInventoryInfo(new InventoryInfoPO("0251"));
+			InventoryInfoPO po = impl.findInventoryInfo("0251");
+			System.out.println(po.getLimit());
 //			impl.init();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block

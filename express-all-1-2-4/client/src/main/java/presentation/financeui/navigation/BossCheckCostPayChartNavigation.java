@@ -229,7 +229,7 @@ public class BossCheckCostPayChartNavigation extends JPanel implements ActionLis
 		b.add(jbexit);
 		b.add(Box.createHorizontalStrut(3));
 		
-		String[] columnNames = { "成本收益表编号", "开始日期", "截止日期"};  
+		String[] columnNames = { ""};  
         String[][] tableValues = { { "A1", "B1","C1" }, { "A2", "B2", "C2"},  
                 { "A3", "B3", "C3"}, { "A4", "B4", "C4"}, { "A5", "B5","C5" },
                 { "A6", "B6", "C6" }};  

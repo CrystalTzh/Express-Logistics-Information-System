@@ -125,7 +125,9 @@ public class InventoryInfoClientHelper {
 	
 	public static void main(String[] args) {
 		InventoryInfoClientHelper inventoryInfoClientHelper = new InventoryInfoClientHelper();
-		inventoryInfoClientHelper.goAddInventoryInfo(new InventoryInfoPO("0210"));
+//		inventoryInfoClientHelper.goAddInventoryInfo(new InventoryInfoPO("0210"));
+		InventoryInfoPO po = inventoryInfoClientHelper.goFindInventoryInfo("0251");
+		System.out.println(po.getLimit());
 	}
 	
 }

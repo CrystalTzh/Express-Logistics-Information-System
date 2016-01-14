@@ -89,8 +89,8 @@ public class CheckProfitChartFrame extends JFrame implements ActionListener{
 	private JTextField pyear;
 	private JTextField pID;
 	private JTextField pmonth;
-	private ArrayList<PaymentFormPO> all1 = null;
-	private	ArrayList<ReceiptFormPO> all = null;
+	private ArrayList<PaymentFormPO> all1 = new ArrayList<PaymentFormPO>();
+	private	ArrayList<ReceiptFormPO> all = new ArrayList<ReceiptFormPO>();
 	private JPanel panel;
 	private JLabel Lstartdate;
 	private JLabel Lenddate;
@@ -605,7 +605,8 @@ public class CheckProfitChartFrame extends JFrame implements ActionListener{
 						}
 					}
 				}	
-				frame.repaint();
+				frame.dispose();
+				initialize();
 				save.setEnabled(false);
 			}		
 		}

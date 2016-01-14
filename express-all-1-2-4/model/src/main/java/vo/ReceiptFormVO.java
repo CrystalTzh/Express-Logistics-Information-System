@@ -18,6 +18,15 @@ public class ReceiptFormVO implements  Serializable{
 	ArrayList<String> ID;
 	String NO;
 	FormState formstate;//单据的状态
+	boolean paystate = false;
+
+	public boolean isPaystate() {
+		return paystate;
+	}
+
+	public void setPaystate(boolean paystate) {
+		this.paystate = paystate;
+	}
 
 	public String getDate() {
 		return date;

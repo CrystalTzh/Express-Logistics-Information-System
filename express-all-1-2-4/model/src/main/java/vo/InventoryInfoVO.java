@@ -38,36 +38,36 @@ public class InventoryInfoVO implements Serializable {
 	 * @param _tagNum 位的数量
 	 */
 	public InventoryInfoVO(String transferOfficeID) {
-		limit = 0.9;//默认情况下警戒值为0.9
+		limit = 0.9;
 		emptyZone = Zone.EMPTY;
-		inventoryID = transferOfficeID;
+		inventoryID = transferOfficeID;//默认情况下警戒值为0.9
 		planeZoneInfo = new Hashtable<NodeState, ArrayList<Position>>();
-		initZone(planeZoneInfo);
+		initZone(planeZoneInfo,0);
 		carZoneInfo = new Hashtable<NodeState, ArrayList<Position>>();
-		initZone(carZoneInfo);
+		initZone(carZoneInfo,1);
 		trainZoneInfo = new Hashtable<NodeState, ArrayList<Position>>();
-		initZone(trainZoneInfo);
+		initZone(trainZoneInfo,2);
 		emptyZoneInfo = new Hashtable<NodeState, ArrayList<Position>>();
-		initZone(emptyZoneInfo);
+		initZone(emptyZoneInfo,3);
 	}
 	
-	public void initZone(Hashtable<NodeState, ArrayList<Position>> zoneInfo) {
+	public void initZone(Hashtable<NodeState, ArrayList<Position>> zoneInfo,int zone) {
 		ArrayList<Position> positions = new ArrayList<Position>();
-		for(int i = 0; i < zoneNum; i++) {//区号
-			for(int j = 0; j < lineNum; j++) {//排号
-				for(int m = 0; m < shelfNum; m++) {//架号
-					for(int n = 0; n < tagNum; n++) {//位号
-						Position position = new Position();
-						position.setZone(Zone.getbyIndex(i));
-						position.setLine(Line.getbyIndex(j));
-						position.setShelf(Shelf.getbyIndex(m));
-						position.setTag(Tag.getbyIndex(n));
-						positions.add(position);
-					}
+		for(int j = 0; j < lineNum; j++) {//排号
+			for(int m = 0; m < shelfNum; m++) {//架号
+				for(int n = 0; n < tagNum; n++) {//位号
+					Position position = new Position();
+					position.setZone(Zone.getbyIndex(zone));
+					position.setLine(Line.getbyIndex(j));
+					position.setShelf(Shelf.getbyIndex(m));
+					position.setTag(Tag.getbyIndex(n));
+					positions.add(position);
 				}
 			}
 		}
+		ArrayList<Position> positiont = new ArrayList<Position>();
 		zoneInfo.put(NodeState.VACANT, positions);
+		zoneInfo.put(NodeState.TAKEN, positiont);
 	}
 
 	public double getLimit() {

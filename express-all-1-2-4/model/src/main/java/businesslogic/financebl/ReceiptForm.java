@@ -23,6 +23,7 @@ public class ReceiptForm implements ReceiptFormFinanceblService{
 		vo.setID(po.getId());
 		vo.setMoney(po.getMoney());
 		vo.setNO(po.getNO());
+		vo.setPaystate(po.isPaystate());
 		
 		return vo;
 	}
@@ -34,6 +35,7 @@ public class ReceiptForm implements ReceiptFormFinanceblService{
 		po.setId(vo.getID());
 		po.setMoney(vo.getMoney());
 		po.setNO(vo.getNO());
+		po.setPaystate(vo.isPaystate());
 		
 		return po;
 	}

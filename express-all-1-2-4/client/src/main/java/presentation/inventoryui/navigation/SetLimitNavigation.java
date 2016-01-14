@@ -13,6 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -22,6 +23,8 @@ import controller.inventorycontroller.InventoryController;
 import presentation.inventoryui.boards.SetLimitBoard;
 import presentation.mainui.MainFrame;
 import presentation.userui.modifypasswordui.ModifyPasswordBoard;
+import state.Zone;
+import vo.InventoryInfoVO;
 
 public class SetLimitNavigation extends JPanel implements ActionListener{
 
@@ -31,7 +34,7 @@ public class SetLimitNavigation extends JPanel implements ActionListener{
 				   jpanel3,//加在CENTER的表格
 				   jpanel4;//开始按钮
 	private JLabel jlabellogo;
-	private JLabel jlcurrentID,jlLimit;
+	private JLabel jlcurrentID,jlLimit,jlcangku;
 	static private JButton jbStorageInForm,jbStorageOutForm,jbZone,jbStorageCheck,jbStorageCounting,
 					jbSetLimit;
 	
@@ -40,9 +43,10 @@ public class SetLimitNavigation extends JPanel implements ActionListener{
 	private ImageIcon imageStart;
 	@SuppressWarnings("unused")
 	private JTable table;
-	private JButton jbstart,jbexit,jbmodify;
-	private Box b,b1;
-	private JTextField jtLimit;
+	private JButton jbstart,jbexit,jbmodify,jbcangku;
+	private Box b,b1,bb;
+	private JTextField jtLimit,jtfcangku;
+	private String id;
 	
 	public SetLimitNavigation(){
 		
@@ -141,6 +145,8 @@ public class SetLimitNavigation extends JPanel implements ActionListener{
 //				if(e.getSource() == getJbSetLimit()){
 //					new MainFrame().setContentPane(new SetLimitNavigation());
 //				}
+//				String id = JOptionPane.showInputDialog("请输入仓库编号");
+//				new SetLimitBoard(id).setVisible(true);
 				MainFrame.jumping(e);
 			}
 			
@@ -204,12 +210,25 @@ public class SetLimitNavigation extends JPanel implements ActionListener{
 //        table.setEnabled(false);
 //        JScrollPane scrollPane = new JScrollPane(table); 
 		
+		jlcangku = new JLabel("请输入仓库编号：");
+		jlcangku.setFont(new Font("微软雅黑",Font.PLAIN,15));
+		jtfcangku = new JTextField(13);
+		jbcangku = new JButton("确认");
+		jbcangku.addActionListener(this);
+		jbcangku.setContentAreaFilled(false);
+		
+		bb = Box.createHorizontalBox();
+		bb.add(jlcangku);
+		bb.add(jtfcangku);
+		bb.add(jbcangku);
+		
 		jlLimit = new JLabel("当前库存警戒值：");
 		jlLimit.setFont(new Font("当前库存警戒值：",Font.PLAIN,15));
+		this.id = jtfcangku.getText();
 		
 		jtLimit = new JTextField();
-		InventoryController inventorycontroller = new InventoryController();
-		jtLimit.setText(String.valueOf(inventorycontroller.getLimit("01")));
+//		InventoryController inventorycontroller = new InventoryController();
+//		jtLimit.setText(String.valueOf(inventorycontroller.getLimit(id)));
 		jtLimit.setEditable(false);
 		
 		b1 = Box.createHorizontalBox();
@@ -218,6 +237,8 @@ public class SetLimitNavigation extends JPanel implements ActionListener{
 		
         jpanel3.add(b);
         jpanel3.add(Box.createVerticalStrut(100));
+        jpanel3.add(bb);
+        jpanel3.add(Box.createHorizontalStrut(60));
         jpanel3.add(b1);
         jpanel3.add(Box.createVerticalStrut(300));
         
@@ -254,10 +275,27 @@ public class SetLimitNavigation extends JPanel implements ActionListener{
 			new MainFrame().remove(this);
 		}
 		if(e.getSource() == jbstart){
-			new SetLimitBoard().setVisible(true);
+			String id = JOptionPane.showInputDialog("请输入仓库编号");
+			new SetLimitBoard(id).setVisible(true);
 		}
 		if(e.getSource() == jbmodify){
 			new ModifyPasswordBoard(this, UserID.userid).setVisible(true);
+		}
+		if(e.getSource() == jbcangku){
+			String inventoryID = jtfcangku.getText();
+			if(inventoryID.length() == 0) {//输入了仓库编号
+				JOptionPane.showMessageDialog(this, "请输入仓库编号!", "警告", JOptionPane.WARNING_MESSAGE);
+			} else {//没有输入仓库编号
+				InventoryController inventoryController = new InventoryController();
+				//查找此仓库是否存在
+				InventoryInfoVO inventoryInfoVO = inventoryController.findInventory(inventoryID);
+				if(inventoryInfoVO == null) {//没有找到仓库，提示错误并返回
+					JOptionPane.showMessageDialog(this, "没有找到对应仓库，请重新输入编号!", "警告", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				//找到了仓库，显示相应信息
+				jtLimit.setText((inventoryController.getLimit(inventoryID)+""));
+			}
 		}
 	}
 
